@@ -12,7 +12,8 @@ No safelight. No yellow-bleed. Debris fill is second_debris_carpet, never gray.
 Regen dest / Second chunks after pull.
 
 Third P0 TEMP: Architect third-p0 pack under third_*. Cold lamp / wet concrete, not crimson.
-third_pipe: Architect IDAT recovered (handoff Adler-32 was bad); pixels unchanged.
+third_pipe: Clark design-disk exact PNG bytes (no Adler-recover / zlib rebuild).
+third_door_ramp: upper pane muted to opaque dark garage glass — no sky/outdoor read. No EXIT bake.
 No chainlink / crate / headlight_prop. No Frontrooms sky. Stall paint lies.
 Debris fill is third_concrete, never gray void.
 Regen Third chunks after pull.

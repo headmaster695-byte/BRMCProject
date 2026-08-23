@@ -8,7 +8,7 @@ Cold lamp / sodium / wet concrete — hard break from Second crimson. Stall pain
 
 Do **not** register P1 this pass: chainlink, crate, `headlight_prop`.
 
-Textures in this pass are **TEMP** 16² from the Architect `third-p0` pack (exact PNG bytes). `third_pipe` IDAT recovered from the supplied stream (bad Adler-32 in the handoff); pixels unchanged. Regen Third chunks after pull.
+Textures in this pass are **TEMP** 16² from the Architect `third-p0` pack. `third_pipe` is the Clark design-disk exact PNG (no Adler-recover). Ramp-door upper pane is muted to opaque dark garage glass — no sky/outdoor read, no EXIT lettering. Regen Third chunks after pull.
 
 ## P0 registry
 
