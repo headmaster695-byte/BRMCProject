@@ -170,17 +170,21 @@ public final class YellowMonoLayout {
 	}
 
 	/**
-	 * Sagged lip around the hole: exposed subfloor slab, same layer language.
-	 * Walk-up from the pit without a jump, command, or marked exit.
+	 * Irregular torn carpet around the hole. Yellow wool floor shows through —
+	 * a ledge, not a ring, not a slab stair, not a marked exit.
 	 */
-	public static boolean isFalseFloorClimbOut(int worldX, int worldZ) {
+	public static boolean isFalseFloorTornCarpet(int worldX, int worldZ) {
 		if (pocketAt(worldX, worldZ) != FirstPocket.FALSE_FLOOR || isFalseFloorHole(worldX, worldZ)) {
 			return false;
 		}
 
-		int dx = Math.abs(localInCell(worldX) - 4);
-		int dz = Math.abs(localInCell(worldZ) - 4);
-		return dx + dz == 1;
+		int localX = localInCell(worldX);
+		int localZ = localInCell(worldZ);
+		return localX == 5 && localZ == 4
+			|| localX == 5 && localZ == 3
+			|| localX == 6 && localZ == 4
+			|| localX == 4 && localZ == 3
+			|| localX == 3 && localZ == 3;
 	}
 
 	public static boolean isAirlockInterior(int worldX, int worldZ) {

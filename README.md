@@ -22,7 +22,7 @@ Minecraft **26.2**, Fabric Loader **0.19.3**, Fabric API **0.158.0+26.2**, Java 
   - Commons — single yellow→yellow threshold → False First. No airlock, red, or OOB hole.
   - Vestibule — door 1 → yellow airlock → door 2 already frames **red mono** → Second. Floor hole before door 2 is OOB (present, **not live**; Lost Island / SCRAM / soul not built).
   - Curving hall — invisible seam, yellow around a soft plan → Second False First.
-  - False floor — architecture-only drop (no Spiral swap). Sagged subfloor lip; walk back onto the carpet.
+  - False floor — architecture-only drop (no Spiral swap). Torn carpet, yellow wool ledge. Easy to miss as damage.
 - Destinations other than First are **thick stubs** (`brmc:dest_climate` cells): False First yellow-mono room, Second red-mono room, Buttons plant, Second False First soft yellow, Spiral well, Custodial closet. Still not full floors. Digital is sealed. Fourth does not exist.
 - No entities. Distant unresolved cave-mood sounds foreshadow only.
 - First rules: generated fabric regenerates (floor/ceiling faster so you cannot dig out of the layer); player-built / pillared blocks persist on the chunk; maps freeze; compass spins; F3 coordinates lie.
@@ -72,7 +72,7 @@ Build: Java 25, then `./gradlew build`.
 - Vestibule door 2: look through — red dest room, possible haze. Walk through the plane into Second.
 - Utilities deep door: look through — iron/copper plant. Walk north through the plane into Buttons.
 - Curving seam: look through — yellow + lime plan. Walk north through the plane into Second False First.
-- False-floor hole and vestibule OOB hole are architecture only — they do not dimension-cross. The false-floor pit has a sagged subfloor lip; walk back onto the carpet without commands.
+- False-floor hole and vestibule OOB hole are architecture only — they do not dimension-cross. False-floor is torn carpet over yellow wool, not a stair or marked exit; step back onto the floor.
 - `/brmc pocket janitor` (moderators only): walk west through the closet into Custodial; walk back east to First. No janitor NPC.
 - Dest stubs: regen dest chunks so return doors are visible. Mercy still fires in air at the identities if the old chunk has no block. Walk back through the matching dest-side threshold at the same XYZ. Do not use `/brmc second` (or other off-identity dest warps) to verify returns. No F3 pocket / dest / dim slugs (`brmc:first`) on public walks. Creative hover says Threshold / Opening, not vestibule_threshold / oob_hole.
 - Hop stays off unless `brmc.devAllowHopGates=true`.

@@ -67,19 +67,23 @@ public final class LayoutSanity {
 			errors++;
 		}
 
-		if (!YellowMonoLayout.isFalseFloorClimbOut(-19, 52)
-			|| !YellowMonoLayout.isFalseFloorClimbOut(-21, 52)
-			|| !YellowMonoLayout.isFalseFloorClimbOut(-20, 53)
-			|| !YellowMonoLayout.isFalseFloorClimbOut(-20, 51)
-			|| YellowMonoLayout.isFalseFloorClimbOut(-20, 52)) {
-			BrmcMod.LOGGER.error("False floor hole is missing a four-side sagged climb-out.");
+		if (!YellowMonoLayout.isFalseFloorTornCarpet(-19, 52)
+			|| !YellowMonoLayout.isFalseFloorTornCarpet(-19, 51)
+			|| !YellowMonoLayout.isFalseFloorTornCarpet(-18, 52)
+			|| !YellowMonoLayout.isFalseFloorTornCarpet(-20, 51)
+			|| !YellowMonoLayout.isFalseFloorTornCarpet(-21, 51)
+			|| YellowMonoLayout.isFalseFloorTornCarpet(-20, 52)
+			|| YellowMonoLayout.isFalseFloorTornCarpet(-21, 52)
+			|| YellowMonoLayout.isFalseFloorTornCarpet(-20, 53)) {
+			BrmcMod.LOGGER.error("False floor torn carpet is a ring or missing the worn blotch.");
 			errors++;
 		}
 
-		if (!YellowMonoChunkGenerator.columnState(-19, YellowMonoLayout.FLOOR_Y, 52).is(net.minecraft.world.level.block.Blocks.SMOOTH_STONE_SLAB)
+		if (!YellowMonoChunkGenerator.columnState(-19, YellowMonoLayout.FLOOR_Y, 52).is(net.minecraft.world.level.block.Blocks.WOOL.pick(net.minecraft.world.item.DyeColor.YELLOW))
 			|| !YellowMonoChunkGenerator.columnState(-19, YellowMonoLayout.CARPET_Y, 52).isAir()
-			|| !YellowMonoChunkGenerator.columnState(-20, YellowMonoLayout.FLOOR_Y, 52).isAir()) {
-			BrmcMod.LOGGER.error("False floor climb-out is not a walk-up sag (slab lip, open hole).");
+			|| !YellowMonoChunkGenerator.columnState(-20, YellowMonoLayout.FLOOR_Y, 52).isAir()
+			|| YellowMonoChunkGenerator.columnState(-19, YellowMonoLayout.FLOOR_Y, 52).is(net.minecraft.world.level.block.Blocks.SMOOTH_STONE_SLAB)) {
+			BrmcMod.LOGGER.error("False floor ledge must be yellow wool under torn carpet, not a slab stair.");
 			errors++;
 		}
 

@@ -136,10 +136,6 @@ public class YellowMonoChunkGenerator extends ChunkGenerator {
 				return Blocks.AIR.defaultBlockState();
 			}
 
-			if (YellowMonoLayout.isFalseFloorClimbOut(worldX, worldZ)) {
-				return YellowMonoPalette.state(YellowMonoPalette.Role.SUBFLOOR_SLAB);
-			}
-
 			if (YellowMonoLayout.isDoor2RedFrame(worldX, worldZ)) {
 				return YellowMonoPalette.state(YellowMonoPalette.Role.SECOND_RED_FLOOR);
 			}
@@ -169,7 +165,7 @@ public class YellowMonoChunkGenerator extends ChunkGenerator {
 				return marker != null ? marker.defaultBlockState() : Blocks.AIR.defaultBlockState();
 			}
 
-			if (YellowMonoLayout.isFalseFloorClimbOut(worldX, worldZ)) {
+			if (YellowMonoLayout.isFalseFloorTornCarpet(worldX, worldZ)) {
 				return Blocks.AIR.defaultBlockState();
 			}
 
