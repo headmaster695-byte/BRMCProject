@@ -130,8 +130,8 @@ public final class LayoutSanity {
 		}
 
 		if (!YellowMonoLayout.isFalseFloorTornCarpet(-19, 52)
-			|| !YellowMonoLayout.isFalseFloorTornCarpet(-22, 50)
-			|| !YellowMonoLayout.isFalseFloorTornCarpet(-17, 54)
+			|| YellowMonoLayout.isFalseFloorTornCarpet(-22, 50)
+			|| YellowMonoLayout.isFalseFloorTornCarpet(-17, 54)
 			|| YellowMonoLayout.isFalseFloorTornCarpet(-20, 52)
 			|| YellowMonoLayout.isFalseFloorTornCarpet(-19, 51)
 			|| YellowMonoLayout.isFalseFloorTornCarpet(-18, 52)
@@ -139,7 +139,7 @@ public final class LayoutSanity {
 			|| YellowMonoLayout.isFalseFloorTornCarpet(-21, 51)
 			|| YellowMonoLayout.isFalseFloorTornCarpet(-21, 52)
 			|| YellowMonoLayout.isFalseFloorTornCarpet(-20, 53)) {
-			BrmcMod.LOGGER.error("False floor wear must stay sparse nicks, not an L, ring, or landmark blotch.");
+			BrmcMod.LOGGER.error("False floor wear must stay one rim nick, not an L, ring, or landmark blotch.");
 			errors++;
 		}
 
@@ -147,7 +147,16 @@ public final class LayoutSanity {
 			|| !YellowMonoChunkGenerator.columnState(-19, YellowMonoLayout.CARPET_Y, 52).isAir()
 			|| !YellowMonoChunkGenerator.columnState(-20, YellowMonoLayout.FLOOR_Y, 52).isAir()
 			|| YellowMonoChunkGenerator.columnState(-19, YellowMonoLayout.FLOOR_Y, 52).is(net.minecraft.world.level.block.Blocks.SMOOTH_STONE_SLAB)) {
-			BrmcMod.LOGGER.error("False floor ledge must be yellow wool under torn carpet, not a slab stair.");
+			BrmcMod.LOGGER.error("False floor rim nick must be yellow wool under torn carpet, not a slab stair.");
+			errors++;
+		}
+
+		net.minecraft.world.level.block.state.BlockState pitLook = YellowMonoChunkGenerator.columnState(-20, YellowMonoLayout.FLOOR_Y - 1, 52);
+		if (pitLook.is(net.minecraft.world.level.block.Blocks.SMOOTH_STONE)
+			|| !YellowMonoLayout.isFalseFloorPitDebris(-20, YellowMonoLayout.FLOOR_Y - 1, 52)
+			|| !(pitLook.is(net.minecraft.world.level.block.Blocks.WOOL.pick(net.minecraft.world.item.DyeColor.YELLOW))
+				|| pitLook.is(net.minecraft.world.level.block.Blocks.DYED_TERRACOTTA.pick(net.minecraft.world.item.DyeColor.YELLOW)))) {
+			BrmcMod.LOGGER.error("False floor pit must be yellow-mono debris, not gray stone.");
 			errors++;
 		}
 

@@ -184,21 +184,24 @@ public final class YellowMonoLayout {
 	}
 
 	/**
-	 * Sparse carpet wear in the false-floor cell. Yellow wool shows through —
-	 * ordinary low-contrast damage, not a letter, ring, stair, or landmark.
-	 * One rim nick at the hole; the other nicks sit apart so they do not
-	 * orbit or point.
+	 * One rim nick of missing carpet. Yellow wool shows through — ordinary
+	 * wear, not a blotch, letter, ring, or landmark. Climb-out is the 1-deep
+	 * step, not a path of nicks.
 	 */
 	public static boolean isFalseFloorTornCarpet(int worldX, int worldZ) {
 		if (pocketAt(worldX, worldZ) != FirstPocket.FALSE_FLOOR || isFalseFloorHole(worldX, worldZ)) {
 			return false;
 		}
 
-		int localX = localInCell(worldX);
-		int localZ = localInCell(worldZ);
-		return localX == 5 && localZ == 4
-			|| localX == 2 && localZ == 2
-			|| localX == 7 && localZ == 6;
+		return localInCell(worldX) == 5 && localInCell(worldZ) == 4;
+	}
+
+	/**
+	 * Visible pit under the hole. Same yellow-mono family as the room
+	 * (wool / terracotta), never gray subfloor.
+	 */
+	public static boolean isFalseFloorPitDebris(int worldX, int y, int worldZ) {
+		return isFalseFloorHole(worldX, worldZ) && y > MIN_Y && y < FLOOR_Y;
 	}
 
 	public static boolean isAirlockInterior(int worldX, int worldZ) {

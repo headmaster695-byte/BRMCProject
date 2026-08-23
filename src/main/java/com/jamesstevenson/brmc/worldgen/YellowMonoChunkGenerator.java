@@ -128,6 +128,12 @@ public class YellowMonoChunkGenerator extends ChunkGenerator {
 				return Blocks.AIR.defaultBlockState();
 			}
 
+			if (YellowMonoLayout.isFalseFloorPitDebris(worldX, y, worldZ)) {
+				return YellowMonoLayout.chevronDark(worldX, y, worldZ)
+					? YellowMonoPalette.state(YellowMonoPalette.Role.CHEVRON_DARK)
+					: YellowMonoPalette.state(YellowMonoPalette.Role.FLOOR);
+			}
+
 			return YellowMonoPalette.state(YellowMonoPalette.Role.SUBFLOOR);
 		}
 
