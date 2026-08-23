@@ -6,7 +6,7 @@ Namespace: `brmc`. Creative tab: `brmc:building` (muted “Building”). The tab
 
 Same grammar as First, crimson blood-tone — not Halloween. No destination-coded doors. No honest EXIT. No safelight on the mono body (P2 lobe-only later). Yellow-bleed stays P1 <<1% — do **not** register or place bleed in P0.
 
-Textures in this pass are **TEMP** 16² from the Architect pack (exact PNG bytes). `second_wallpaper_c` IDAT recovered from the supplied stream (bad Adler-32 in the handoff); pixels unchanged. Regen dest / Second chunks after pull.
+Textures in this pass are **TEMP** 16² Architect pack **v2** (lifted crimson — v1 ran darker than §7). Exact PNG bytes. `second_carpet_torn` IDAT recovered from the supplied stream (bad Adler-32 in the handoff); pixels unchanged. Regen dest / Second chunks after pull.
 
 Look-targets (texture only — not block names or tooltips):
 - Carpet: crimson field. Mold / torn are sparse dest wear, never a hole marker and never adjacent to vestibule arrival.
