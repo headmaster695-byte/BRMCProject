@@ -1,0 +1,10 @@
+{
+	"type": "brmc:first",
+	"generator": {
+		"type": "brmc:yellow_mono",
+		"biome_source": {
+			"type": "minecraft:fixed",
+			"biome": "brmc:first_mono"
+		}
+	}
+}
