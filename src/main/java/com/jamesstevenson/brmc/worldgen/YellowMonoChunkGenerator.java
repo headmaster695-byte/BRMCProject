@@ -94,7 +94,15 @@ public class YellowMonoChunkGenerator extends ChunkGenerator {
 						continue;
 					}
 
-					centerChunk.setBlockState(cursor.set(localX, y, localZ), state);
+					cursor.set(localX, y, localZ);
+					centerChunk.setBlockState(cursor, state);
+					if (state.getBlock() instanceof net.minecraft.world.level.block.EntityBlock entityBlock) {
+						var blockEntity = entityBlock.newBlockEntity(new BlockPos(worldX, y, worldZ), state);
+						if (blockEntity != null) {
+							centerChunk.setBlockEntity(blockEntity);
+						}
+					}
+
 					oceanFloor.update(localX, y, localZ, state);
 					worldSurface.update(localX, y, localZ, state);
 				}
@@ -190,6 +198,13 @@ public class YellowMonoChunkGenerator extends ChunkGenerator {
 		}
 
 		if (y > YellowMonoLayout.CARPET_Y && y < YellowMonoLayout.CEILING_Y) {
+			if (threshold && y <= YellowMonoLayout.CARPET_Y + 2) {
+				Block marker = BrmcBlocks.blockFor(pocket);
+				if (marker != null) {
+					return marker.defaultBlockState();
+				}
+			}
+
 			if (wall && !doorway) {
 				if (YellowMonoLayout.isDoor2RedFrame(worldX, worldZ)) {
 					return YellowMonoPalette.state(YellowMonoPalette.Role.SECOND_RED_WALL);

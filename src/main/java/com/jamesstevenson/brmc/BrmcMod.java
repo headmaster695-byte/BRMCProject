@@ -1,5 +1,6 @@
 package com.jamesstevenson.brmc;
 
+import com.jamesstevenson.brmc.block.BrmcBlockEntities;
 import com.jamesstevenson.brmc.block.BrmcBlocks;
 import com.jamesstevenson.brmc.command.BrmcCommands;
 import com.jamesstevenson.brmc.dimension.BrmcDimensions;
@@ -29,6 +30,7 @@ public class BrmcMod implements ModInitializer {
 		BrmcDimensions.bootstrap();
 		YellowMonoChunkGenerator.register();
 		BrmcBlocks.initialize();
+		BrmcBlockEntities.initialize();
 		SeamlessGateService.initialize();
 		ClarkColdOpen.initialize();
 		MiningRegenRule.initialize();

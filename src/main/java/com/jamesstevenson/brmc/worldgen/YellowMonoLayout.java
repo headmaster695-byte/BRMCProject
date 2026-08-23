@@ -63,7 +63,7 @@ public final class YellowMonoLayout {
 		int cellX = cellCoord(worldX);
 		int cellZ = cellCoord(worldZ);
 
-		if (cellZ == SPINE_CELL && cellX >= 6 && cellX <= 8) {
+		if (cellZ == SPINE_CELL && cellX >= 6 && cellX <= 9) {
 			if (cellX == 8 && localInCell(worldX) == 3 && localInCell(worldZ) == 4) {
 				return FirstPocket.VESTIBULE_OOB;
 			}
@@ -71,7 +71,7 @@ public final class YellowMonoLayout {
 			return FirstPocket.VESTIBULE;
 		}
 
-		if (cellX == SPINE_CELL && cellZ == 6) {
+		if (cellZ == 6 && (cellX == SPINE_CELL || cellX == 3)) {
 			return FirstPocket.COMMON_EXIT;
 		}
 
@@ -171,7 +171,20 @@ public final class YellowMonoLayout {
 	 * yellow→red. Commons must never use this.
 	 */
 	public static boolean isDoor2RedFrame(int worldX, int worldZ) {
-		return cellCoord(worldX) == 8 && cellCoord(worldZ) == SPINE_CELL && localInCell(worldX) >= 6;
+		int cellX = cellCoord(worldX);
+		int cellZ = cellCoord(worldZ);
+		if (cellZ != SPINE_CELL) {
+			return false;
+		}
+
+		return cellX == 9 || cellX == 8 && localInCell(worldX) >= 6;
+	}
+
+	/** Destination climate generated through the door plane (approximated linked volume). */
+	public static boolean isLinkedDestinationVolume(int worldX, int worldZ) {
+		int cellX = cellCoord(worldX);
+		int cellZ = cellCoord(worldZ);
+		return cellZ == SPINE_CELL && cellX == 9 || cellZ == 6 && cellX == 3;
 	}
 
 	public static boolean isJanitorCloset(int worldX, int worldZ) {
@@ -302,7 +315,11 @@ public final class YellowMonoLayout {
 	}
 
 	private static boolean spineOpenWest(int cellX, int cellZ) {
-		if (cellZ == SPINE_CELL && cellX >= 4 && cellX <= 8) {
+		if (cellZ == SPINE_CELL && cellX >= 4 && cellX <= 9) {
+			return true;
+		}
+
+		if (cellZ == 6 && cellX == 3) {
 			return true;
 		}
 

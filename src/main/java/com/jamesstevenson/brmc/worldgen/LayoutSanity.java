@@ -34,8 +34,13 @@ public final class LayoutSanity {
 			errors++;
 		}
 
-		if (!YellowMonoLayout.isDoor2RedFrame(70, 20)) {
-			BrmcMod.LOGGER.error("Vestibule door 2 is not red-framed.");
+		if (!YellowMonoLayout.isDoor2RedFrame(70, 20) || !YellowMonoLayout.isDoor2RedFrame(76, 20)) {
+			BrmcMod.LOGGER.error("Vestibule door 2 / linked Second volume is not red-framed.");
+			errors++;
+		}
+
+		if (!YellowMonoLayout.isLinkedDestinationVolume(76, 20) || !YellowMonoLayout.isLinkedDestinationVolume(28, 52)) {
+			BrmcMod.LOGGER.error("Linked destination volumes missing for vestibule/commons.");
 			errors++;
 		}
 

@@ -14,5 +14,17 @@ public enum GateKind {
 	FALSE_FLOOR,
 	UTILITIES,
 	OOB_HOLE,
-	CUSTODIAL
+	CUSTODIAL;
+
+	/** Authored walk-through facing for First's wired planes. */
+	public net.minecraft.core.Direction planeFacing() {
+		return switch (this) {
+			case VESTIBULE, COMMONS -> net.minecraft.core.Direction.EAST;
+			default -> net.minecraft.core.Direction.NORTH;
+		};
+	}
+
+	public boolean hasLinkedVolumeThisPass() {
+		return this == VESTIBULE || this == COMMONS;
+	}
 }

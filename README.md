@@ -27,13 +27,17 @@ Minecraft **26.2**, Fabric Loader **0.19.3**, Fabric API **0.158.0+26.2**, Java 
 - First rules: generated fabric regenerates (floor/ceiling faster so you cannot dig out of the layer); player-built / pillared blocks persist on the chunk; maps freeze; compass spins; F3 coordinates lie.
 - Aesthetic boards land later under `floors/<slug>/`.
 
-## Immersive Portals
+## Seamless gates (26.2, no Immersive Portals)
 
-Seamless continuous space is the only player-facing gate language: no teleport sting, fade-to-load, nether swirl, or “Entering X” UI. Commons is yellow→yellow. Vestibule door 2 is yellow→red.
+The mod stays on 26.2. Immersive Portals is not downported.
 
-- Prefer `ImmersivePortalsBackend` if an IP-class API is on the classpath.
-- Otherwise gates **refuse** to hop (`RefusingGateBackend`) and log an error.
-- `LoadingHopBackend` only if no IP-class backend **and** `brmc.devAllowHopGates=true` (`-Dbrmc.devAllowHopGates=true`, `BRMC_DEV_ALLOW_HOP_GATES=true`, or `config/brmc.properties`). A Fabric development workspace is not enough.
+Player-facing path is **`LinkedVolumeBackend`**:
+
+- **See-through** is an *approximated linked volume*, not a second `ClientLevel`. Destination climate is generated through the door plane in First (commons yellow; vestibule door 2 red). `LinkedVolumeRenderer` draws a portal-plane + receding-room mesh on the invisible threshold.
+- **Walk-through** keeps the same camera pose (identity transform, `TeleportTransition.DO_NOTHING`, no portal sound). Nether swirl / “Downloading terrain” / “Entering X” are suppressed while a linked-volume crossing is flagged.
+- This is **not** true dual-world stencil rendering. There can still be a brief dest-chunk hitch; the last frame is held instead of a fade/swirl.
+
+Fallback order: IP if present → linked volume → hop only if `brmc.devAllowHopGates=true` → `RefusingGateBackend` (last resort, loud error). Hop is never the default.
 
 ## Entering First
 
@@ -49,4 +53,6 @@ Build: Java 25, then `./gradlew build`.
 - Mine a wall: it comes back. Mine the floor: it comes back faster. Place / pillar blocks: they stay after regen and after relog.
 - Maps do not chart First. Compass needle spins. F3 XYZ is wrong.
 - Occasional distant wrong sound; nothing arrives.
-- Stepping a threshold does **not** hop unless an IP-class backend is present or `brmc.devAllowHopGates` is on.
+- Commons door: look through — yellow continues. Walk through — same camera, no swirl/fade; you are in False First (yellow stub).
+- Vestibule door 2: look through — red climate already framed. Walk through — same camera into Second (red stub).
+- Hop stays off unless `brmc.devAllowHopGates=true`.

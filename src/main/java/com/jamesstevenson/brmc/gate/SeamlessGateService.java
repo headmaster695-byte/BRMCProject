@@ -27,11 +27,21 @@ public final class SeamlessGateService {
 			return;
 		}
 
+		if (LinkedVolumeBackend.tryInit()) {
+			backend = new LinkedVolumeBackend();
+			BrmcMod.LOGGER.info(
+				"Using LinkedVolumeBackend (approximated linked volumes + portal plane). "
+					+ "Not a true dual-world render. Hop stays off unless {} is set.",
+				BrmcGateConfig.FLAG
+			);
+			return;
+		}
+
 		if (BrmcGateConfig.allowHopGates()) {
 			backend = new LoadingHopBackend();
 			BrmcMod.LOGGER.warn(
-				"No Immersive Portals–class backend. {} is on: using identity hop. "
-					+ "Hop is NEVER the player-facing gate language. IP-class seamless is the only target.",
+				"Linked-volume renderer failed. {} is on: using identity hop. "
+					+ "Hop is NEVER the player-facing gate language.",
 				BrmcGateConfig.FLAG
 			);
 			return;
@@ -39,10 +49,8 @@ public final class SeamlessGateService {
 
 		backend = new RefusingGateBackend();
 		BrmcMod.LOGGER.error(
-			"No Immersive Portals–class backend. Gates will not hop. "
-				+ "{} is off so playtests do not train fade-load / teleport as the real crossing. "
-				+ "Install an IP-class backend, or set -D{}=true for isolated tests only.",
-			BrmcGateConfig.FLAG,
+			"Linked-volume renderer failed to init and {} is off. Gates refuse to hop. "
+				+ "This is last-resort only — seamless linked volumes are the player-facing path.",
 			BrmcGateConfig.FLAG
 		);
 	}
