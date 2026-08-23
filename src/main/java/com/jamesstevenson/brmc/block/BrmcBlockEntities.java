@@ -28,6 +28,19 @@ public final class BrmcBlockEntities {
 		)
 	);
 
+	public static final BlockEntityType<TrofferBlockEntity> TROFFER = Registry.register(
+		BuiltInRegistries.BLOCK_ENTITY_TYPE,
+		ResourceKey.create(Registries.BLOCK_ENTITY_TYPE, BrmcMod.id("first_troffer")),
+		new BlockEntityType<>(
+			TrofferBlockEntity::new,
+			Set.of(
+				BrmcBlocks.FIRST_TROFFER,
+				BrmcBlocks.FIRST_TROFFER_DEAD,
+				BrmcBlocks.FIRST_TROFFER_HALF
+			)
+		)
+	);
+
 	private BrmcBlockEntities() {
 	}
 

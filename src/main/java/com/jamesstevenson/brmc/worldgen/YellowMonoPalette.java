@@ -1,16 +1,17 @@
 package com.jamesstevenson.brmc.worldgen;
 
+import com.jamesstevenson.brmc.block.BrmcBlocks;
+
 import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.WeatheringCopper;
 import net.minecraft.world.level.block.state.BlockState;
 
 /**
- * Yellow-mono placeholders: chevron wallpaper, moist-carpet *read*, troffer ceiling.
- * Carpet voxel is vanilla yellow display texture — a compromise, not a wet macro.
- * True damp carpet is a documented miss. Apartment / utilities break the hub.
- * Vestibule stays yellow-mono. Dest Second is red via dest sample at door 2
- * only; First-side yellow→red framing is a miss.
+ * First P0 palette plus apartment / utilities material breaks.
+ * Wallpaper / carpet / ceiling / troffer / door are {@code brmc:first_*}
+ * blocks. Textures are TEMP stand-ins. Moist-carpet *read* is not a wet macro.
+ * Wear variants are noise, not landmarks.
  */
 public final class YellowMonoPalette {
 	public enum Role {
@@ -37,11 +38,63 @@ public final class YellowMonoPalette {
 	}
 
 	public static BlockState wallpaper(int worldX, int y, int worldZ) {
-		if (y == YellowMonoLayout.CARPET_Y) {
-			return state(Role.CHEVRON_DARK);
+		if (YellowMonoLayout.pocketAt(worldX, worldZ) == FirstPocket.FLUORESCENT_DEAD_ZONE) {
+			return BrmcBlocks.FIRST_WALLPAPER_DEAD.defaultBlockState();
 		}
 
-		return YellowMonoLayout.chevronDark(worldX, y, worldZ) ? state(Role.CHEVRON_DARK) : state(Role.CHEVRON_LIGHT);
+		if (YellowMonoLayout.isWallpaperPeel(worldX, y, worldZ)) {
+			return BrmcBlocks.FIRST_WALLPAPER_PEEL.defaultBlockState();
+		}
+
+		if (YellowMonoLayout.isWallpaperDeadWear(worldX, y, worldZ)) {
+			return BrmcBlocks.FIRST_WALLPAPER_DEAD.defaultBlockState();
+		}
+
+		if (y == YellowMonoLayout.CARPET_Y || YellowMonoLayout.chevronDark(worldX, y, worldZ)) {
+			return BrmcBlocks.FIRST_WALLPAPER_SEAM.defaultBlockState();
+		}
+
+		return BrmcBlocks.FIRST_WALLPAPER.defaultBlockState();
+	}
+
+	public static BlockState carpet(int worldX, int worldZ) {
+		if (YellowMonoLayout.isCarpetStain(worldX, worldZ)) {
+			return BrmcBlocks.FIRST_CARPET_STAINED.defaultBlockState();
+		}
+
+		if (YellowMonoLayout.isCarpetDry(worldX, worldZ)) {
+			return BrmcBlocks.FIRST_CARPET_DRY.defaultBlockState();
+		}
+
+		return BrmcBlocks.FIRST_CARPET.defaultBlockState();
+	}
+
+	public static BlockState ceiling() {
+		return BrmcBlocks.FIRST_CEILING_TILE.defaultBlockState();
+	}
+
+	public static BlockState troffer(int worldX, int worldZ) {
+		if (YellowMonoLayout.isDeadTroffer(worldX, worldZ)) {
+			return BrmcBlocks.FIRST_TROFFER_DEAD.defaultBlockState();
+		}
+
+		if (YellowMonoLayout.isHalfTroffer(worldX, worldZ)) {
+			return BrmcBlocks.FIRST_TROFFER_HALF.defaultBlockState();
+		}
+
+		return BrmcBlocks.FIRST_TROFFER.defaultBlockState();
+	}
+
+	public static BlockState doorSkin(int worldX, int worldZ) {
+		if (YellowMonoLayout.isVestibuleDoorFrame(worldX, worldZ)) {
+			return BrmcBlocks.FIRST_DOOR_FRAME.defaultBlockState();
+		}
+
+		if (YellowMonoLayout.isVestibuleDoor2Plane(worldX, worldZ)) {
+			return BrmcBlocks.FIRST_DOOR_VESTIBULE.defaultBlockState();
+		}
+
+		return BrmcBlocks.FIRST_DOOR_COMMERCIAL.defaultBlockState();
 	}
 
 	public static BlockState state(Role role) {
@@ -49,11 +102,11 @@ public final class YellowMonoPalette {
 			case BEDROCK -> Blocks.BEDROCK.defaultBlockState();
 			case SUBFLOOR -> Blocks.SMOOTH_STONE.defaultBlockState();
 			case FLOOR -> Blocks.WOOL.pick(DyeColor.YELLOW).defaultBlockState();
-			case YELLOW_CARPET -> Blocks.CARPET.pick(DyeColor.YELLOW).defaultBlockState();
-			case CHEVRON_LIGHT -> Blocks.WOOL.pick(DyeColor.YELLOW).defaultBlockState();
-			case CHEVRON_DARK -> Blocks.DYED_TERRACOTTA.pick(DyeColor.YELLOW).defaultBlockState();
-			case CEILING_TILE -> Blocks.CONCRETE.pick(DyeColor.LIGHT_GRAY).defaultBlockState();
-			case TROFFER -> Blocks.OCHRE_FROGLIGHT.defaultBlockState();
+			case YELLOW_CARPET -> BrmcBlocks.FIRST_CARPET.defaultBlockState();
+			case CHEVRON_LIGHT -> BrmcBlocks.FIRST_WALLPAPER.defaultBlockState();
+			case CHEVRON_DARK -> BrmcBlocks.FIRST_WALLPAPER_SEAM.defaultBlockState();
+			case CEILING_TILE -> BrmcBlocks.FIRST_CEILING_TILE.defaultBlockState();
+			case TROFFER -> BrmcBlocks.FIRST_TROFFER.defaultBlockState();
 			case HABITATION_WALL -> Blocks.WOOL.pick(DyeColor.WHITE).defaultBlockState();
 			case HABITATION_FLOOR -> Blocks.OAK_PLANKS.defaultBlockState();
 			case HABITATION_BED -> Blocks.WOOL.pick(DyeColor.LIGHT_GRAY).defaultBlockState();

@@ -1,6 +1,7 @@
 package com.jamesstevenson.brmc.worldgen;
 
 import com.jamesstevenson.brmc.BrmcMod;
+import com.jamesstevenson.brmc.block.BrmcBlocks;
 import com.jamesstevenson.brmc.block.ThresholdBlock;
 import com.jamesstevenson.brmc.gate.LinkedOpenings;
 
@@ -45,8 +46,11 @@ public final class LayoutSanity {
 			|| !YellowMonoLayout.isTroffer(3, 2)
 			|| !YellowMonoLayout.isTroffer(60, 20)
 			|| !YellowMonoLayout.isTroffer(36, 20)
-			|| YellowMonoLayout.isTroffer(-28, -20)) {
-			BrmcMod.LOGGER.error("Troffer bars must match Clark/maze language; vestibule is not brighter; dead zone stays dark.");
+			|| YellowMonoLayout.isTroffer(-28, -20)
+			|| !YellowMonoLayout.isDeadTroffer(-28, -20)
+			|| !YellowMonoChunkGenerator.columnState(2, YellowMonoLayout.CEILING_Y, 2).is(BrmcBlocks.FIRST_TROFFER)
+			|| !YellowMonoChunkGenerator.columnState(-28, YellowMonoLayout.CEILING_Y, -20).is(BrmcBlocks.FIRST_TROFFER_DEAD)) {
+			BrmcMod.LOGGER.error("Troffer bars must match Clark/maze language; vestibule is not brighter; dead zone stays unlit.");
 			errors++;
 		}
 
@@ -98,15 +102,24 @@ public final class LayoutSanity {
 
 		if (YellowMonoChunkGenerator.columnState(70, YellowMonoLayout.CARPET_Y + 1, 18).is(net.minecraft.world.level.block.Blocks.WOOL.pick(net.minecraft.world.item.DyeColor.RED))
 			|| YellowMonoChunkGenerator.columnState(76, YellowMonoLayout.CARPET_Y, 20).is(net.minecraft.world.level.block.Blocks.CARPET.pick(net.minecraft.world.item.DyeColor.RED))
-			|| YellowMonoChunkGenerator.columnState(20, YellowMonoLayout.CARPET_Y, 52).is(net.minecraft.world.level.block.Blocks.CARPET.pick(net.minecraft.world.item.DyeColor.RED))) {
-			BrmcMod.LOGGER.error("First must not paint a yellow→red vestibule frame; commons stays yellow.");
+			|| YellowMonoChunkGenerator.columnState(20, YellowMonoLayout.CARPET_Y, 52).is(net.minecraft.world.level.block.Blocks.CARPET.pick(net.minecraft.world.item.DyeColor.RED))
+			|| !YellowMonoChunkGenerator.columnState(70, YellowMonoLayout.CARPET_Y + 1, 18).is(BrmcBlocks.FIRST_DOOR_FRAME)
+			|| !YellowMonoChunkGenerator.columnState(70, YellowMonoLayout.CARPET_Y + 1, 16).is(BrmcBlocks.FIRST_DOOR_VESTIBULE)
+			|| !YellowMonoChunkGenerator.columnState(56, YellowMonoLayout.CARPET_Y + 1, 16).is(BrmcBlocks.FIRST_DOOR_COMMERCIAL)) {
+			BrmcMod.LOGGER.error("First must not paint a yellow→red vestibule frame; door 2 uses P0 door/frame blocks.");
 			errors++;
 		}
 
-		if (!YellowMonoChunkGenerator.columnState(16, YellowMonoLayout.CARPET_Y, 16).is(net.minecraft.world.level.block.Blocks.CARPET.pick(net.minecraft.world.item.DyeColor.YELLOW))
+		if (!YellowMonoChunkGenerator.columnState(16, YellowMonoLayout.CARPET_Y, 16).is(BrmcBlocks.FIRST_CARPET)
 			|| YellowMonoChunkGenerator.columnState(16, YellowMonoLayout.CARPET_Y, 16).is(net.minecraft.world.level.block.Blocks.WET_SPONGE)
 			|| YellowMonoChunkGenerator.columnState(16, YellowMonoLayout.CARPET_Y, 16).is(net.minecraft.world.level.block.Blocks.MOSS_CARPET)) {
-			BrmcMod.LOGGER.error("Moist-carpet read must stay yellow carpet voxel — not a wet macro.");
+			BrmcMod.LOGGER.error("Moist-carpet read must stay first_carpet — not a wet macro.");
+			errors++;
+		}
+
+		if (!YellowMonoChunkGenerator.columnState(0, YellowMonoLayout.CARPET_Y, 16).is(BrmcBlocks.FIRST_WALLPAPER)
+			&& !YellowMonoChunkGenerator.columnState(0, YellowMonoLayout.CARPET_Y, 16).is(BrmcBlocks.FIRST_WALLPAPER_SEAM)) {
+			BrmcMod.LOGGER.error("Clark walls must use first_wallpaper family, not vanilla wool.");
 			errors++;
 		}
 
@@ -168,19 +181,18 @@ public final class LayoutSanity {
 		}
 
 		if (!YellowMonoChunkGenerator.columnState(-19, YellowMonoLayout.FLOOR_Y, 52).is(net.minecraft.world.level.block.Blocks.WOOL.pick(net.minecraft.world.item.DyeColor.YELLOW))
-			|| !YellowMonoChunkGenerator.columnState(-19, YellowMonoLayout.CARPET_Y, 52).isAir()
+			|| !YellowMonoChunkGenerator.columnState(-19, YellowMonoLayout.CARPET_Y, 52).is(BrmcBlocks.FIRST_CARPET_TORN)
 			|| !YellowMonoChunkGenerator.columnState(-20, YellowMonoLayout.FLOOR_Y, 52).isAir()
 			|| YellowMonoChunkGenerator.columnState(-19, YellowMonoLayout.FLOOR_Y, 52).is(net.minecraft.world.level.block.Blocks.SMOOTH_STONE_SLAB)) {
-			BrmcMod.LOGGER.error("False floor rim nick must be yellow wool under torn carpet, not a slab stair.");
+			BrmcMod.LOGGER.error("False floor rim nick must be first_carpet_torn over yellow wool, not a slab stair.");
 			errors++;
 		}
 
 		net.minecraft.world.level.block.state.BlockState pitLook = YellowMonoChunkGenerator.columnState(-20, YellowMonoLayout.FLOOR_Y - 1, 52);
 		if (pitLook.is(net.minecraft.world.level.block.Blocks.SMOOTH_STONE)
 			|| !YellowMonoLayout.isFalseFloorPitDebris(-20, YellowMonoLayout.FLOOR_Y - 1, 52)
-			|| !(pitLook.is(net.minecraft.world.level.block.Blocks.WOOL.pick(net.minecraft.world.item.DyeColor.YELLOW))
-				|| pitLook.is(net.minecraft.world.level.block.Blocks.DYED_TERRACOTTA.pick(net.minecraft.world.item.DyeColor.YELLOW)))) {
-			BrmcMod.LOGGER.error("False floor pit must be yellow-mono debris, not gray stone.");
+			|| !pitLook.is(BrmcBlocks.FIRST_DEBRIS_CARPET)) {
+			BrmcMod.LOGGER.error("False floor pit must be first_debris_carpet, not gray stone.");
 			errors++;
 		}
 

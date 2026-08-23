@@ -7,7 +7,7 @@ Minecraft **26.2**, Fabric Loader **0.19.3**, Fabric API **0.158.0+26.2**, Java 
 ## What is in this pass
 
 - First Dimension registered as `brmc:first` with a `brmc:yellow_mono` chunk generator.
-- Clark cold-open is a **32×32** authored chamber (post-threshold yellow room only). Fidelity target: Clark’s first Backrooms room from A24 *Backrooms* (2026). Diagonal chevron wallpaper (Y-stepped two-yellow family), moist-carpet *read* (vanilla yellow carpet voxel — not a wet macro), ochre-froglight troffer *bars*, 2×2 columns, empty segmented volume, four **2-wide** cardinal openings at 19–20. Maze spines keep those 2-wide doors in the wall so hallways recede; pocket interiors stay open rooms. East stays a yellow dogleg — not a vestibule runway. No store, basement, inbound portal, or tutorial UI. Spawn faces east. **Voxel honesty:** no custom wallpaper/fixture models — two vanilla yellows, yellow carpet, froglight bars, light-gray concrete tiles. True damp carpet is a documented miss.
+- Clark cold-open is a **32×32** authored chamber (post-threshold yellow room only). Fidelity target: Clark’s first Backrooms room from A24 *Backrooms* (2026). Diagonal chevron wallpaper (Y-stepped two-yellow family), moist-carpet *read* (`brmc:first_carpet` — not a wet macro), P0 troffer block-entity bars, 2×2 columns, empty segmented volume, four **2-wide** cardinal openings at 19–20. Maze spines keep those 2-wide doors in the wall so hallways recede; pocket interiors stay open rooms. East stays a yellow dogleg — not a vestibule runway. No store, basement, inbound portal, or tutorial UI. Spawn faces east. **Voxel honesty:** P0 `brmc:first_*` blocks are wired; textures are TEMP solid-color stand-ins, not printed vinyl / wet macro / recessed housings. True damp carpet is a documented miss.
 - Cardinal spines make authored pockets learnable (not noise soup):
   - East → `first-vestibule` (true exit)
   - South → `first-common-exit` (literacy teacher)
@@ -26,12 +26,13 @@ Minecraft **26.2**, Fabric Loader **0.19.3**, Fabric API **0.158.0+26.2**, Java 
 - Destinations other than First are **thick stubs** (`brmc:dest_climate` cells): False First yellow-mono room, Second red-mono room, Buttons plant, Second False First soft yellow, Spiral well, Custodial closet. Still not full floors. Digital is sealed. Fourth does not exist.
 - No entities. Distant unresolved cave-mood sounds foreshadow only.
 - First rules: generated fabric regenerates (floor/ceiling faster so you cannot dig out of the layer); player-built / pillared blocks persist on the chunk; maps freeze; compass spins; F3 coordinates lie.
-- Aesthetic boards land later under `floors/<slug>/`. Four wiki heroes stay unchanged this pass (oshkosh / troffer / common-exit / dead-zone) — no restyle, no invented `floors/<slug>/` boards.
+- First P0 block palette is registered (`floors/first-dimension/block-palette.md`). Clark / maze use `brmc:first_*` wallpaper, carpet, ceiling, troffer, and door blocks. Textures are TEMP solid-color placeholders. Creative tab is muted `Building`. Item names are mundane (Wallpaper / Carpet / Light / Door). Troffer is a block entity for a later hum-buzz. Wear variants are sparse noise, not landmarks. Apartment / utilities still vanilla material-break. No First entities.
+- Aesthetic boards land later under `floors/<slug>/`. Four wiki heroes stay unchanged this pass (oshkosh / troffer / common-exit / dead-zone) — no restyle, no invented board art.
 
 ### Voxel look-targets (Architect, not AI)
 
 - **Hallway vanishing point** — Clark and maze doors share a 2-wide local 3–4 / world 19–20 grammar so corridors recede. Spine/hash links are doors in walls, not missing walls. East dogleg is unchanged.
-- **Carpet texture close** — moist-carpet *read* via yellow carpet voxel. Do not read this as a wet macro.
+- **Carpet texture close** — moist-carpet *read* via `first_carpet` (TEMP texture). Do not read this as a wet macro.
 - **Double-door vestibule grammar** — paired leaves at `(56,19–20)` and `(70,19–20)`. Honest paired doors. Dest sample at door 2 is red; First-side yellow→red framing is a miss.
 
 Documented misses that stay misses: **true damp carpet** and **yellow→red vestibule frame**.

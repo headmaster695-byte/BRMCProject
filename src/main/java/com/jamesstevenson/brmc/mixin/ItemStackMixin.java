@@ -2,10 +2,12 @@ package com.jamesstevenson.brmc.mixin;
 
 import java.util.List;
 
-import com.jamesstevenson.brmc.block.ThresholdBlock;
+import com.jamesstevenson.brmc.BrmcMod;
 import com.jamesstevenson.brmc.rule.NavigationLiesRule;
 
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.chat.Component;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
@@ -32,7 +34,12 @@ public class ItemStackMixin {
 		CallbackInfoReturnable<List<Component>> cir
 	) {
 		ItemStack self = (ItemStack) (Object) this;
-		if (!(self.getItem() instanceof BlockItem blockItem) || !(blockItem.getBlock() instanceof ThresholdBlock)) {
+		if (!(self.getItem() instanceof BlockItem)) {
+			return;
+		}
+
+		Identifier id = BuiltInRegistries.ITEM.getKey(self.getItem());
+		if (id == null || !BrmcMod.MOD_ID.equals(id.getNamespace())) {
 			return;
 		}
 

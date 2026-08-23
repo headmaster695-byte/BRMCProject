@@ -282,6 +282,53 @@ public final class YellowMonoLayout {
 		return cellZ == SPINE_CELL && (cellX == 7 && localX == 0 || cellX == 8 && localX == 6);
 	}
 
+	/** Immediate jambs (local 2 / 5). Rest of the door plane is a commercial/vestibule panel. */
+	public static boolean isVestibuleDoorFrame(int worldX, int worldZ) {
+		if (!isVestibuleDoorWall(worldX, worldZ)) {
+			return false;
+		}
+
+		int localZ = localInCell(worldZ);
+		return localZ == 2 || localZ == 5;
+	}
+
+	public static boolean isVestibuleDoor2Plane(int worldX, int worldZ) {
+		return isVestibuleDoorWall(worldX, worldZ) && cellCoord(worldX) == 8;
+	}
+
+	/**
+	 * Sparse wallpaper wear. Maze noise only — not Clark, not a landmark.
+	 */
+	public static boolean isWallpaperPeel(int worldX, int y, int worldZ) {
+		return mazeWearColumn(worldX, worldZ) && Math.floorMod(worldX * 13 + worldZ * 29 + y * 7, 41) == 0;
+	}
+
+	public static boolean isWallpaperDeadWear(int worldX, int y, int worldZ) {
+		return mazeWearColumn(worldX, worldZ) && Math.floorMod(worldX * 17 + worldZ * 23 + y, 53) == 0;
+	}
+
+	public static boolean isCarpetStain(int worldX, int worldZ) {
+		return mazeWearColumn(worldX, worldZ) && Math.floorMod(worldX * 11 + worldZ * 19, 47) == 0;
+	}
+
+	public static boolean isCarpetDry(int worldX, int worldZ) {
+		return mazeWearColumn(worldX, worldZ)
+			&& !isCarpetStain(worldX, worldZ)
+			&& Math.floorMod(worldX * 31 + worldZ * 37, 59) == 0;
+	}
+
+	private static boolean mazeWearColumn(int worldX, int worldZ) {
+		if (inClarkChamber(worldX, worldZ) || isFalseFloorHole(worldX, worldZ) || isFalseFloorTornCarpet(worldX, worldZ)) {
+			return false;
+		}
+
+		FirstPocket pocket = pocketAt(worldX, worldZ);
+		return pocket == null
+			|| pocket == FirstPocket.VESTIBULE
+			|| pocket == FirstPocket.COMMON_EXIT
+			|| pocket == FirstPocket.CURVING_HALL;
+	}
+
 	/**
 	 * First-side backing alcove matching dest climate. The dest volume itself
 	 * is sampled from the dest ServerLevel; this fill only hides void when
@@ -354,7 +401,7 @@ public final class YellowMonoLayout {
 	}
 
 	/**
-	 * Fluorescent fixture footprint. Ochre froglight bars, not a custom model.
+	 * Lit fluorescent footprint. Dead zone uses {@link #isDeadTroffer} instead.
 	 * Vestibule uses the same maze bar — not a brighter special tell.
 	 */
 	public static boolean isTroffer(int worldX, int worldZ) {
@@ -376,6 +423,21 @@ public final class YellowMonoLayout {
 		int localX = localInCell(worldX);
 		int localZ = localInCell(worldZ);
 		return localZ == 4 && localX >= 3 && localX <= 5;
+	}
+
+	/** Same maze bar, unlit. Dark fixtures — not a landmark. */
+	public static boolean isDeadTroffer(int worldX, int worldZ) {
+		return pocketAt(worldX, worldZ) == FirstPocket.FLUORESCENT_DEAD_ZONE
+			&& localInCell(worldZ) == 4
+			&& localInCell(worldX) >= 3
+			&& localInCell(worldX) <= 5;
+	}
+
+	/** Sparse half-lit maze bars. Clark stays a full grid. */
+	public static boolean isHalfTroffer(int worldX, int worldZ) {
+		return isTroffer(worldX, worldZ)
+			&& !inClarkChamber(worldX, worldZ)
+			&& Math.floorMod(worldX * 41 + worldZ * 19, 11) == 0;
 	}
 
 	private static boolean isClarkTroffer(int worldX, int worldZ) {
