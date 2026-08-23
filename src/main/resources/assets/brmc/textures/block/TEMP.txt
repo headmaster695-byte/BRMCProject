@@ -1,4 +1,4 @@
-TEMP 16² atlas from Architect UV-hex locks. No tutorial labels. No EXIT bake.
+TEMP 16² atlas: exact Architect PNG bytes (base64 pack). No tutorial labels. No EXIT bake.
 Wallpaper A/B/C: mustard diamond print; B/C are seam phases.
 Carpet family: beige nap; blotch *read* is texture-only (not a name).
 Troffer: housing + bar. Dead is unlit louvers.
