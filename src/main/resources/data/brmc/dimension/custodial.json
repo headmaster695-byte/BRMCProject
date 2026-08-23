@@ -1,0 +1,30 @@
+{
+	"type": "brmc:custodial",
+	"generator": {
+		"type": "minecraft:flat",
+		"settings": {
+			"biome": "brmc:custodial_stub",
+			"lakes": false,
+			"features": false,
+			"layers": [
+				{
+					"block": "minecraft:bedrock",
+					"height": 1
+				},
+				{
+					"block": "minecraft:smooth_stone",
+					"height": 63
+				},
+				{
+					"block": "minecraft:light_gray_wool",
+					"height": 1
+				},
+				{
+					"block": "minecraft:white_carpet",
+					"height": 1
+				}
+			],
+			"structure_overrides": []
+		}
+	}
+}

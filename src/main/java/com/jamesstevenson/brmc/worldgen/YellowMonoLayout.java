@@ -65,6 +65,10 @@ public final class YellowMonoLayout {
 		}
 
 		if (cellX == -6 && cellZ == 0) {
+			if (isJanitorCloset(worldX, worldZ)) {
+				return FirstPocket.APARTMENT_JANITOR;
+			}
+
 			return FirstPocket.APARTMENT;
 		}
 
@@ -72,7 +76,7 @@ public final class YellowMonoLayout {
 			return FirstPocket.UTILITIES;
 		}
 
-		if (cellX == 6 && cellZ == 6) {
+		if (isSoftCurveCell(cellX, cellZ)) {
 			return FirstPocket.CURVING_HALL;
 		}
 
@@ -80,7 +84,7 @@ public final class YellowMonoLayout {
 			return FirstPocket.FALSE_FLOOR;
 		}
 
-		if (cellX == -4 && cellZ == -4) {
+		if (isFluorescentDeadRun(cellX, cellZ)) {
 			return FirstPocket.FLUORESCENT_DEAD_ZONE;
 		}
 
@@ -132,15 +136,73 @@ public final class YellowMonoLayout {
 			case VESTIBULE -> cellCoord(worldX) == 6 && localX == 6 && localZ == 4;
 			case VESTIBULE_OOB -> true;
 			case COMMON_EXIT -> localX == 7 && localZ == 4;
-			case UTILITIES -> localX == 4 && localZ == 1;
-			case CURVING_HALL -> localX == 6 && localZ == 6;
+			case UTILITIES -> isDeepDoor(worldX, worldZ);
+			case CURVING_HALL -> cellCoord(worldX) == 7 && cellCoord(worldZ) == 7 && localX == 6 && localZ == 6;
 			case FALSE_FLOOR -> localX == 4 && localZ == 4;
+			case APARTMENT_JANITOR -> localX == 1 && localZ == 6;
 			default -> false;
 		};
 	}
 
 	public static boolean isAirlockInterior(int worldX, int worldZ) {
 		return cellCoord(worldX) == 5 && cellCoord(worldZ) == 0;
+	}
+
+	/**
+	 * Door 2 already frames red mono. One stride through this strip is
+	 * yellow→red. Commons must never use this.
+	 */
+	public static boolean isDoor2RedFrame(int worldX, int worldZ) {
+		return cellCoord(worldX) == 6 && cellCoord(worldZ) == 0 && localInCell(worldX) >= 6;
+	}
+
+	public static boolean isJanitorCloset(int worldX, int worldZ) {
+		return cellCoord(worldX) == -6 && cellCoord(worldZ) == 0
+			&& localInCell(worldX) <= 2 && localInCell(worldZ) >= 5;
+	}
+
+	public static boolean isKitchen(int worldX, int worldZ) {
+		return pocketAt(worldX, worldZ) == FirstPocket.APARTMENT
+			&& localInCell(worldX) >= 5 && localInCell(worldX) <= 7
+			&& localInCell(worldZ) >= 1 && localInCell(worldZ) <= 3;
+	}
+
+	public static boolean isBed(int worldX, int worldZ) {
+		return pocketAt(worldX, worldZ) == FirstPocket.APARTMENT
+			&& localInCell(worldX) >= 1 && localInCell(worldX) <= 3
+			&& localInCell(worldZ) >= 1 && localInCell(worldZ) <= 2;
+	}
+
+	public static boolean isPlantRun(int worldX, int worldZ) {
+		return pocketAt(worldX, worldZ) == FirstPocket.UTILITIES
+			&& localInCell(worldX) >= 3 && localInCell(worldX) <= 4;
+	}
+
+	public static boolean isDeepDoor(int worldX, int worldZ) {
+		return pocketAt(worldX, worldZ) == FirstPocket.UTILITIES
+			&& localInCell(worldZ) == 0
+			&& localInCell(worldX) >= 3 && localInCell(worldX) <= 4;
+	}
+
+	public static boolean isOzoneStain(int worldX, int worldZ) {
+		return pocketAt(worldX, worldZ) == FirstPocket.UTILITIES
+			&& Math.floorMod(worldX + worldZ, 5) == 0;
+	}
+
+	public static boolean isContactor(int worldX, int worldZ) {
+		return pocketAt(worldX, worldZ) == FirstPocket.UTILITIES
+			&& localInCell(worldX) == 2
+			&& (localInCell(worldZ) == 2 || localInCell(worldZ) == 5);
+	}
+
+	public static boolean isSoftCurveCell(int cellX, int cellZ) {
+		return cellX == 6 && cellZ == 6
+			|| cellX == 7 && cellZ == 6
+			|| cellX == 7 && cellZ == 7;
+	}
+
+	public static boolean isFluorescentDeadRun(int cellX, int cellZ) {
+		return cellZ == -4 && cellX <= -4 && cellX >= -6;
 	}
 
 	public static boolean isLight(int worldX, int worldZ) {

@@ -57,6 +57,7 @@ public final class SeamlessGateService {
 			case FALSE_FLOOR -> new SeamlessGate(kind, BrmcDimensions.FIRST, BrmcDimensions.SPIRAL, threshold, facing);
 			case UTILITIES -> new SeamlessGate(kind, BrmcDimensions.FIRST, BrmcDimensions.BUTTONS, threshold, facing);
 			case OOB_HOLE -> new SeamlessGate(kind, BrmcDimensions.FIRST, BrmcDimensions.OUT_OF_BOUNDS, threshold, facing);
+			case CUSTODIAL -> new SeamlessGate(kind, BrmcDimensions.FIRST, BrmcDimensions.CUSTODIAL, threshold, facing);
 		};
 	}
 

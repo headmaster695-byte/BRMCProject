@@ -11,6 +11,7 @@ import net.minecraft.world.phys.Vec3;
  * Development fallback only. This is a loading-screen hop and is explicitly
  * not the design target. Keep the destination pose identity-aligned so an
  * Immersive Portals backend can replace this without moving the architecture.
+ * Do not send title/subtitle “Entering” copy; {@link PresentationLock} forbids it.
  */
 public final class LoadingHopBackend implements SeamlessGateBackend {
 	@Override

@@ -12,6 +12,7 @@ import net.minecraft.world.level.dimension.LevelStem;
  * First is the hub. Second is only via the true-exit vestibule.
  * Other First exits are sub-dimensions, not Second. False Gate is not a
  * First hop — only via False First. Digital is sealed. Fourth does not exist.
+ * Bounded is not a First pocket; apartment janitor goes to Custodial.
  */
 public final class BrmcDimensions {
 	public static final ResourceKey<Level> FIRST = level("first");
@@ -21,6 +22,7 @@ public final class BrmcDimensions {
 	public static final ResourceKey<Level> BUTTONS = level("buttons");
 	public static final ResourceKey<Level> SPIRAL = level("spiral");
 	public static final ResourceKey<Level> OUT_OF_BOUNDS = level("out_of_bounds");
+	public static final ResourceKey<Level> CUSTODIAL = level("custodial");
 
 	public static final ResourceKey<DimensionType> FIRST_TYPE = dimensionType("first");
 	public static final ResourceKey<DimensionType> SECOND_TYPE = dimensionType("second");
@@ -29,6 +31,7 @@ public final class BrmcDimensions {
 	public static final ResourceKey<DimensionType> BUTTONS_TYPE = dimensionType("buttons");
 	public static final ResourceKey<DimensionType> SPIRAL_TYPE = dimensionType("spiral");
 	public static final ResourceKey<DimensionType> OUT_OF_BOUNDS_TYPE = dimensionType("out_of_bounds");
+	public static final ResourceKey<DimensionType> CUSTODIAL_TYPE = dimensionType("custodial");
 
 	public static final ResourceKey<LevelStem> FIRST_STEM = stem("first");
 	public static final ResourceKey<LevelStem> SECOND_STEM = stem("second");
@@ -37,6 +40,7 @@ public final class BrmcDimensions {
 	public static final ResourceKey<LevelStem> BUTTONS_STEM = stem("buttons");
 	public static final ResourceKey<LevelStem> SPIRAL_STEM = stem("spiral");
 	public static final ResourceKey<LevelStem> OUT_OF_BOUNDS_STEM = stem("out_of_bounds");
+	public static final ResourceKey<LevelStem> CUSTODIAL_STEM = stem("custodial");
 
 	private BrmcDimensions() {
 	}
@@ -53,11 +57,27 @@ public final class BrmcDimensions {
 			|| SECOND_FALSE_FIRST.equals(dimension)
 			|| BUTTONS.equals(dimension)
 			|| SPIRAL.equals(dimension)
-			|| OUT_OF_BOUNDS.equals(dimension);
+			|| OUT_OF_BOUNDS.equals(dimension)
+			|| CUSTODIAL.equals(dimension);
 	}
 
 	/** False Gate is reached only through False First, never from First. */
 	public static boolean isFalseGate(ResourceKey<Level> dimension) {
+		return false;
+	}
+
+	/** Digital is sealed. No First pocket opens it. Not registered. */
+	public static boolean isDigitalSealed() {
+		return true;
+	}
+
+	/** Fourth does not exist. Do not invent it. */
+	public static boolean inventsFourth() {
+		return false;
+	}
+
+	/** Bounded is not a First pocket or a First destination. */
+	public static boolean isBounded(ResourceKey<Level> dimension) {
 		return false;
 	}
 

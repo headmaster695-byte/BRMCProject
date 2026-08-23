@@ -21,7 +21,8 @@ import net.minecraft.world.phys.BlockHitResult;
 
 /**
  * Placeable First-pocket threshold. Crossing is the hook an Immersive Portals
- * backend should replace with a see-through opening. No "Entering" copy.
+ * backend should replace with a see-through opening. No “Entering” copy,
+ * fade, swirl, or sting — see {@link com.jamesstevenson.brmc.gate.PresentationLock}.
  */
 public class ThresholdBlock extends Block {
 	private final GateKind kind;

@@ -12,6 +12,7 @@ public final class BrmcBlockItemIds {
 	public static final BlockItemId CURVING_HALL_THRESHOLD = create("curving_hall_threshold");
 	public static final BlockItemId FALSE_FLOOR_THRESHOLD = create("false_floor_threshold");
 	public static final BlockItemId OOB_HOLE = create("oob_hole");
+	public static final BlockItemId CUSTODIAL_THRESHOLD = create("custodial_threshold");
 
 	private BrmcBlockItemIds() {
 	}

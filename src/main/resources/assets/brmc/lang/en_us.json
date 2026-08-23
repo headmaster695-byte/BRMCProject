@@ -4,5 +4,6 @@
 	"block.brmc.utilities_threshold": "Utilities Threshold",
 	"block.brmc.curving_hall_threshold": "Curving Hall Threshold",
 	"block.brmc.false_floor_threshold": "False Floor",
-	"block.brmc.oob_hole": "Out of Bounds Hole"
+	"block.brmc.oob_hole": "Out of Bounds Hole",
+	"block.brmc.custodial_threshold": "Custodial Threshold"
 }

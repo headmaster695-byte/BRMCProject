@@ -27,6 +27,7 @@ public final class BrmcBlocks {
 	public static final Block CURVING_HALL_THRESHOLD = threshold(BrmcBlockItemIds.CURVING_HALL_THRESHOLD, GateKind.CURVING_HALL, SoundType.WOOL);
 	public static final Block FALSE_FLOOR_THRESHOLD = threshold(BrmcBlockItemIds.FALSE_FLOOR_THRESHOLD, GateKind.FALSE_FLOOR, SoundType.WOOL);
 	public static final Block OOB_HOLE = threshold(BrmcBlockItemIds.OOB_HOLE, GateKind.OOB_HOLE, SoundType.STONE);
+	public static final Block CUSTODIAL_THRESHOLD = threshold(BrmcBlockItemIds.CUSTODIAL_THRESHOLD, GateKind.CUSTODIAL, SoundType.WOOL);
 
 	private BrmcBlocks() {
 	}
@@ -39,6 +40,7 @@ public final class BrmcBlocks {
 			tab.accept(CURVING_HALL_THRESHOLD.asItem());
 			tab.accept(FALSE_FLOOR_THRESHOLD.asItem());
 			tab.accept(OOB_HOLE.asItem());
+			tab.accept(CUSTODIAL_THRESHOLD.asItem());
 		});
 	}
 
@@ -54,6 +56,7 @@ public final class BrmcBlocks {
 			case CURVING_HALL -> CURVING_HALL_THRESHOLD;
 			case FALSE_FLOOR -> FALSE_FLOOR_THRESHOLD;
 			case OOB_HOLE -> OOB_HOLE;
+			case CUSTODIAL -> CUSTODIAL_THRESHOLD;
 		};
 	}
 
