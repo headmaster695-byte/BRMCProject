@@ -27,17 +27,27 @@ Minecraft **26.2**, Fabric Loader **0.19.3**, Fabric API **0.158.0+26.2**, Java 
 - First rules: generated fabric regenerates (floor/ceiling faster so you cannot dig out of the layer); player-built / pillared blocks persist on the chunk; maps freeze; compass spins; F3 coordinates lie.
 - Aesthetic boards land later under `floors/<slug>/`.
 
-## Seamless gates (26.2, no Immersive Portals)
+## Seamless gates (26.2, Immersive Portals class — not a door overlay)
 
-The mod stays on 26.2. Immersive Portals is not downported.
+The mod stays on 26.2. Immersive Portals is not downported. The player-facing path is **`LinkedVolumeBackend`**: a linked-dimension portal with per-portal LOD, dest-volume sampling, and a plane-cross identity swap. Hop is never the default.
 
-Player-facing path is **`LinkedVolumeBackend`**:
+**Must:** walk into another dimension through the plane as one camera/player motion. Not fade, not hop, not “see-through wallpaper that then teleports.”
 
-- **See-through** is an *approximated linked volume*, not a second `ClientLevel`. Destination climate is generated through the door plane in First (commons yellow; vestibule door 2 red). `LinkedVolumeRenderer` draws a portal-plane + receding-room mesh on the invisible threshold.
-- **Walk-through** keeps the same camera pose (identity transform, `TeleportTransition.DO_NOTHING`, no portal sound). Nether swirl / “Downloading terrain” / “Entering X” are suppressed while a linked-volume crossing is flagged.
-- This is **not** true dual-world stencil rendering. There can still be a brief dest-chunk hitch; the last frame is held instead of a fade/swirl.
+### What this pass proves (commons + vestibule)
 
-Fallback order: IP if present → linked volume → hop only if `brmc.devAllowHopGates=true` → `RefusingGateBackend` (last resort, loud error). Hop is never the default.
+- **Architecture:** `LinkedDimensionPortal` + `PortalLod` (`FULL` / `MESH` / `IMPOSTOR`) + `PortalRenderBudget` (near portals spend FULL slots; farther / many open portals degrade). Not one forever-fullscreen blit.
+- **See-through:** `DestinationVolumeSampler` reads the dest `ServerLevel` at identity coordinates and syncs voxels to the threshold. Near portal = dest voxels. Mid = dest-climate room mesh. Far = tinted plane.
+- **Walk-through:** `PortalCrossTracker` fires only on was-behind → now-through. Dest chunks are held with `TicketType.PORTAL` before the identity-pose swap (`TeleportTransition.DO_NOTHING`). Loading swirl / “Downloading terrain” / “Entering X” are held off while a crossing is flagged.
+- **Visual tells (no tutorials):**
+  - Commons: clean yellow→yellow dest sample.
+  - Vestibule door 2: yellow→red dest sample; far side may chromatic-shift / heat-haze.
+  - False commons: `previewLies()` — First wallpaper can be drawn that dest does not have.
+
+### Honest gaps
+
+True Immersive Portals see-through is a **second camera** into a live dest `ClientLevel` with stencil / portal clip and entity transfer. 26.2 BER (`submitCustomGeometry`) does not land that here. `FULL` is dest-sampled voxels, not a dual-world stencil. First still paints a short dest-climate backing alcove so IMPOSTOR / missing samples do not show void. Dest stubs are flat (floor + carpet), so the dest sample is honest barren dest, not a furnished dest room.
+
+Fallback order: IP if present → linked volume → hop only if `brmc.devAllowHopGates=true` → `RefusingGateBackend` (last resort, loud error).
 
 ## Entering First
 
@@ -53,6 +63,6 @@ Build: Java 25, then `./gradlew build`.
 - Mine a wall: it comes back. Mine the floor: it comes back faster. Place / pillar blocks: they stay after regen and after relog.
 - Maps do not chart First. Compass needle spins. F3 XYZ is wrong.
 - Occasional distant wrong sound; nothing arrives.
-- Commons door: look through — yellow continues. Walk through — same camera, no swirl/fade; you are in False First (yellow stub).
-- Vestibule door 2: look through — red climate already framed. Walk through — same camera into Second (red stub).
+- Commons door: look through — yellow dest volume (FULL when close). Walk *through the plane* (not a click, not any-touch): same camera, no swirl/fade; you are in False First. Walls through the door may be a lie.
+- Vestibule door 2: look through — red dest volume, possible heat-haze / chromatic on the far side. Walk through the plane — same camera into Second (red stub).
 - Hop stays off unless `brmc.devAllowHopGates=true`.

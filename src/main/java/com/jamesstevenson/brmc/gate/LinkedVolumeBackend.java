@@ -1,25 +1,24 @@
 package com.jamesstevenson.brmc.gate;
 
-import java.util.Set;
-
 import com.jamesstevenson.brmc.BrmcMod;
 
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.server.level.TicketType;
 import net.minecraft.world.entity.Relative;
+import net.minecraft.world.level.ChunkPos;
 import net.minecraft.world.level.portal.TeleportTransition;
 import net.minecraft.world.phys.Vec3;
 
 /**
- * Player-facing 26.2 seamless path. Not Immersive Portals and not a hop.
+ * Player-facing 26.2 path: linked-dimension portal, not a hop.
  *
- * See-through is an <b>approximated linked volume</b>: destination climate is
- * generated through the door plane in First, and {@code LinkedVolumeRenderer}
- * draws a portal-plane / receding-room mesh. Walk-through is an identity-pose
- * dimension swap with portal sound/UI suppressed. This is not a second
- * ClientLevel / true dual-world render.
+ * See-through is dest-sampled voxels + LOD mesh ({@link PortalLod}). Walk-through
+ * is a plane-cross identity-pose swap into a dest volume that already has
+ * {@link TicketType#PORTAL} tickets. Not a second {@code ClientLevel}.
  */
 public final class LinkedVolumeBackend implements SeamlessGateBackend {
+	private static final int DEST_TICKET_RADIUS = 2;
 	private static boolean rendererReady = true;
 
 	@Override
@@ -53,10 +52,40 @@ public final class LinkedVolumeBackend implements SeamlessGateBackend {
 
 	@Override
 	public void ensureOpening(ServerLevel source, SeamlessGate gate) {
+		preloadDestination(source, gate);
+	}
+
+	public static void preloadDestination(ServerLevel source, SeamlessGate gate) {
 		ServerLevel destination = source.getServer().getLevel(gate.to());
 		if (destination == null) {
 			BrmcMod.LOGGER.error("Linked volume {} missing destination {}", gate.kind(), gate.to().identifier());
+			return;
 		}
+
+		destination.getChunkSource().addTicketWithRadius(
+			TicketType.PORTAL,
+			ChunkPos.containing(gate.threshold()),
+			DEST_TICKET_RADIUS
+		);
+	}
+
+	public static DestinationVolume sampleDestination(ServerLevel source, SeamlessGate gate) {
+		ServerLevel destination = source.getServer().getLevel(gate.to());
+		if (destination == null) {
+			return DestinationVolume.EMPTY;
+		}
+
+		preloadDestination(source, gate);
+		return DestinationVolumeSampler.sample(destination, gate.threshold(), gate.facing());
+	}
+
+	public static boolean destinationReady(ServerLevel source, SeamlessGate gate, ServerPlayer player) {
+		ServerLevel destination = source.getServer().getLevel(gate.to());
+		if (destination == null) {
+			return false;
+		}
+
+		return destination.hasChunkAt(player.blockPosition());
 	}
 
 	@Override
@@ -66,6 +95,8 @@ public final class LinkedVolumeBackend implements SeamlessGateBackend {
 			BrmcMod.LOGGER.error("Linked volume {} cannot open {}", gate.kind(), gate.to().identifier());
 			return false;
 		}
+
+		preloadDestination(source, gate);
 
 		Vec3 pose = player.position();
 		player.teleport(new TeleportTransition(

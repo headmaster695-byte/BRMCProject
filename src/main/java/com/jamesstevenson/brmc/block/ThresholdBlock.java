@@ -17,6 +17,8 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.EntityBlock;
 import net.minecraft.world.level.block.RenderShape;
 import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.entity.BlockEntityTicker;
+import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.BlockHitResult;
@@ -24,8 +26,9 @@ import net.minecraft.world.phys.BlockHitResult;
 import org.jspecify.annotations.Nullable;
 
 /**
- * Invisible walk-through plane. See-through comes from the linked volume
- * plus {@code LinkedVolumeRenderer}. No “Entering” copy.
+ * Invisible walk-through plane. Linked commons / vestibule fire on plane-cross
+ * only (was-behind → now-through). Other First exits still use touch until
+ * they get the same dest-sampled path.
  */
 public class ThresholdBlock extends net.minecraft.world.level.block.Block implements EntityBlock {
 	private final GateKind kind;
@@ -50,9 +53,22 @@ public class ThresholdBlock extends net.minecraft.world.level.block.Block implem
 	}
 
 	@Override
+	public @Nullable <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level level, BlockState state, BlockEntityType<T> type) {
+		if (level.isClientSide() || type != BrmcBlockEntities.LINKED_VOLUME) {
+			return null;
+		}
+
+		return (lvl, pos, st, be) -> ThresholdBlockEntity.serverTick(lvl, pos, st, (ThresholdBlockEntity) be);
+	}
+
+	@Override
 	protected InteractionResult useWithoutItem(BlockState state, Level level, BlockPos pos, Player player, BlockHitResult hitResult) {
+		if (this.kind.planeCrossOnly()) {
+			return InteractionResult.PASS;
+		}
+
 		if (level instanceof ServerLevel serverLevel && player instanceof ServerPlayer serverPlayer) {
-			attemptTraverse(serverLevel, serverPlayer, pos);
+			attemptTouchTraverse(serverLevel, serverPlayer, pos);
 			return InteractionResult.SUCCESS_SERVER;
 		}
 
@@ -68,12 +84,16 @@ public class ThresholdBlock extends net.minecraft.world.level.block.Block implem
 		InsideBlockEffectApplier effectApplier,
 		boolean isPrecise
 	) {
+		if (this.kind.planeCrossOnly()) {
+			return;
+		}
+
 		if (level instanceof ServerLevel serverLevel && entity instanceof ServerPlayer player) {
-			attemptTraverse(serverLevel, player, pos);
+			attemptTouchTraverse(serverLevel, player, pos);
 		}
 	}
 
-	private void attemptTraverse(ServerLevel level, ServerPlayer player, BlockPos pos) {
+	private void attemptTouchTraverse(ServerLevel level, ServerPlayer player, BlockPos pos) {
 		if (!BrmcDimensions.isFirst(level)) {
 			return;
 		}

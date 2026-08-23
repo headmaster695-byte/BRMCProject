@@ -5,7 +5,8 @@
 	"client": [
 		"CompassAngleMixin",
 		"DebugEntryPositionMixin",
-		"LevelLoadingScreenMixin"
+		"LevelLoadingScreenMixin",
+		"MinecraftMixin"
 	],
 	"injectors": {
 		"defaultRequire": 1

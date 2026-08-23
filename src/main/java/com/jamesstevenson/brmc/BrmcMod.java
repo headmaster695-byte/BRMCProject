@@ -4,6 +4,7 @@ import com.jamesstevenson.brmc.block.BrmcBlockEntities;
 import com.jamesstevenson.brmc.block.BrmcBlocks;
 import com.jamesstevenson.brmc.command.BrmcCommands;
 import com.jamesstevenson.brmc.dimension.BrmcDimensions;
+import com.jamesstevenson.brmc.gate.PortalArchitectureSanity;
 import com.jamesstevenson.brmc.gate.SeamlessGateService;
 import com.jamesstevenson.brmc.rule.BuildingTracker;
 import com.jamesstevenson.brmc.rule.MapsLieRule;
@@ -32,6 +33,7 @@ public class BrmcMod implements ModInitializer {
 		BrmcBlocks.initialize();
 		BrmcBlockEntities.initialize();
 		SeamlessGateService.initialize();
+		PortalArchitectureSanity.bootstrap();
 		ClarkColdOpen.initialize();
 		MiningRegenRule.initialize();
 		BuildingTracker.initialize();

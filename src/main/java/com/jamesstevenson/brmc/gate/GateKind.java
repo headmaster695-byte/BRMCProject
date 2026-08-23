@@ -27,4 +27,18 @@ public enum GateKind {
 	public boolean hasLinkedVolumeThisPass() {
 		return this == VESTIBULE || this == COMMONS;
 	}
+
+	/** Commons / False First: see-through may invent First wallpaper dest does not have. */
+	public boolean previewLies() {
+		return this == COMMONS;
+	}
+
+	/** Vestibule door 2: far side may chromatic-shift / heat-haze. */
+	public boolean farSideDistorts() {
+		return this == VESTIBULE;
+	}
+
+	public boolean planeCrossOnly() {
+		return hasLinkedVolumeThisPass();
+	}
 }

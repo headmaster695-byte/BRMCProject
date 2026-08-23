@@ -180,7 +180,11 @@ public final class YellowMonoLayout {
 		return cellX == 9 || cellX == 8 && localInCell(worldX) >= 6;
 	}
 
-	/** Destination climate generated through the door plane (approximated linked volume). */
+	/**
+	 * First-side backing alcove matching dest climate. The dest volume itself
+	 * is sampled from the dest ServerLevel; this fill only hides void when
+	 * LOD is IMPOSTOR or the dest sample has not arrived yet.
+	 */
 	public static boolean isLinkedDestinationVolume(int worldX, int worldZ) {
 		int cellX = cellCoord(worldX);
 		int cellZ = cellCoord(worldZ);

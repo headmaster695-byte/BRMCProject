@@ -30,8 +30,8 @@ public final class SeamlessGateService {
 		if (LinkedVolumeBackend.tryInit()) {
 			backend = new LinkedVolumeBackend();
 			BrmcMod.LOGGER.info(
-				"Using LinkedVolumeBackend (approximated linked volumes + portal plane). "
-					+ "Not a true dual-world render. Hop stays off unless {} is set.",
+				"Using LinkedVolumeBackend (dest-sampled linked dimension + plane-cross + per-portal LOD). "
+					+ "Not a dest ClientLevel stencil. Hop stays off unless {} is set.",
 				BrmcGateConfig.FLAG
 			);
 			return;
