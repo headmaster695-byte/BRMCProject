@@ -113,7 +113,7 @@ public final class LayoutSanity {
 		if (!YellowMonoChunkGenerator.columnState(16, YellowMonoLayout.CARPET_Y, 16).is(BrmcBlocks.FIRST_CARPET)
 			|| YellowMonoChunkGenerator.columnState(16, YellowMonoLayout.CARPET_Y, 16).is(net.minecraft.world.level.block.Blocks.WET_SPONGE)
 			|| YellowMonoChunkGenerator.columnState(16, YellowMonoLayout.CARPET_Y, 16).is(net.minecraft.world.level.block.Blocks.MOSS_CARPET)) {
-			BrmcMod.LOGGER.error("Moist-carpet read must stay first_carpet — not a wet macro.");
+			BrmcMod.LOGGER.error("Clark field carpet must stay first_carpet — no wet-macro block.");
 			errors++;
 		}
 

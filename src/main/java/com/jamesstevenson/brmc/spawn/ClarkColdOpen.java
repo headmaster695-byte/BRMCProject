@@ -17,7 +17,7 @@ import com.mojang.serialization.Codec;
 
 /**
  * Clark cold-open: authored first Backrooms chamber only — chevron wallpaper
- * family, moist-carpet *read* (yellow carpet voxel, not a wet macro),
+ * family, beige loop-pile carpet (texture blotch *read* only — not a name),
  * fluorescent troffer grid, empty segmented volume opening into the labyrinth.
  * No store, basement, inbound portal, or tutorial.
  */

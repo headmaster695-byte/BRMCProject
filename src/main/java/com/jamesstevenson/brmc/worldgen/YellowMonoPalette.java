@@ -10,8 +10,8 @@ import net.minecraft.world.level.block.state.BlockState;
 /**
  * First P0 palette plus apartment / utilities material breaks.
  * Wallpaper / carpet / ceiling / troffer / door are {@code brmc:first_*}
- * blocks. Textures are TEMP stand-ins. Moist-carpet *read* is not a wet macro.
- * Wear variants are noise, not landmarks.
+ * blocks. Carpet TEMP is beige loop-pile (blotch *read* is texture-only).
+ * Vestibule door TEMP is glass-airlock grammar, not yellow→red. Wear is noise.
  */
 public final class YellowMonoPalette {
 	public enum Role {

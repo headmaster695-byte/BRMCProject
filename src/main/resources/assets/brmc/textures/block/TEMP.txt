@@ -1,1 +1,3 @@
-Solid-color atlas placeholders. Marked TEMP until Architect art lands. No tutorial labels.
+TEMP atlas placeholders until Architect art lands. No tutorial labels.
+Carpet family: beige loop-pile look-target; blotch *read* is texture-only (not a name).
+Door family: glass airlock grammar cousin. Not yellow→red First paint.
