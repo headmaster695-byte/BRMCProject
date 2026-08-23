@@ -1,0 +1,23 @@
+{
+	"itemGroup.brmc.building": "Building",
+	"block.brmc.threshold": "Threshold",
+	"block.brmc.opening": "Opening",
+	"block.brmc.wallpaper": "Wallpaper",
+	"block.brmc.carpet": "Carpet",
+	"block.brmc.ceiling_tile": "Ceiling Tile",
+	"block.brmc.light": "Light",
+	"block.brmc.door": "Door",
+	"block.brmc.door_frame": "Door Frame",
+	"block.brmc.concrete": "Concrete",
+	"block.brmc.pillar": "Pillar",
+	"block.brmc.pipe": "Pipe",
+	"block.brmc.paint": "Paint",
+	"block.brmc.drain": "Drain",
+	"block.brmc.vestibule_threshold": "Threshold",
+	"block.brmc.commons_threshold": "Threshold",
+	"block.brmc.utilities_threshold": "Threshold",
+	"block.brmc.curving_hall_threshold": "Threshold",
+	"block.brmc.false_floor_threshold": "Opening",
+	"block.brmc.oob_hole": "Opening",
+	"block.brmc.custodial_threshold": "Threshold"
+}

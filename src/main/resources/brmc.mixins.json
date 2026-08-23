@@ -1,0 +1,17 @@
+{
+	"required": true,
+	"package": "com.jamesstevenson.brmc.mixin",
+	"compatibilityLevel": "JAVA_25",
+	"mixins": [
+		"BlockItemMixin",
+		"CompassItemMixin",
+		"ItemStackMixin",
+		"MapItemMixin"
+	],
+	"injectors": {
+		"defaultRequire": 1
+	},
+	"overwrites": {
+		"requireAnnotations": true
+	}
+}

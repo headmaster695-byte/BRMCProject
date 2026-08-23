@@ -1,0 +1,11 @@
+{
+	"type": "brmc:second",
+	"generator": {
+		"type": "brmc:dest_climate",
+		"biome_source": {
+			"type": "minecraft:fixed",
+			"biome": "brmc:second_stub"
+		},
+		"climate": "red_mono"
+	}
+}

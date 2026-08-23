@@ -1,0 +1,11 @@
+{
+	"type": "brmc:custodial",
+	"generator": {
+		"type": "brmc:dest_climate",
+		"biome_source": {
+			"type": "minecraft:fixed",
+			"biome": "brmc:custodial_stub"
+		},
+		"climate": "custodial"
+	}
+}

@@ -1,0 +1,23 @@
+{
+	"has_fixed_time": true,
+	"has_skylight": false,
+	"has_ceiling": true,
+	"has_ender_dragon_fight": false,
+	"coordinate_scale": 1.0,
+	"min_y": 0,
+	"height": 256,
+	"logical_height": 256,
+	"infiniburn": "#minecraft:infiniburn_overworld",
+	"ambient_light": 0.08,
+	"monster_spawn_light_level": 0,
+	"monster_spawn_block_light_limit": 0,
+	"skybox": "none",
+	"cardinal_light": "nether",
+	"default_clock": "minecraft:overworld",
+	"attributes": {
+		"minecraft:visual/fog_color": "#6A2020",
+		"minecraft:visual/sky_color": "#4A1010",
+		"minecraft:visual/fog_start_distance": 0.0,
+		"minecraft:visual/fog_end_distance": 40.0
+	}
+}

@@ -1,0 +1,6 @@
+{
+	"parent": "minecraft:block/cube_all",
+	"textures": {
+		"all": "brmc:block/third_fluorescent_dead"
+	}
+}

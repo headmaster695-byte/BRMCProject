@@ -1,0 +1,6 @@
+{
+	"model": {
+		"type": "minecraft:model",
+		"model": "brmc:block/utilities_threshold"
+	}
+}

@@ -1,0 +1,11 @@
+{
+	"type": "brmc:buttons",
+	"generator": {
+		"type": "brmc:dest_climate",
+		"biome_source": {
+			"type": "minecraft:fixed",
+			"biome": "brmc:buttons_stub"
+		},
+		"climate": "plant"
+	}
+}

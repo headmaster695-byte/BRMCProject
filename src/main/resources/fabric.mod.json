@@ -1,31 +1,30 @@
 {
 	"schemaVersion": 1,
-	"id": "modid",
+	"id": "brmc",
 	"version": "${version}",
-	"name": "Example Mod",
-	"description": "This is an example description! Tell everyone what your mod is about!",
+	"name": "BRMC",
+	"description": "James Stevenson's Backrooms / liminal-spaces Fabric mod. First Dimension architecture pass.",
 	"authors": [
-		"Me!"
+		"James Stevenson"
 	],
 	"contact": {
-		"homepage": "https://fabricmc.net/",
-		"sources": "https://github.com/FabricMC/fabric-example-mod"
+		"sources": "https://github.com/headmaster695-byte/BRMCProject"
 	},
 	"license": "CC0-1.0",
-	"icon": "assets/modid/icon.png",
+	"icon": "assets/brmc/icon.png",
 	"environment": "*",
 	"entrypoints": {
 		"main": [
-			"com.example.ExampleMod"
+			"com.jamesstevenson.brmc.BrmcMod"
 		],
 		"client": [
-			"com.example.client.ExampleModClient"
+			"com.jamesstevenson.brmc.client.BrmcClient"
 		]
 	},
 	"mixins": [
-		"modid.mixins.json",
+		"brmc.mixins.json",
 		{
-			"config": "modid.client.mixins.json",
+			"config": "brmc.client.mixins.json",
 			"environment": "client"
 		}
 	],
@@ -34,5 +33,8 @@
 		"minecraft": "~26.2",
 		"java": ">=25",
 		"fabric-api": "*"
+	},
+	"suggests": {
+		"immersive_portals": "*"
 	}
 }

@@ -1,0 +1,11 @@
+{
+	"type": "brmc:spiral",
+	"generator": {
+		"type": "brmc:dest_climate",
+		"biome_source": {
+			"type": "minecraft:fixed",
+			"biome": "brmc:spiral_stub"
+		},
+		"climate": "spiral_well"
+	}
+}

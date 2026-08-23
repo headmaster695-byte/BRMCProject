@@ -1,0 +1,19 @@
+TEMP 16² atlas: exact Architect pack v3 PNG bytes. first_carpet_dry is 398B CRC-clean. No tutorial labels. No EXIT bake.
+oob_hole atlas is first_debris_carpet — looking down a hole is yellow-mono debris, never gray void.
+Wallpaper A/B/C: mustard diamond print; B/C are seam phases.
+Carpet family: beige nap; blotch *read* is texture-only (not a name).
+Troffer: housing + bar. Dead is unlit louvers.
+Door 1 / frame: commercial beige + metal. Door 2 stays glass airlock cousin.
+Regen First chunks after pull.
+
+Second P0 TEMP: Architect pack v2 (lifted crimson; v1 ran darker than §7).
+second_carpet_torn: Architect IDAT recovered (handoff Adler-32 was bad); pixels unchanged.
+No safelight. No yellow-bleed. Debris fill is second_debris_carpet, never gray.
+Regen dest / Second chunks after pull.
+
+Third P0 TEMP: Architect third-p0 pack under third_*. Cold lamp / wet concrete, not crimson.
+third_pipe: Clark design-disk exact PNG bytes (no Adler-recover / zlib rebuild).
+third_door_ramp: upper pane muted to opaque dark garage glass — no sky/outdoor read. No EXIT bake.
+No chainlink / crate / headlight_prop. No Frontrooms sky. Stall paint lies.
+Debris fill is third_concrete, never gray void.
+Regen Third chunks after pull.
