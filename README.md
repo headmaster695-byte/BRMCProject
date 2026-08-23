@@ -12,7 +12,7 @@ Minecraft **26.2**, Fabric Loader **0.19.3**, Fabric API **0.158.0+26.2**, Java 
   - `first-apartment-pocket` — habitation material break
   - `first-utilities` → Buttons
   - `first-common-exit` → False First (single yellow→yellow threshold; not False Gate)
-  - `first-vestibule` — door → yellow airlock → door 2 → **Second** (only true exit). Hole before door 2 → Out of Bounds (stateful, late; puzzle chain not implemented)
+  - `first-vestibule` — door → yellow airlock → door 2 → **Second** (only true exit; door 2 always works once found). Hole before door 2 → Out of Bounds (stateful, late). Puzzle chain later: Lost Island → reactor SCRAM → Metaverse soul — not built here.
   - `first-curving-hall` → Second False First (invisible seam)
   - `first-false-floor` → Spiral
   - `first-fluorescent-dead-zone` — pacing run, no lights

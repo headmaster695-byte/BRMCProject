@@ -56,6 +56,11 @@ public final class BrmcDimensions {
 			|| OUT_OF_BOUNDS.equals(dimension);
 	}
 
+	/** False Gate is reached only through False First, never from First. */
+	public static boolean isFalseGate(ResourceKey<Level> dimension) {
+		return false;
+	}
+
 	private static ResourceKey<Level> level(String path) {
 		return ResourceKey.create(Registries.DIMENSION, BrmcMod.id(path));
 	}

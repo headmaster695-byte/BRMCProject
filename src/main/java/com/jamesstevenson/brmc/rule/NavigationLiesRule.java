@@ -17,4 +17,16 @@ public final class NavigationLiesRule {
 	public static boolean shouldLie(Level level) {
 		return BrmcDimensions.isFirst(level);
 	}
+
+	public static boolean shouldLieCoordinates(Level level) {
+		return shouldLie(level);
+	}
+
+	public static boolean shouldLieCompass(Level level) {
+		return shouldLie(level);
+	}
+
+	public static boolean shouldLieMaps(Level level) {
+		return shouldLie(level);
+	}
 }

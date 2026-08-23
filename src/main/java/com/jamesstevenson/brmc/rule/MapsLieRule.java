@@ -1,7 +1,5 @@
 package com.jamesstevenson.brmc.rule;
 
-import com.jamesstevenson.brmc.dimension.BrmcDimensions;
-
 import net.minecraft.world.level.Level;
 
 /**
@@ -16,6 +14,6 @@ public final class MapsLieRule {
 	}
 
 	public static boolean shouldLie(Level level) {
-		return NavigationLiesRule.shouldLie(level);
+		return NavigationLiesRule.shouldLieMaps(level);
 	}
 }

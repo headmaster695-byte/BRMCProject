@@ -19,6 +19,7 @@ public enum FirstPocket {
 	UTILITIES("first-utilities", GateKind.UTILITIES, "buttons", false),
 	COMMON_EXIT("first-common-exit", GateKind.COMMONS, "false_first", false),
 	VESTIBULE("first-vestibule", GateKind.VESTIBULE, "second", false),
+	/** Hole before door 2 only. Stateful/late. Puzzle chain is not implemented. */
 	VESTIBULE_OOB("first-vestibule", GateKind.OOB_HOLE, "out_of_bounds", true),
 	CURVING_HALL("first-curving-hall", GateKind.CURVING_HALL, "second_false_first", false),
 	FALSE_FLOOR("first-false-floor", GateKind.FALSE_FLOOR, "spiral", false),
