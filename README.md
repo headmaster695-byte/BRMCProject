@@ -7,7 +7,7 @@ Minecraft **26.2**, Fabric Loader **0.19.3**, Fabric API **0.158.0+26.2**, Java 
 ## What is in this pass
 
 - First Dimension registered as `brmc:first` with a `brmc:yellow_mono` chunk generator.
-- Clark cold-open is a **32×32** authored chamber (post-threshold yellow room only). Fidelity target: Clark’s first Backrooms room from A24 *Backrooms* (2026). Diagonal chevron wallpaper (Y-stepped two-yellow family), beige loop-pile `first_carpet` (blotch *read* is texture-only — not a name), P0 troffer block-entity bars, 2×2 columns, empty segmented volume, four **2-wide** cardinal openings at 19–20. Maze spines keep those 2-wide doors in the wall so hallways recede; pocket interiors stay open rooms. East stays a yellow dogleg — not a vestibule runway. No store, basement, inbound portal, or tutorial UI. Spawn faces east. **Voxel honesty:** P0 `brmc:first_*` blocks are wired; textures are TEMP solid-color stand-ins, not printed vinyl / wet macro / recessed housings. True damp carpet is a documented miss.
+- Clark cold-open is a **32×32** authored chamber (post-threshold yellow room only). Fidelity target: Clark’s first Backrooms room from A24 *Backrooms* (2026). Diagonal chevron wallpaper (Y-stepped two-yellow family), beige loop-pile `first_carpet` (blotch *read* is texture-only — not a name), P0 troffer block-entity bars, 2×2 columns, empty segmented volume, four **2-wide** cardinal openings at 19–20. Maze spines keep those 2-wide doors in the wall so hallways recede; pocket interiors stay open rooms. East stays a yellow dogleg — not a vestibule runway. No store, basement, inbound portal, or tutorial UI. Spawn faces east. **Voxel honesty:** P0 `brmc:first_*` blocks are wired; TEMP textures are a first paint-over toward vinyl chevron / carpet nap / troffer housing (not printed EXIT, not a wet macro, not a recessed CAD housing). True damp carpet is a documented miss.
 - Cardinal spines make authored pockets learnable (not noise soup):
   - East → `first-vestibule` (true exit)
   - South → `first-common-exit` (literacy teacher)
@@ -22,17 +22,17 @@ Minecraft **26.2**, Fabric Loader **0.19.3**, Fabric API **0.158.0+26.2**, Java 
   - Commons — single yellow→yellow threshold → False First. No airlock, red, or OOB hole.
   - Vestibule — paired office doors: door 1 → yellow airlock → door 2 → Second. First-side jambs stay yellow-mono. Dest sample is red; a painted yellow→red frame is a documented miss. Floor hole before door 2 is OOB (present, **not live**; Lost Island / SCRAM / soul not built).
   - Curving hall — invisible seam, yellow around a soft plan → Second False First.
-  - False floor — architecture-only drop (no Spiral swap). One rim nick of missing carpet. Looking down the pit is yellow-mono debris (wool / terracotta), not gray stone. Not an L, not a landmark.
+  - False floor — architecture-only drop (no Spiral swap). Carpet around the hole stays field — no rim nick teaching the pit. Looking down the pit is yellow-mono debris (wool / terracotta), not gray stone. Not an L, not a landmark.
 - Destinations other than First are **thick stubs** (`brmc:dest_climate` cells): False First yellow-mono room, Second red-mono room, Buttons plant, Second False First soft yellow, Spiral well, Custodial closet. Still not full floors. Digital is sealed. Fourth does not exist.
 - No entities. Distant unresolved cave-mood sounds foreshadow only.
 - First rules: generated fabric regenerates (floor/ceiling faster so you cannot dig out of the layer); player-built / pillared blocks persist on the chunk; maps freeze; compass spins; F3 coordinates lie.
-- First P0 block palette is registered (`floors/first-dimension/block-palette.md`). Clark / maze use `brmc:first_*` wallpaper, carpet, ceiling, troffer, and door blocks. Textures are TEMP solid-color placeholders. Creative tab is muted `Building`. Item names are mundane (Wallpaper / Carpet / Light / Door). Troffer is a block entity for a later hum-buzz. Wear variants are sparse noise, not landmarks. Apartment / utilities still vanilla material-break. No First entities.
+- First P0 block palette is registered (`floors/first-dimension/block-palette.md`). Clark / maze use `brmc:first_*` wallpaper, carpet, ceiling, troffer, and door blocks. TEMP textures are a first paint-over (chevron vinyl, loop-pile nap, troffer housing/bar). Glass-door airlock contrast is unchanged. Creative tab is muted `Building` and lists primaries only. Item names are mundane (Wallpaper / Carpet / Light / Door). Troffer is a block entity for a later hum-buzz. Wear variants are sparse noise, not landmarks. Apartment / utilities still vanilla material-break. No First entities.
 - Aesthetic boards land later under `floors/<slug>/`. Four wiki heroes stay unchanged this pass (oshkosh / troffer / common-exit / dead-zone) — no restyle, no invented board art.
 
 ### Voxel look-targets (Architect, not AI)
 
 - **Hallway vanishing point** — Clark and maze doors share a 2-wide local 3–4 / world 19–20 grammar so corridors recede. Spine/hash links are doors in walls, not missing walls. East dogleg is unchanged.
-- **Carpet texture close** — beige loop-pile TEMP on `first_carpet`. Blotch moist *read* is texture-only; ids and hover stay “Carpet”. Not a wet macro.
+- **Carpet texture close** — beige loop-pile nap TEMP on `first_carpet`. Blotch moist *read* is texture-only; ids and hover stay “Carpet”. Not a wet macro.
 - **Double-door vestibule grammar** — paired leaves at `(56,19–20)` and `(70,19–20)`. TEMP doors read as glass airlock cousins (metal frame + glass), not yellow framing red. Dest sample at door 2 is still red Second.
 
 Documented misses that stay misses: **true damp carpet** and **yellow→red vestibule frame**.
@@ -81,7 +81,7 @@ Build: Java 25, then `./gradlew build`.
 - Vestibule door 2: look through — red dest room, possible haze. Walk through the plane into Second.
 - Utilities deep door: look through — iron/copper plant. Walk north through the plane into Buttons.
 - Curving seam: look through — yellow + lime plan. Walk north through the plane into Second False First.
-- False-floor hole and vestibule OOB hole are architecture only — they do not dimension-cross. False-floor wear is one rim nick over yellow wool; the pit is the same yellow-mono family, not gray subfloor. Not a stair, letter, or marked exit; step back onto the floor.
+- False-floor hole and vestibule OOB hole are architecture only — they do not dimension-cross. False-floor carpet around the hole stays ordinary field; the pit is the same yellow-mono family, not gray subfloor. Not a stair, letter, or marked exit; step back onto the floor.
 - `/brmc pocket janitor` (moderators only): walk west through the closet into Custodial; walk back east to First. No janitor NPC.
 - Dest stubs: regen dest chunks so return doors are visible. Mercy still fires in air at the identities if the old chunk has no block. Walk back through the matching dest-side threshold at the same XYZ. Do not use `/brmc second` (or other off-identity dest warps) to verify returns. No F3 pocket / dest / dim slugs (`brmc:first`) on public walks. Creative hover says Threshold / Opening, not vestibule_threshold / oob_hole.
 - Hop stays off unless `brmc.devAllowHopGates=true`.

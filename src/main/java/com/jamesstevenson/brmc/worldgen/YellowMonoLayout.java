@@ -230,16 +230,34 @@ public final class YellowMonoLayout {
 	}
 
 	/**
-	 * One rim nick of missing carpet. Yellow wool shows through — ordinary
-	 * wear, not a blotch, letter, ring, or landmark. Climb-out is the 1-deep
-	 * step, not a path of nicks.
+	 * Eight-neighborhood of the false-floor hole, including the hole.
+	 * Stay field carpet here so wear does not teach the pit.
 	 */
-	public static boolean isFalseFloorTornCarpet(int worldX, int worldZ) {
-		if (pocketAt(worldX, worldZ) != FirstPocket.FALSE_FLOOR || isFalseFloorHole(worldX, worldZ)) {
+	public static boolean isFalseFloorQuietBand(int worldX, int worldZ) {
+		if (pocketAt(worldX, worldZ) != FirstPocket.FALSE_FLOOR) {
 			return false;
 		}
 
-		return localInCell(worldX) == 5 && localInCell(worldZ) == 4;
+		int dx = localInCell(worldX) - 4;
+		int dz = localInCell(worldZ) - 4;
+		return Math.abs(dx) <= 1 && Math.abs(dz) <= 1;
+	}
+
+	/**
+	 * Sparse torn-carpet wear. The false-floor cell stays field carpet so
+	 * a nick cannot teach the pit. Climb-out is the 1-deep step.
+	 */
+	public static boolean isFalseFloorTornCarpet(int worldX, int worldZ) {
+		if (isFalseFloorHole(worldX, worldZ)
+			|| isFalseFloorQuietBand(worldX, worldZ)
+			|| pocketAt(worldX, worldZ) == FirstPocket.FALSE_FLOOR) {
+			return false;
+		}
+
+		return mazeWearColumn(worldX, worldZ)
+			&& !isCarpetStain(worldX, worldZ)
+			&& !isCarpetDry(worldX, worldZ)
+			&& Math.floorMod(worldX * 43 + worldZ * 47, 71) == 0;
 	}
 
 	/**
@@ -318,7 +336,7 @@ public final class YellowMonoLayout {
 	}
 
 	private static boolean mazeWearColumn(int worldX, int worldZ) {
-		if (inClarkChamber(worldX, worldZ) || isFalseFloorHole(worldX, worldZ) || isFalseFloorTornCarpet(worldX, worldZ)) {
+		if (inClarkChamber(worldX, worldZ) || isFalseFloorHole(worldX, worldZ) || isFalseFloorQuietBand(worldX, worldZ)) {
 			return false;
 		}
 

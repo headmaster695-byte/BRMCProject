@@ -10,7 +10,7 @@ import net.minecraft.world.level.block.state.BlockState;
 /**
  * First P0 palette plus apartment / utilities material breaks.
  * Wallpaper / carpet / ceiling / troffer / door are {@code brmc:first_*}
- * blocks. Carpet TEMP is beige loop-pile (blotch *read* is texture-only).
+ * blocks. Carpet TEMP is beige loop-pile nap (blotch *read* is texture-only).
  * Vestibule door TEMP is glass-airlock grammar, not yellow→red. Wear is noise.
  */
 public final class YellowMonoPalette {

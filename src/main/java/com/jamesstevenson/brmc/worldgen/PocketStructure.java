@@ -17,7 +17,7 @@ public enum PocketStructure {
 	VESTIBULE_TRUE_EXIT("first-vestibule", "Paired office doors: door 1 → yellow airlock → door 2 → Second. Yellow→red First-side frame is a documented miss."),
 	VESTIBULE_OOB_HOLE("first-vestibule", "Floor hole before door 2. Stateful, late. Puzzle not built."),
 	CURVING_HALL_SEAM("first-curving-hall", "Invisible seam. Yellow continues around a soft plan into Second False First."),
-	FALSE_FLOOR_DROP("first-false-floor", "Fall/coil drop. Architecture only. One rim nick; pit is yellow-mono debris, not gray. Not a landmark."),
+	FALSE_FLOOR_DROP("first-false-floor", "Fall/coil drop. Architecture only. No rim nick marking the pit; pit is yellow-mono debris, not gray. Not a landmark."),
 	FLUORESCENT_DEAD_RUN("first-fluorescent-dead-zone", "Anti-noise-soup pacing run. Troffers off.");
 
 	private final String slug;

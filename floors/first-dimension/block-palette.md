@@ -2,13 +2,15 @@
 
 Architect owns look and naming. Fabric owns registry and models.
 
-Namespace: `brmc`. Creative tab: `brmc:building` (muted “Building”). Item names are mundane. No First entities. Wear is noise, not landmarks.
+Namespace: `brmc`. Creative tab: `brmc:building` (muted “Building”). The tab lists **primaries only** (Wallpaper, Carpet, Ceiling Tile, Light, Door, Door Frame, one Threshold, one Opening). Variants stay registered. Item names are mundane. No First entities. Wear is noise, not landmarks.
 
-Textures in this pass are **TEMP** placeholders until art lands.
+Textures in this pass are **TEMP** placeholders until art lands. First paint-over follows locked chevron / carpet-nap / troffer / glass-door grammar. Architect UV/face notes were not in-repo this pass — do not invent EXIT.
 
 Look-targets (texture only — not block names or tooltips):
-- Carpet: beige loop-pile with blotch moist *read*. Do not bake “moist” into ids or hover text.
-- Vestibule doors: glass airlock grammar cousin. Not a yellow→red First block.
+- Carpet: beige loop-pile nap with blotch moist *read*. Do not bake “moist” into ids or hover text.
+- Wallpaper: two-yellow vinyl; world-stepped chevron, not a printed EXIT.
+- Troffer: housing + bar. Dead / half stay dimmer cousins.
+- Vestibule doors: glass airlock grammar cousin. Not a yellow→red First block. Contrast stays as-is.
 
 ## P0 registry
 
@@ -19,7 +21,7 @@ Look-targets (texture only — not block names or tooltips):
 | `first_wallpaper_peel` | Wallpaper | Sparse wear |
 | `first_wallpaper_dead` | Wallpaper | Dead-zone field + sparse wear |
 | `first_carpet` | Carpet | Beige loop-pile field (blotch *read* in texture only) |
-| `first_carpet_torn` | Carpet | One false-floor rim nick |
+| `first_carpet_torn` | Carpet | Sparse maze wear — never a hole marker |
 | `first_debris_carpet` | Carpet | Pit look-down |
 | `first_carpet_stained` | Carpet | Sparse wear |
 | `first_carpet_dry` | Carpet | Sparse wear |

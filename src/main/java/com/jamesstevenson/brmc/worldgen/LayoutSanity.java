@@ -166,25 +166,33 @@ public final class LayoutSanity {
 			errors++;
 		}
 
-		if (!YellowMonoLayout.isFalseFloorTornCarpet(-19, 52)
+		boolean quietBandTorn = false;
+		for (int dx = -1; dx <= 1; dx++) {
+			for (int dz = -1; dz <= 1; dz++) {
+				if (YellowMonoLayout.isFalseFloorTornCarpet(-20 + dx, 52 + dz)
+					|| !YellowMonoLayout.isFalseFloorQuietBand(-20 + dx, 52 + dz)) {
+					quietBandTorn = true;
+				}
+			}
+		}
+
+		if (quietBandTorn
+			|| YellowMonoLayout.isFalseFloorTornCarpet(-18, 52)
+			|| YellowMonoLayout.isFalseFloorTornCarpet(-20, 50)
 			|| YellowMonoLayout.isFalseFloorTornCarpet(-22, 50)
 			|| YellowMonoLayout.isFalseFloorTornCarpet(-17, 54)
-			|| YellowMonoLayout.isFalseFloorTornCarpet(-20, 52)
-			|| YellowMonoLayout.isFalseFloorTornCarpet(-19, 51)
-			|| YellowMonoLayout.isFalseFloorTornCarpet(-18, 52)
-			|| YellowMonoLayout.isFalseFloorTornCarpet(-20, 51)
-			|| YellowMonoLayout.isFalseFloorTornCarpet(-21, 51)
-			|| YellowMonoLayout.isFalseFloorTornCarpet(-21, 52)
-			|| YellowMonoLayout.isFalseFloorTornCarpet(-20, 53)) {
-			BrmcMod.LOGGER.error("False floor wear must stay one rim nick, not an L, ring, or landmark blotch.");
+			|| YellowMonoLayout.isFalseFloorTornCarpet(-23, 48)
+			|| YellowMonoLayout.isFalseFloorTornCarpet(-17, 51)) {
+			BrmcMod.LOGGER.error("False floor wear must not mark the pit — the cell stays field carpet around the hole.");
 			errors++;
 		}
 
 		if (!YellowMonoChunkGenerator.columnState(-19, YellowMonoLayout.FLOOR_Y, 52).is(net.minecraft.world.level.block.Blocks.WOOL.pick(net.minecraft.world.item.DyeColor.YELLOW))
-			|| !YellowMonoChunkGenerator.columnState(-19, YellowMonoLayout.CARPET_Y, 52).is(BrmcBlocks.FIRST_CARPET_TORN)
+			|| !YellowMonoChunkGenerator.columnState(-19, YellowMonoLayout.CARPET_Y, 52).is(BrmcBlocks.FIRST_CARPET)
+			|| YellowMonoChunkGenerator.columnState(-19, YellowMonoLayout.CARPET_Y, 52).is(BrmcBlocks.FIRST_CARPET_TORN)
 			|| !YellowMonoChunkGenerator.columnState(-20, YellowMonoLayout.FLOOR_Y, 52).isAir()
 			|| YellowMonoChunkGenerator.columnState(-19, YellowMonoLayout.FLOOR_Y, 52).is(net.minecraft.world.level.block.Blocks.SMOOTH_STONE_SLAB)) {
-			BrmcMod.LOGGER.error("False floor rim nick must be first_carpet_torn over yellow wool, not a slab stair.");
+			BrmcMod.LOGGER.error("False floor hole neighbor must be ordinary first_carpet over yellow wool, not a torn nick or slab stair.");
 			errors++;
 		}
 

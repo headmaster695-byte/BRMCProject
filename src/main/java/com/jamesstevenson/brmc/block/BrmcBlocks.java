@@ -91,29 +91,15 @@ public final class BrmcBlocks {
 				.title(Component.translatable("itemGroup.brmc.building"))
 				.icon(() -> new ItemStack(FIRST_WALLPAPER.asItem()))
 				.displayItems((params, output) -> {
+					// Primaries only — variants stay registered, off this muted tab.
 					output.accept(FIRST_WALLPAPER);
-					output.accept(FIRST_WALLPAPER_SEAM);
-					output.accept(FIRST_WALLPAPER_PEEL);
-					output.accept(FIRST_WALLPAPER_DEAD);
 					output.accept(FIRST_CARPET);
-					output.accept(FIRST_CARPET_TORN);
-					output.accept(FIRST_DEBRIS_CARPET);
-					output.accept(FIRST_CARPET_STAINED);
-					output.accept(FIRST_CARPET_DRY);
 					output.accept(FIRST_CEILING_TILE);
 					output.accept(FIRST_TROFFER);
-					output.accept(FIRST_TROFFER_DEAD);
-					output.accept(FIRST_TROFFER_HALF);
 					output.accept(FIRST_DOOR_COMMERCIAL);
 					output.accept(FIRST_DOOR_FRAME);
-					output.accept(FIRST_DOOR_VESTIBULE);
 					output.accept(VESTIBULE_THRESHOLD);
-					output.accept(COMMONS_THRESHOLD);
-					output.accept(UTILITIES_THRESHOLD);
-					output.accept(CURVING_HALL_THRESHOLD);
-					output.accept(FALSE_FLOOR_THRESHOLD);
 					output.accept(OOB_HOLE);
-					output.accept(CUSTODIAL_THRESHOLD);
 				})
 				.build()
 		);
