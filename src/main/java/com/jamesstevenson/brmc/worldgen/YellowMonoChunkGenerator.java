@@ -17,6 +17,7 @@ import net.minecraft.world.level.NoiseColumn;
 import net.minecraft.world.level.StructureManager;
 import net.minecraft.world.level.biome.BiomeManager;
 import net.minecraft.world.level.biome.BiomeSource;
+import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.chunk.ChunkAccess;
@@ -62,7 +63,6 @@ public class YellowMonoChunkGenerator extends ChunkGenerator {
 
 	@Override
 	public void spawnOriginalMobs(WorldGenRegion worldGenRegion) {
-		// First has no entities.
 	}
 
 	@Override
@@ -87,17 +87,9 @@ public class YellowMonoChunkGenerator extends ChunkGenerator {
 			for (int localZ = 0; localZ < 16; localZ++) {
 				int worldX = minBlockX + localX;
 				int worldZ = minBlockZ + localZ;
-				boolean wall = YellowMonoLayout.isWall(worldX, worldZ);
-				boolean doorway = YellowMonoLayout.isDoorway(worldX, worldZ);
-				boolean threshold = YellowMonoLayout.isThresholdAnchor(worldX, worldZ);
-				boolean light = YellowMonoLayout.isLight(worldX, worldZ);
-				YellowMonoLayout.CellKind kind = YellowMonoLayout.cellKind(
-					YellowMonoLayout.cellCoord(worldX),
-					YellowMonoLayout.cellCoord(worldZ)
-				);
 
 				for (int y = YellowMonoLayout.MIN_Y; y <= YellowMonoLayout.CEILING_Y; y++) {
-					BlockState state = columnState(y, wall, doorway, threshold, light, kind);
+					BlockState state = columnState(worldX, y, worldZ);
 					if (state.isAir()) {
 						continue;
 					}
@@ -112,28 +104,43 @@ public class YellowMonoChunkGenerator extends ChunkGenerator {
 		return CompletableFuture.completedFuture(centerChunk);
 	}
 
-	private static BlockState columnState(
-		int y,
-		boolean wall,
-		boolean doorway,
-		boolean threshold,
-		boolean light,
-		YellowMonoLayout.CellKind kind
-	) {
+	private static BlockState columnState(int worldX, int y, int worldZ) {
+		boolean wall = YellowMonoLayout.isWall(worldX, worldZ);
+		boolean doorway = YellowMonoLayout.isDoorway(worldX, worldZ);
+		boolean threshold = YellowMonoLayout.isThresholdAnchor(worldX, worldZ);
+		boolean light = YellowMonoLayout.isLight(worldX, worldZ);
+		FirstPocket pocket = YellowMonoLayout.pocketAt(worldX, worldZ);
+
 		if (y == YellowMonoLayout.MIN_Y) {
 			return YellowMonoPalette.state(YellowMonoPalette.Role.BEDROCK);
 		}
 
 		if (y < YellowMonoLayout.FLOOR_Y) {
+			if (pocket == FirstPocket.VESTIBULE_OOB && y >= YellowMonoLayout.FLOOR_Y - 2) {
+				return Blocks.AIR.defaultBlockState();
+			}
+
 			return YellowMonoPalette.state(YellowMonoPalette.Role.SUBFLOOR);
 		}
 
 		if (y == YellowMonoLayout.FLOOR_Y) {
-			if (kind == YellowMonoLayout.CellKind.VESTIBULE) {
+			if (pocket == FirstPocket.VESTIBULE_OOB || pocket == FirstPocket.FALSE_FLOOR && threshold) {
+				return Blocks.AIR.defaultBlockState();
+			}
+
+			if (pocket == FirstPocket.APARTMENT) {
+				return YellowMonoPalette.state(YellowMonoPalette.Role.HABITATION_FLOOR);
+			}
+
+			if (pocket == FirstPocket.UTILITIES) {
+				return YellowMonoPalette.state(YellowMonoPalette.Role.UTILITY_FLOOR);
+			}
+
+			if (pocket == FirstPocket.VESTIBULE) {
 				return YellowMonoPalette.state(YellowMonoPalette.Role.VESTIBULE_FRAME);
 			}
 
-			if (kind == YellowMonoLayout.CellKind.COMMONS) {
+			if (pocket == FirstPocket.COMMON_EXIT) {
 				return YellowMonoPalette.state(YellowMonoPalette.Role.COMMONS_FRAME);
 			}
 
@@ -141,18 +148,36 @@ public class YellowMonoChunkGenerator extends ChunkGenerator {
 		}
 
 		if (y == YellowMonoLayout.CARPET_Y && !wall) {
-			if (threshold) {
-				return kind == YellowMonoLayout.CellKind.VESTIBULE
-					? BrmcBlocks.VESTIBULE_THRESHOLD.defaultBlockState()
-					: BrmcBlocks.COMMONS_THRESHOLD.defaultBlockState();
+			if (pocket == FirstPocket.VESTIBULE_OOB || pocket == FirstPocket.FALSE_FLOOR && threshold) {
+				Block marker = BrmcBlocks.blockFor(pocket);
+				return marker != null ? marker.defaultBlockState() : Blocks.AIR.defaultBlockState();
 			}
 
-			return YellowMonoPalette.state(YellowMonoPalette.Role.CARPET);
+			if (threshold) {
+				Block marker = BrmcBlocks.blockFor(pocket);
+				if (marker != null) {
+					return marker.defaultBlockState();
+				}
+			}
+
+			if (pocket == FirstPocket.APARTMENT || pocket == FirstPocket.UTILITIES) {
+				return Blocks.AIR.defaultBlockState();
+			}
+
+			return YellowMonoPalette.state(YellowMonoPalette.Role.MOIST_CARPET);
 		}
 
 		if (y > YellowMonoLayout.CARPET_Y && y < YellowMonoLayout.CEILING_Y) {
 			if (wall && !doorway) {
-				return YellowMonoPalette.state(YellowMonoPalette.Role.WALLPAPER);
+				if (pocket == FirstPocket.APARTMENT) {
+					return YellowMonoPalette.state(YellowMonoPalette.Role.HABITATION_WALL);
+				}
+
+				if (pocket == FirstPocket.UTILITIES) {
+					return YellowMonoPalette.state(YellowMonoPalette.Role.UTILITY_WALL);
+				}
+
+				return YellowMonoPalette.wallpaper(worldX, worldZ);
 			}
 
 			return Blocks.AIR.defaultBlockState();
@@ -160,10 +185,10 @@ public class YellowMonoChunkGenerator extends ChunkGenerator {
 
 		if (y == YellowMonoLayout.CEILING_Y) {
 			if (light) {
-				return YellowMonoPalette.state(YellowMonoPalette.Role.LIGHT);
+				return YellowMonoPalette.state(YellowMonoPalette.Role.TROFFER);
 			}
 
-			return YellowMonoPalette.state(YellowMonoPalette.Role.CEILING);
+			return YellowMonoPalette.state(YellowMonoPalette.Role.CEILING_TILE);
 		}
 
 		return Blocks.AIR.defaultBlockState();
@@ -193,15 +218,9 @@ public class YellowMonoChunkGenerator extends ChunkGenerator {
 	public NoiseColumn getBaseColumn(int x, int z, LevelHeightAccessor heightAccessor, RandomState randomState) {
 		int height = Math.min(heightAccessor.getHeight(), YellowMonoLayout.CEILING_Y + 1);
 		BlockState[] column = new BlockState[height];
-		boolean wall = YellowMonoLayout.isWall(x, z);
-		boolean doorway = YellowMonoLayout.isDoorway(x, z);
-		boolean threshold = YellowMonoLayout.isThresholdAnchor(x, z);
-		boolean light = YellowMonoLayout.isLight(x, z);
-		YellowMonoLayout.CellKind kind = YellowMonoLayout.cellKind(YellowMonoLayout.cellCoord(x), YellowMonoLayout.cellCoord(z));
 
 		for (int i = 0; i < height; i++) {
-			int y = heightAccessor.getMinY() + i;
-			column[i] = columnState(y, wall, doorway, threshold, light, kind);
+			column[i] = columnState(x, heightAccessor.getMinY() + i, z);
 		}
 
 		return new NoiseColumn(heightAccessor.getMinY(), column);
@@ -209,12 +228,7 @@ public class YellowMonoChunkGenerator extends ChunkGenerator {
 
 	@Override
 	public void addDebugScreenInfo(List<String> result, RandomState randomState, BlockPos feetPos) {
-		result.add(
-			"BRMC first "
-				+ YellowMonoLayout.cellKind(
-					YellowMonoLayout.cellCoord(feetPos.getX()),
-					YellowMonoLayout.cellCoord(feetPos.getZ())
-				)
-		);
+		FirstPocket pocket = YellowMonoLayout.pocketAt(feetPos.getX(), feetPos.getZ());
+		result.add("BRMC first " + (pocket == null ? "hub" : pocket.slug()));
 	}
 }

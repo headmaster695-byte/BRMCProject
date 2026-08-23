@@ -16,6 +16,6 @@ public final class MapsLieRule {
 	}
 
 	public static boolean shouldLie(Level level) {
-		return BrmcDimensions.isFirst(level);
+		return NavigationLiesRule.shouldLie(level);
 	}
 }

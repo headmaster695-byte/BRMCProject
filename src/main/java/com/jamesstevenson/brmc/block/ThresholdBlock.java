@@ -20,8 +20,8 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.BlockHitResult;
 
 /**
- * Placeable vestibule / commons stub. Crossing or using the block is the hook
- * an Immersive Portals backend should replace with a see-through opening.
+ * Placeable First-pocket threshold. Crossing is the hook an Immersive Portals
+ * backend should replace with a see-through opening. No "Entering" copy.
  */
 public class ThresholdBlock extends Block {
 	private final GateKind kind;
@@ -64,9 +64,11 @@ public class ThresholdBlock extends Block {
 			return;
 		}
 
-		SeamlessGate gate = this.kind == GateKind.VESTIBULE
-			? SeamlessGateService.vestibule(pos, facing)
-			: SeamlessGateService.commons(pos, facing);
+		SeamlessGate gate = SeamlessGateService.gate(this.kind, pos, facing);
+		if (gate == null) {
+			return;
+		}
+
 		SeamlessGateService.ensureOpening(level, gate);
 		SeamlessGateService.traverse(player, level, gate);
 	}

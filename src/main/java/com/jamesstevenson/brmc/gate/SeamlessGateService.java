@@ -42,11 +42,22 @@ public final class SeamlessGateService {
 	}
 
 	public static SeamlessGate vestibule(BlockPos threshold, Direction facing) {
-		return new SeamlessGate(GateKind.VESTIBULE, BrmcDimensions.FIRST, BrmcDimensions.SECOND, threshold, facing);
+		return gate(GateKind.VESTIBULE, threshold, facing);
 	}
 
 	public static SeamlessGate commons(BlockPos threshold, Direction facing) {
-		return new SeamlessGate(GateKind.COMMONS, BrmcDimensions.FIRST, BrmcDimensions.FALSE_FIRST, threshold, facing);
+		return gate(GateKind.COMMONS, threshold, facing);
+	}
+
+	public static SeamlessGate gate(GateKind kind, BlockPos threshold, Direction facing) {
+		return switch (kind) {
+			case VESTIBULE -> new SeamlessGate(kind, BrmcDimensions.FIRST, BrmcDimensions.SECOND, threshold, facing);
+			case COMMONS -> new SeamlessGate(kind, BrmcDimensions.FIRST, BrmcDimensions.FALSE_FIRST, threshold, facing);
+			case CURVING_HALL -> new SeamlessGate(kind, BrmcDimensions.FIRST, BrmcDimensions.SECOND_FALSE_FIRST, threshold, facing);
+			case FALSE_FLOOR -> new SeamlessGate(kind, BrmcDimensions.FIRST, BrmcDimensions.SPIRAL, threshold, facing);
+			case UTILITIES -> new SeamlessGate(kind, BrmcDimensions.FIRST, BrmcDimensions.BUTTONS, threshold, facing);
+			case OOB_HOLE -> new SeamlessGate(kind, BrmcDimensions.FIRST, BrmcDimensions.OUT_OF_BOUNDS, threshold, facing);
+		};
 	}
 
 	public static void ensureOpening(ServerLevel source, SeamlessGate gate) {

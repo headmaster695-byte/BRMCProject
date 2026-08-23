@@ -3,6 +3,7 @@ package com.jamesstevenson.brmc.block;
 import java.util.function.Function;
 
 import com.jamesstevenson.brmc.gate.GateKind;
+import com.jamesstevenson.brmc.worldgen.FirstPocket;
 
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
@@ -17,17 +18,15 @@ import net.minecraft.world.level.block.state.BlockBehaviour;
 
 import net.fabricmc.fabric.api.creativetab.v1.CreativeModeTabEvents;
 
+import org.jspecify.annotations.Nullable;
+
 public final class BrmcBlocks {
-	public static final Block VESTIBULE_THRESHOLD = register(
-		BrmcBlockItemIds.VESTIBULE_THRESHOLD,
-		properties -> new ThresholdBlock(GateKind.VESTIBULE, properties),
-		BlockBehaviour.Properties.of().strength(1.5F).sound(SoundType.STONE).noCollision().noOcclusion()
-	);
-	public static final Block COMMONS_THRESHOLD = register(
-		BrmcBlockItemIds.COMMONS_THRESHOLD,
-		properties -> new ThresholdBlock(GateKind.COMMONS, properties),
-		BlockBehaviour.Properties.of().strength(1.5F).sound(SoundType.WOOL).noCollision().noOcclusion()
-	);
+	public static final Block VESTIBULE_THRESHOLD = threshold(BrmcBlockItemIds.VESTIBULE_THRESHOLD, GateKind.VESTIBULE, SoundType.STONE);
+	public static final Block COMMONS_THRESHOLD = threshold(BrmcBlockItemIds.COMMONS_THRESHOLD, GateKind.COMMONS, SoundType.WOOL);
+	public static final Block UTILITIES_THRESHOLD = threshold(BrmcBlockItemIds.UTILITIES_THRESHOLD, GateKind.UTILITIES, SoundType.STONE);
+	public static final Block CURVING_HALL_THRESHOLD = threshold(BrmcBlockItemIds.CURVING_HALL_THRESHOLD, GateKind.CURVING_HALL, SoundType.WOOL);
+	public static final Block FALSE_FLOOR_THRESHOLD = threshold(BrmcBlockItemIds.FALSE_FLOOR_THRESHOLD, GateKind.FALSE_FLOOR, SoundType.WOOL);
+	public static final Block OOB_HOLE = threshold(BrmcBlockItemIds.OOB_HOLE, GateKind.OOB_HOLE, SoundType.STONE);
 
 	private BrmcBlocks() {
 	}
@@ -36,7 +35,34 @@ public final class BrmcBlocks {
 		CreativeModeTabEvents.modifyOutputEvent(CreativeModeTabs.FUNCTIONAL_BLOCKS).register(tab -> {
 			tab.accept(VESTIBULE_THRESHOLD.asItem());
 			tab.accept(COMMONS_THRESHOLD.asItem());
+			tab.accept(UTILITIES_THRESHOLD.asItem());
+			tab.accept(CURVING_HALL_THRESHOLD.asItem());
+			tab.accept(FALSE_FLOOR_THRESHOLD.asItem());
+			tab.accept(OOB_HOLE.asItem());
 		});
+	}
+
+	public static @Nullable Block blockFor(FirstPocket pocket) {
+		if (pocket == null || pocket.gate() == null) {
+			return null;
+		}
+
+		return switch (pocket.gate()) {
+			case VESTIBULE -> VESTIBULE_THRESHOLD;
+			case COMMONS -> COMMONS_THRESHOLD;
+			case UTILITIES -> UTILITIES_THRESHOLD;
+			case CURVING_HALL -> CURVING_HALL_THRESHOLD;
+			case FALSE_FLOOR -> FALSE_FLOOR_THRESHOLD;
+			case OOB_HOLE -> OOB_HOLE;
+		};
+	}
+
+	private static Block threshold(BlockItemId id, GateKind kind, SoundType sound) {
+		return register(
+			id,
+			properties -> new ThresholdBlock(kind, properties),
+			BlockBehaviour.Properties.of().strength(1.5F).sound(sound).noCollision().noOcclusion()
+		);
 	}
 
 	private static Block register(ResourceKey<Block> id, Function<BlockBehaviour.Properties, Block> blockFactory, BlockBehaviour.Properties properties) {

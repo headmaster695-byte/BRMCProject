@@ -1,57 +1,49 @@
 # BRMC
 
-James Stevenson’s Backrooms / liminal-spaces Fabric mod. This pass scaffolds the **First Dimension** (yellow mono, procedural infinite) and the gate architecture First needs.
+James Stevenson’s Backrooms / liminal-spaces Fabric mod. This pass scaffolds the **First Dimension** (yellow mono, procedural infinite + authored anchors) and the gate architecture First needs.
 
 Minecraft **26.2**, Fabric Loader **0.19.3**, Fabric API **0.158.0+26.2**, Java **25**.
 
 ## What is in this pass
 
 - First Dimension registered as `brmc:first` with a `brmc:yellow_mono` chunk generator.
-- Second (`brmc:second`) and False First (`brmc:false_first`) exist only as gate destinations. They are flat stubs.
-- Vestibule (true exit → Second) and Commons (→ False First) as placeable threshold blocks, also stamped into First’s layout.
-- Clark cold-open: first join sends the player to First. No tutorial text.
-- First rules as code hooks: mining regenerates; building is tracked; maps do not update.
+- Clark cold-open spawn is an authored chamber (post-threshold yellow room only). Fidelity target: Clark’s first Backrooms room from A24 *Backrooms* (2026). No store, basement, or inbound portal. Materials: mono-yellow chevron wallpaper, moist carpet, fluorescent troffer grid.
+- Authored pocket slugs on the hub (anti-noise-soup), not distant worlds:
+  - `first-apartment-pocket` — habitation material break
+  - `first-utilities` → Buttons
+  - `first-common-exit` → False First (single yellow→yellow threshold; not False Gate)
+  - `first-vestibule` — door → yellow airlock → door 2 → **Second** (only true exit). Hole before door 2 → Out of Bounds (stateful, late; puzzle chain not implemented)
+  - `first-curving-hall` → Second False First (invisible seam)
+  - `first-false-floor` → Spiral
+  - `first-fluorescent-dead-zone` — pacing run, no lights
+- Destinations other than First are **stubs**. Second is only via vestibule door 2. Branches off First are sub-dimensions. Digital is sealed. Fourth does not exist.
+- No entities. Distant unresolved sounds are a foreshadowing hook only.
+- First rules: mining regenerates; building is tracked; maps / compass lie.
 
 ## Immersive Portals
 
-Seamless, continuous space through the threshold is a hard design requirement.
+Seamless continuous space is a hard requirement: no teleport sting, fade-to-load, nether swirl, or “Entering X” UI. Commons is yellow→yellow on one stride. Vestibule door 2 is yellow→red material break.
 
-Immersive Portals last published for Fabric **1.21.1** and the upstream repo is archived. A hard compile/runtime dependency is not practical on 26.2.
+Immersive Portals last published for Fabric **1.21.1** and the upstream repo is archived. A hard 26.2 dependency is not practical.
 
 Gates go through `SeamlessGateBackend`:
 
 - Prefer `ImmersivePortalsBackend` if an IP-class API is on the classpath.
 - Otherwise `LoadingHopBackend` identity-teleports (same coordinates). That is a **development fallback**, not the target.
 
-When an IP-compatible 26.2 artifact exists, implement `ensureOpening` as a see-through portal with an identity transform at the threshold. Do not invent a second hop protocol.
+When an IP-compatible 26.2 artifact exists, implement `ensureOpening` as a see-through portal with an identity transform.
 
 ## Entering First
 
-New players arrive in First via Clark cold-open. Moderators can also use:
+New players arrive in the Clark chamber. Moderators can use `/brmc first`.
 
-```
-/brmc first
-/brmc second
-/brmc false_first
-```
-
-Vestibule cell: `(4, 0)` in the 8-block grid. Commons cell: `(0, 4)`.
-
-## Build
-
-Java 25 is required.
-
-```
-./gradlew build
-```
-
-IDE setup follows the [Fabric getting-started guide](https://docs.fabricmc.net/develop/getting-started/creating-a-project#setting-up).
+Build: Java 25, then `./gradlew build`.
 
 ## Verify next
 
-- World create: player wakes in yellow mono, no tutorial UI.
-- Walk the maze; mined generated blocks return; placed blocks stay.
-- Maps carried in First stay stale.
-- Vestibule / Commons thresholds fire the gate service.
-- Confirm destination floors stay aligned at Y 64–65 for a future seamless opening.
-- Do not add dimensions or gates beyond First + Second + False First without a new design lock.
+- Wake in the authored yellow chamber, no tutorial UI.
+- Pockets read as anchors, not noise soup. Apartment / utilities break the yellow mono.
+- Vestibule is a two-door airlock; door 2 is Second; the floor hole is OOB-only and late.
+- Commons goes to False First, never False Gate.
+- Mined generated blocks return; placed blocks stay. Maps and compass fail in First.
+- Deeper destination interiors stay stubbed until their own passes.

@@ -1,0 +1,30 @@
+{
+	"type": "brmc:spiral",
+	"generator": {
+		"type": "minecraft:flat",
+		"settings": {
+			"biome": "brmc:spiral_stub",
+			"lakes": false,
+			"features": false,
+			"layers": [
+				{
+					"block": "minecraft:bedrock",
+					"height": 1
+				},
+				{
+					"block": "minecraft:deepslate",
+					"height": 63
+				},
+				{
+					"block": "minecraft:gray_wool",
+					"height": 1
+				},
+				{
+					"block": "minecraft:gray_carpet",
+					"height": 1
+				}
+			],
+			"structure_overrides": []
+		}
+	}
+}

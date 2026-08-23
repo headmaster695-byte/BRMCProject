@@ -7,6 +7,8 @@ import com.jamesstevenson.brmc.gate.SeamlessGateService;
 import com.jamesstevenson.brmc.rule.BuildingTracker;
 import com.jamesstevenson.brmc.rule.MapsLieRule;
 import com.jamesstevenson.brmc.rule.MiningRegenRule;
+import com.jamesstevenson.brmc.rule.NavigationLiesRule;
+import com.jamesstevenson.brmc.rule.UnresolvedSoundRule;
 import com.jamesstevenson.brmc.spawn.ClarkColdOpen;
 import com.jamesstevenson.brmc.worldgen.YellowMonoChunkGenerator;
 
@@ -31,6 +33,8 @@ public class BrmcMod implements ModInitializer {
 		MiningRegenRule.initialize();
 		BuildingTracker.initialize();
 		MapsLieRule.initialize();
+		NavigationLiesRule.initialize();
+		UnresolvedSoundRule.initialize();
 		BrmcCommands.register();
 		LOGGER.info("BRMC First Dimension architecture loaded. Gate backend: {}", SeamlessGateService.backendName());
 	}

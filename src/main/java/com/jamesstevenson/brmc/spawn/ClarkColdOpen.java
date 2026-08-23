@@ -16,7 +16,8 @@ import net.fabricmc.fabric.api.networking.v1.ServerPlayConnectionEvents;
 import com.mojang.serialization.Codec;
 
 /**
- * Clark cold-open: the player arrives in First. No tutorial copy.
+ * Clark cold-open: the player wakes in the authored first Backrooms chamber
+ * (post-threshold yellow room only). No store, basement, portal, or tutorial.
  */
 public final class ClarkColdOpen {
 	public static final AttachmentType<Boolean> ARRIVED = AttachmentRegistry.create(

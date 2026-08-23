@@ -8,6 +8,10 @@ import net.minecraft.resources.Identifier;
 public final class BrmcBlockItemIds {
 	public static final BlockItemId VESTIBULE_THRESHOLD = create("vestibule_threshold");
 	public static final BlockItemId COMMONS_THRESHOLD = create("commons_threshold");
+	public static final BlockItemId UTILITIES_THRESHOLD = create("utilities_threshold");
+	public static final BlockItemId CURVING_HALL_THRESHOLD = create("curving_hall_threshold");
+	public static final BlockItemId FALSE_FLOOR_THRESHOLD = create("false_floor_threshold");
+	public static final BlockItemId OOB_HOLE = create("oob_hole");
 
 	private BrmcBlockItemIds() {
 	}
