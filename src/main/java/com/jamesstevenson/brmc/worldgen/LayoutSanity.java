@@ -130,14 +130,16 @@ public final class LayoutSanity {
 		}
 
 		if (!YellowMonoLayout.isFalseFloorTornCarpet(-19, 52)
-			|| !YellowMonoLayout.isFalseFloorTornCarpet(-19, 51)
-			|| !YellowMonoLayout.isFalseFloorTornCarpet(-18, 52)
-			|| !YellowMonoLayout.isFalseFloorTornCarpet(-20, 51)
-			|| !YellowMonoLayout.isFalseFloorTornCarpet(-21, 51)
+			|| !YellowMonoLayout.isFalseFloorTornCarpet(-22, 50)
+			|| !YellowMonoLayout.isFalseFloorTornCarpet(-17, 54)
 			|| YellowMonoLayout.isFalseFloorTornCarpet(-20, 52)
+			|| YellowMonoLayout.isFalseFloorTornCarpet(-19, 51)
+			|| YellowMonoLayout.isFalseFloorTornCarpet(-18, 52)
+			|| YellowMonoLayout.isFalseFloorTornCarpet(-20, 51)
+			|| YellowMonoLayout.isFalseFloorTornCarpet(-21, 51)
 			|| YellowMonoLayout.isFalseFloorTornCarpet(-21, 52)
 			|| YellowMonoLayout.isFalseFloorTornCarpet(-20, 53)) {
-			BrmcMod.LOGGER.error("False floor torn carpet is a ring or missing the worn blotch.");
+			BrmcMod.LOGGER.error("False floor wear must stay sparse nicks, not an L, ring, or landmark blotch.");
 			errors++;
 		}
 

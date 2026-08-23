@@ -184,8 +184,10 @@ public final class YellowMonoLayout {
 	}
 
 	/**
-	 * Irregular torn carpet around the hole. Yellow wool floor shows through —
-	 * a ledge, not a ring, not a slab stair, not a marked exit.
+	 * Sparse carpet wear in the false-floor cell. Yellow wool shows through —
+	 * ordinary low-contrast damage, not a letter, ring, stair, or landmark.
+	 * One rim nick at the hole; the other nicks sit apart so they do not
+	 * orbit or point.
 	 */
 	public static boolean isFalseFloorTornCarpet(int worldX, int worldZ) {
 		if (pocketAt(worldX, worldZ) != FirstPocket.FALSE_FLOOR || isFalseFloorHole(worldX, worldZ)) {
@@ -195,10 +197,8 @@ public final class YellowMonoLayout {
 		int localX = localInCell(worldX);
 		int localZ = localInCell(worldZ);
 		return localX == 5 && localZ == 4
-			|| localX == 5 && localZ == 3
-			|| localX == 6 && localZ == 4
-			|| localX == 4 && localZ == 3
-			|| localX == 3 && localZ == 3;
+			|| localX == 2 && localZ == 2
+			|| localX == 7 && localZ == 6;
 	}
 
 	public static boolean isAirlockInterior(int worldX, int worldZ) {
