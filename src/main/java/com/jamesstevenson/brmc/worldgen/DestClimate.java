@@ -52,13 +52,13 @@ public enum DestClimate implements StringRepresentable {
 		};
 	}
 
-	public BlockState wall(int worldX, int worldZ) {
+	public BlockState wall(int worldX, int y, int worldZ) {
 		return switch (this) {
-			case YELLOW_MONO -> YellowMonoLayout.chevronDark(worldX, worldZ)
+			case YELLOW_MONO -> YellowMonoLayout.chevronDark(worldX, y, worldZ)
 				? Blocks.DYED_TERRACOTTA.pick(DyeColor.YELLOW).defaultBlockState()
 				: Blocks.WOOL.pick(DyeColor.YELLOW).defaultBlockState();
 			case SOFT_YELLOW -> Blocks.WOOL.pick(DyeColor.YELLOW).defaultBlockState();
-			case RED_MONO -> YellowMonoLayout.chevronDark(worldX, worldZ)
+			case RED_MONO -> YellowMonoLayout.chevronDark(worldX, y, worldZ)
 				? Blocks.DYED_TERRACOTTA.pick(DyeColor.RED).defaultBlockState()
 				: Blocks.WOOL.pick(DyeColor.RED).defaultBlockState();
 			case PLANT -> Math.floorMod(worldX + worldZ, 5) == 0
@@ -82,7 +82,7 @@ public enum DestClimate implements StringRepresentable {
 			case RED_MONO -> Blocks.WOOL.pick(DyeColor.RED).defaultBlockState();
 			case PLANT, SPIRAL_WELL -> Blocks.SMOOTH_STONE.defaultBlockState();
 			case CUSTODIAL -> Blocks.WOOL.pick(DyeColor.LIGHT_GRAY).defaultBlockState();
-			default -> Blocks.WOOL.pick(DyeColor.LIGHT_GRAY).defaultBlockState();
+			default -> Blocks.CONCRETE.pick(DyeColor.LIGHT_GRAY).defaultBlockState();
 		};
 	}
 
@@ -116,7 +116,9 @@ public enum DestClimate implements StringRepresentable {
 	}
 
 	public static boolean isLight(int worldX, int worldZ) {
-		return YellowMonoLayout.localInCell(worldX) == 4 && YellowMonoLayout.localInCell(worldZ) == 4;
+		int localX = YellowMonoLayout.localInCell(worldX);
+		int localZ = YellowMonoLayout.localInCell(worldZ);
+		return localZ == 4 && localX >= 3 && localX <= 5;
 	}
 
 	public static boolean isProp(int worldX, int worldZ) {

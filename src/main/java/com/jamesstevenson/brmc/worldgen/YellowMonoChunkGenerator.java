@@ -159,6 +159,10 @@ public class YellowMonoChunkGenerator extends ChunkGenerator {
 			return YellowMonoPalette.state(YellowMonoPalette.Role.FLOOR);
 		}
 
+		if (y == YellowMonoLayout.CARPET_Y && wall) {
+			return doorway ? Blocks.AIR.defaultBlockState() : wallSkin(worldX, y, worldZ, pocket);
+		}
+
 		if (y == YellowMonoLayout.CARPET_Y && !wall) {
 			if (pocket == FirstPocket.VESTIBULE_OOB || YellowMonoLayout.isFalseFloorHole(worldX, worldZ)) {
 				Block marker = BrmcBlocks.blockFor(pocket);
@@ -210,27 +214,7 @@ public class YellowMonoChunkGenerator extends ChunkGenerator {
 			}
 
 			if (wall && !doorway) {
-				if (YellowMonoLayout.isDoor2RedFrame(worldX, worldZ)) {
-					return YellowMonoPalette.state(YellowMonoPalette.Role.SECOND_RED_WALL);
-				}
-
-				if (pocket == FirstPocket.APARTMENT_JANITOR) {
-					return YellowMonoPalette.state(YellowMonoPalette.Role.HABITATION_CLOSET);
-				}
-
-				if (pocket == FirstPocket.APARTMENT) {
-					return YellowMonoPalette.state(YellowMonoPalette.Role.HABITATION_WALL);
-				}
-
-				if (pocket == FirstPocket.UTILITIES) {
-					if (YellowMonoLayout.isOzoneStain(worldX, worldZ)) {
-						return YellowMonoPalette.state(YellowMonoPalette.Role.UTILITY_OZONE);
-					}
-
-					return YellowMonoPalette.state(YellowMonoPalette.Role.UTILITY_WALL);
-				}
-
-				return YellowMonoPalette.wallpaper(worldX, worldZ);
+				return wallSkin(worldX, y, worldZ, pocket);
 			}
 
 			return Blocks.AIR.defaultBlockState();
@@ -249,6 +233,30 @@ public class YellowMonoChunkGenerator extends ChunkGenerator {
 		}
 
 		return Blocks.AIR.defaultBlockState();
+	}
+
+	private static BlockState wallSkin(int worldX, int y, int worldZ, FirstPocket pocket) {
+		if (YellowMonoLayout.isDoor2RedFrame(worldX, worldZ)) {
+			return YellowMonoPalette.state(YellowMonoPalette.Role.SECOND_RED_WALL);
+		}
+
+		if (pocket == FirstPocket.APARTMENT_JANITOR) {
+			return YellowMonoPalette.state(YellowMonoPalette.Role.HABITATION_CLOSET);
+		}
+
+		if (pocket == FirstPocket.APARTMENT) {
+			return YellowMonoPalette.state(YellowMonoPalette.Role.HABITATION_WALL);
+		}
+
+		if (pocket == FirstPocket.UTILITIES) {
+			if (YellowMonoLayout.isOzoneStain(worldX, worldZ)) {
+				return YellowMonoPalette.state(YellowMonoPalette.Role.UTILITY_OZONE);
+			}
+
+			return YellowMonoPalette.state(YellowMonoPalette.Role.UTILITY_WALL);
+		}
+
+		return YellowMonoPalette.wallpaper(worldX, y, worldZ);
 	}
 
 	@Override

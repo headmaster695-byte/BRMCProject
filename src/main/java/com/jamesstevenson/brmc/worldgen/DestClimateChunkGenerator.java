@@ -169,7 +169,7 @@ public class DestClimateChunkGenerator extends ChunkGenerator {
 
 		if (y == YellowMonoLayout.CARPET_Y) {
 			if (wall) {
-				return climate.wall(worldX, worldZ);
+				return climate.wall(worldX, y, worldZ);
 			}
 
 			if (DestClimate.isProp(worldX, worldZ)) {
@@ -181,7 +181,7 @@ public class DestClimateChunkGenerator extends ChunkGenerator {
 
 		if (y > YellowMonoLayout.CARPET_Y && y < YellowMonoLayout.CEILING_Y) {
 			if (wall) {
-				return climate.wall(worldX, worldZ);
+				return climate.wall(worldX, y, worldZ);
 			}
 
 			return Blocks.AIR.defaultBlockState();

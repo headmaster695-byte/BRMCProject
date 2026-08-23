@@ -39,8 +39,12 @@ public final class YellowMonoPalette {
 	private YellowMonoPalette() {
 	}
 
-	public static BlockState wallpaper(int worldX, int worldZ) {
-		return YellowMonoLayout.chevronDark(worldX, worldZ) ? state(Role.CHEVRON_DARK) : state(Role.CHEVRON_LIGHT);
+	public static BlockState wallpaper(int worldX, int y, int worldZ) {
+		if (y == YellowMonoLayout.CARPET_Y) {
+			return state(Role.CHEVRON_DARK);
+		}
+
+		return YellowMonoLayout.chevronDark(worldX, y, worldZ) ? state(Role.CHEVRON_DARK) : state(Role.CHEVRON_LIGHT);
 	}
 
 	public static BlockState state(Role role) {
@@ -51,7 +55,7 @@ public final class YellowMonoPalette {
 			case MOIST_CARPET -> Blocks.CARPET.pick(DyeColor.YELLOW).defaultBlockState();
 			case CHEVRON_LIGHT -> Blocks.WOOL.pick(DyeColor.YELLOW).defaultBlockState();
 			case CHEVRON_DARK -> Blocks.DYED_TERRACOTTA.pick(DyeColor.YELLOW).defaultBlockState();
-			case CEILING_TILE -> Blocks.WOOL.pick(DyeColor.LIGHT_GRAY).defaultBlockState();
+			case CEILING_TILE -> Blocks.CONCRETE.pick(DyeColor.LIGHT_GRAY).defaultBlockState();
 			case TROFFER -> Blocks.OCHRE_FROGLIGHT.defaultBlockState();
 			case VESTIBULE_FRAME -> Blocks.WOOL.pick(DyeColor.YELLOW).defaultBlockState();
 			case COMMONS_FRAME -> Blocks.WOOL.pick(DyeColor.YELLOW).defaultBlockState();

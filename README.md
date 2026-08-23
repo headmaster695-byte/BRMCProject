@@ -7,7 +7,7 @@ Minecraft **26.2**, Fabric Loader **0.19.3**, Fabric API **0.158.0+26.2**, Java 
 ## What is in this pass
 
 - First Dimension registered as `brmc:first` with a `brmc:yellow_mono` chunk generator.
-- Clark cold-open is a **32×32** authored chamber (post-threshold yellow room only). Fidelity target: Clark’s first Backrooms room from A24 *Backrooms* (2026). Chevron wallpaper bands, moist carpet, fluorescent troffer grid, four structural columns, four cardinal openings into the labyrinth. No store, basement, inbound portal, or tutorial UI. Spawn faces east.
+- Clark cold-open is a **32×32** authored chamber (post-threshold yellow room only). Fidelity target: Clark’s first Backrooms room from A24 *Backrooms* (2026). Diagonal chevron wallpaper (Y-stepped two-yellow family), moist yellow carpet, ochre-froglight troffer *bars*, 2×2 columns, four cardinal openings. No store, basement, inbound portal, or tutorial UI. Spawn faces east. **Voxel honesty:** no custom wallpaper/fixture models — two vanilla yellows, yellow carpet, froglight bars, light-gray concrete tiles.
 - Cardinal spines make authored pockets learnable (not noise soup):
   - East → `first-vestibule` (true exit)
   - South → `first-common-exit` (literacy teacher)
@@ -62,7 +62,7 @@ Build: Java 25, then `./gradlew build`.
 
 ## Verify next (playtester)
 
-- Wake in a large empty yellow room: chevron wallpaper, moist carpet, troffer grid, columns, openings on four sides. No tutorial text, store, or portal remnant.
+- Wake in a large empty yellow room: diagonal chevron wallpaper, moist carpet, troffer bars, 2×2 columns, openings on four sides. No tutorial text, store, or portal remnant. Vestibule airlock uses the same yellow-mono lights — not a brighter runway.
 - Walk a cardinal: east vestibule (yellow then red-framed door 2), south commons (stays yellow), west apartment (white/oak break), north utilities (iron/copper plant).
 - SE curve stays yellow. SW false-floor hole. NW stretch has no lights.
 - Mine a wall: it comes back. Mine the floor: it comes back faster. Place / pillar blocks: they stay after regen and after relog.

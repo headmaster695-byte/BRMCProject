@@ -28,6 +28,38 @@ public final class LayoutSanity {
 			errors++;
 		}
 
+		if (!YellowMonoLayout.isClarkColumn(8, 8)
+			|| !YellowMonoLayout.isClarkColumn(9, 9)
+			|| YellowMonoLayout.isClarkColumn(10, 10)) {
+			BrmcMod.LOGGER.error("Clark columns must be 2×2 structural squares, not 1-wide posts.");
+			errors++;
+		}
+
+		if (YellowMonoChunkGenerator.columnState(0, YellowMonoLayout.CARPET_Y, 16).isAir()) {
+			BrmcMod.LOGGER.error("Clark walls must meet the carpet (no 1-block foot gap).");
+			errors++;
+		}
+
+		if (!YellowMonoLayout.isTroffer(2, 2)
+			|| !YellowMonoLayout.isTroffer(1, 2)
+			|| !YellowMonoLayout.isTroffer(3, 2)
+			|| !YellowMonoLayout.isTroffer(60, 20)
+			|| !YellowMonoLayout.isTroffer(36, 20)
+			|| YellowMonoLayout.isTroffer(-28, -20)) {
+			BrmcMod.LOGGER.error("Troffer bars must match Clark/maze language; vestibule is not brighter; dead zone stays dark.");
+			errors++;
+		}
+
+		if (YellowMonoLayout.chevronDark(10, 66, 20) == YellowMonoLayout.chevronDark(10, 68, 20)) {
+			BrmcMod.LOGGER.error("Chevron wallpaper must step with Y so walls read diagonal, not a flat stamp.");
+			errors++;
+		}
+
+		if (YellowMonoLayout.CEILING_Y != YellowMonoLayout.CARPET_Y + 5) {
+			BrmcMod.LOGGER.error("Yellow-mono layer height lock drifted.");
+			errors++;
+		}
+
 		errors += expectPocket(60, 20, FirstPocket.VESTIBULE, "vestibule airlock");
 		errors += expectPocket(20, 52, FirstPocket.COMMON_EXIT, "south spine commons");
 		errors += expectPocket(-28, 20, FirstPocket.APARTMENT, "west spine apartment");

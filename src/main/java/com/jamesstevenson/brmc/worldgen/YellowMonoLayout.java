@@ -13,7 +13,7 @@ public final class YellowMonoLayout {
 	public static final int HEIGHT = 256;
 	public static final int FLOOR_Y = 64;
 	public static final int CARPET_Y = 65;
-	public static final int ROOM_HEIGHT = 4;
+	public static final int ROOM_HEIGHT = 5;
 	public static final int CEILING_Y = CARPET_Y + ROOM_HEIGHT;
 	public static final int CELL = 8;
 
@@ -50,9 +50,13 @@ public final class YellowMonoLayout {
 	}
 
 	public static boolean isClarkColumn(int worldX, int worldZ) {
-		return inClarkChamber(worldX, worldZ)
-			&& (worldX == 8 || worldX == 23)
-			&& (worldZ == 8 || worldZ == 23);
+		if (!inClarkChamber(worldX, worldZ)) {
+			return false;
+		}
+
+		boolean xCol = worldX >= 8 && worldX <= 9 || worldX >= 22 && worldX <= 23;
+		boolean zCol = worldZ >= 8 && worldZ <= 9 || worldZ >= 22 && worldZ <= 23;
+		return xCol && zCol;
 	}
 
 	public static FirstPocket pocketAt(int worldX, int worldZ) {
@@ -273,24 +277,56 @@ public final class YellowMonoLayout {
 	}
 
 	public static boolean isLight(int worldX, int worldZ) {
+		return isTroffer(worldX, worldZ);
+	}
+
+	/**
+	 * Fluorescent fixture footprint. Ochre froglight bars, not a custom model.
+	 * Vestibule uses the same maze bar — not a brighter special tell.
+	 */
+	public static boolean isTroffer(int worldX, int worldZ) {
 		FirstPocket pocket = pocketAt(worldX, worldZ);
 		if (pocket == FirstPocket.FLUORESCENT_DEAD_ZONE) {
 			return false;
 		}
 
+		if (pocket == FirstPocket.APARTMENT
+			|| pocket == FirstPocket.APARTMENT_JANITOR
+			|| pocket == FirstPocket.UTILITIES) {
+			return localInCell(worldX) == 4 && localInCell(worldZ) == 4;
+		}
+
 		if (inClarkChamber(worldX, worldZ)) {
-			return worldX % 4 == 2 && worldZ % 4 == 2;
+			return isClarkTroffer(worldX, worldZ);
 		}
 
 		int localX = localInCell(worldX);
 		int localZ = localInCell(worldZ);
-		return localX == 4 && localZ == 4;
+		return localZ == 4 && localX >= 3 && localX <= 5;
 	}
 
-	/** Two-wide diagonal chevron bands — wallpaper family, not a 1-block checker. */
-	public static boolean chevronDark(int worldX, int worldZ) {
-		int stripe = Math.floorMod(worldX - (worldZ & ~1), 4);
+	private static boolean isClarkTroffer(int worldX, int worldZ) {
+		if (isClarkColumn(worldX, worldZ)
+			|| worldX <= CLARK_MIN
+			|| worldX >= CLARK_MAX
+			|| worldZ <= CLARK_MIN
+			|| worldZ >= CLARK_MAX
+			|| worldZ % 4 != 2) {
+			return false;
+		}
+
+		int centerX = 2 + 4 * Math.floorDiv(worldX - 1, 4);
+		return centerX >= 2 && centerX <= 30 && Math.abs(worldX - centerX) <= 1;
+	}
+
+	/** Two-wide diagonal chevron bands on the wall plane (needs Y). */
+	public static boolean chevronDark(int worldX, int y, int worldZ) {
+		int stripe = Math.floorMod(worldX + y - (worldZ & ~1), 4);
 		return stripe <= 1;
+	}
+
+	public static boolean chevronDark(int worldX, int worldZ) {
+		return chevronDark(worldX, CARPET_Y + 2, worldZ);
 	}
 
 	public static boolean openWest(int cellX, int cellZ) {
