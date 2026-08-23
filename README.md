@@ -28,10 +28,11 @@ Seamless continuous space is a hard requirement: no teleport sting, fade-to-load
 
 Immersive Portals last published for Fabric **1.21.1** and the upstream repo is archived. A hard 26.2 dependency is not practical.
 
-Gates go through `SeamlessGateBackend`:
+Gates go through `SeamlessGateBackend`. Hop is **never** the player-facing gate language. IP-class seamless is the only target.
 
 - Prefer `ImmersivePortalsBackend` if an IP-class API is on the classpath.
-- Otherwise `LoadingHopBackend` identity-teleports (same coordinates). That is a **development fallback**, not the target.
+- Otherwise gates **refuse** to hop and log an error. Playtests must not learn fade-load / teleport as the crossing.
+- `LoadingHopBackend` (identity teleport) is opt-in only: no IP-class backend **and** `brmc.devAllowHopGates=true` (`-Dbrmc.devAllowHopGates=true`, `BRMC_DEV_ALLOW_HOP_GATES=true`, or `config/brmc.properties`). A Fabric development workspace is not enough. Default is off.
 
 When an IP-compatible 26.2 artifact exists, implement `ensureOpening` as a see-through portal with an identity transform.
 
@@ -51,3 +52,4 @@ Build: Java 25, then `./gradlew build`.
 - Utilities plant continues through the deep door.
 - Mined generated blocks return; placed blocks stay. Maps and compass fail in First.
 - Deeper destination interiors stay stubbed until their own passes.
+- Without an IP-class backend, stepping a threshold does not hop (unless `brmc.devAllowHopGates=true`). Check the log for the refuse error.

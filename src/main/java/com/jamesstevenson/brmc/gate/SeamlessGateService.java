@@ -15,7 +15,7 @@ import net.minecraft.server.level.ServerPlayer;
 public final class SeamlessGateService {
 	private static final long TRAVERSE_COOLDOWN_TICKS = 40L;
 	private static final Map<UUID, Long> lastTraverseTick = new HashMap<>();
-	private static SeamlessGateBackend backend = new LoadingHopBackend();
+	private static SeamlessGateBackend backend = new RefusingGateBackend();
 
 	private SeamlessGateService() {
 	}
@@ -24,13 +24,27 @@ public final class SeamlessGateService {
 		if (ImmersivePortalsBackend.available()) {
 			backend = new ImmersivePortalsBackend();
 			BrmcMod.LOGGER.info("Using Immersive Portals backend for seamless gates.");
-		} else {
+			return;
+		}
+
+		if (BrmcGateConfig.allowHopGates()) {
 			backend = new LoadingHopBackend();
 			BrmcMod.LOGGER.warn(
-				"Immersive Portals is not on the classpath. Gates use a loading-hop fallback. "
-					+ "This is not the design target; plug an IP-class backend into SeamlessGateBackend."
+				"No Immersive Portals–class backend. {} is on: using identity hop. "
+					+ "Hop is NEVER the player-facing gate language. IP-class seamless is the only target.",
+				BrmcGateConfig.FLAG
 			);
+			return;
 		}
+
+		backend = new RefusingGateBackend();
+		BrmcMod.LOGGER.error(
+			"No Immersive Portals–class backend. Gates will not hop. "
+				+ "{} is off so playtests do not train fade-load / teleport as the real crossing. "
+				+ "Install an IP-class backend, or set -D{}=true for isolated tests only.",
+			BrmcGateConfig.FLAG,
+			BrmcGateConfig.FLAG
+		);
 	}
 
 	public static String backendName() {

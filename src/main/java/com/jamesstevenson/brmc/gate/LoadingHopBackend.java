@@ -8,9 +8,11 @@ import net.minecraft.world.level.portal.TeleportTransition;
 import net.minecraft.world.phys.Vec3;
 
 /**
- * Development fallback only. This is a loading-screen hop and is explicitly
- * not the design target. Keep the destination pose identity-aligned so an
- * Immersive Portals backend can replace this without moving the architecture.
+ * Isolated-test hop only. Never the player-facing gate language.
+ * {@link SeamlessGateService} constructs this solely when no IP-class backend
+ * is present and {@link BrmcGateConfig#allowHopGates()} is true.
+ * Keep the destination pose identity-aligned so an Immersive Portals backend
+ * can replace this without moving the architecture.
  * Do not send title/subtitle “Entering” copy; {@link PresentationLock} forbids it.
  */
 public final class LoadingHopBackend implements SeamlessGateBackend {
@@ -30,6 +32,15 @@ public final class LoadingHopBackend implements SeamlessGateBackend {
 
 	@Override
 	public boolean traverse(ServerPlayer player, ServerLevel source, SeamlessGate gate) {
+		if (!BrmcGateConfig.allowHopGates()) {
+			BrmcMod.LOGGER.error(
+				"LoadingHopBackend blocked {} : {} is off. Hop is never the design language.",
+				gate.kind(),
+				BrmcGateConfig.FLAG
+			);
+			return false;
+		}
+
 		ServerLevel destination = source.getServer().getLevel(gate.to());
 		if (destination == null) {
 			BrmcMod.LOGGER.warn("Gate {} missing destination {}", gate.kind(), gate.to().identifier());

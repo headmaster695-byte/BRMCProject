@@ -6,8 +6,8 @@ import net.minecraft.server.level.ServerPlayer;
 /**
  * Immersive Portals–class contract: the player must be able to see and walk
  * through the threshold as continuous space. No teleport sting, fade-to-load,
- * nether swirl, or “Entering X” UI. Implementations that hop through a
- * dimension change without a see-through opening are development fallbacks.
+ * nether swirl, or “Entering X” UI. Identity hop is never the design language
+ * and is only constructed behind {@link BrmcGateConfig#allowHopGates()}.
  */
 public interface SeamlessGateBackend {
 	String id();
