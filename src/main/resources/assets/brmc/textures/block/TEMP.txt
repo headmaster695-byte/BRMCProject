@@ -1,4 +1,4 @@
-TEMP 16² atlas: exact Architect PNG bytes (base64 pack). No tutorial labels. No EXIT bake.
+TEMP 16² atlas: exact Architect pack v2 PNG bytes. No tutorial labels. No EXIT bake.
 oob_hole atlas is first_debris_carpet — looking down a hole is yellow-mono debris, never gray void.
 Wallpaper A/B/C: mustard diamond print; B/C are seam phases.
 Carpet family: beige nap; blotch *read* is texture-only (not a name).
