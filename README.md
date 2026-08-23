@@ -20,7 +20,7 @@ Minecraft **26.2**, Fabric Loader **0.19.3**, Fabric API **0.158.0+26.2**, Java 
   - Apartment — drywall / bed / kitchen. Rare janitor closet → Custodial.
   - Utilities — ozone / contactor plant continues through the deep door → Buttons.
   - Commons — single yellow→yellow threshold → False First. No airlock, red, or OOB hole.
-  - Vestibule — paired office doors: door 1 → yellow airlock → door 2 → Second. First-side jambs stay yellow-mono. Dest sample is red; a painted yellow→red frame is a documented miss. Floor hole before door 2 is OOB (present, **not live**; Lost Island / SCRAM / soul not built).
+  - Vestibule — paired office doors: door 1 → yellow airlock → door 2 → Second. First-side jambs stay yellow-mono. Dest sample is red; a painted yellow→red frame is a documented miss. Floor hole before door 2 is OOB (present, **not live**; Lost Island / SCRAM / soul not built). Look-down is `first_debris_carpet`, not a gray void.
   - Curving hall — invisible seam, yellow around a soft plan → Second False First.
   - False floor — architecture-only drop (no Spiral swap). Carpet around the hole stays field — no rim nick teaching the pit. Looking down the pit is yellow-mono debris (wool / terracotta), not gray stone. Not an L, not a landmark.
 - Destinations other than First are **thick stubs** (`brmc:dest_climate` cells): False First yellow-mono room, Second red-mono room, Buttons plant, Second False First soft yellow, Spiral well, Custodial closet. Still not full floors. Digital is sealed. Fourth does not exist.

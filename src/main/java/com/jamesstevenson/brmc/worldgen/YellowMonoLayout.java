@@ -261,11 +261,19 @@ public final class YellowMonoLayout {
 	}
 
 	/**
-	 * Visible pit under the hole. Same yellow-mono family as the room
-	 * (wool / terracotta), never gray subfloor.
+	 * Visible pit under a First hole. Yellow-mono debris only — never gray
+	 * subfloor or a near-black void mouth.
 	 */
 	public static boolean isFalseFloorPitDebris(int worldX, int y, int worldZ) {
-		return isFalseFloorHole(worldX, worldZ) && y > MIN_Y && y < FLOOR_Y;
+		return isYellowMonoPitDebris(worldX, y, worldZ);
+	}
+
+	public static boolean isYellowMonoPitDebris(int worldX, int y, int worldZ) {
+		if (y <= MIN_Y || y >= FLOOR_Y) {
+			return false;
+		}
+
+		return isFalseFloorHole(worldX, worldZ) || pocketAt(worldX, worldZ) == FirstPocket.VESTIBULE_OOB;
 	}
 
 	public static boolean isAirlockInterior(int worldX, int worldZ) {

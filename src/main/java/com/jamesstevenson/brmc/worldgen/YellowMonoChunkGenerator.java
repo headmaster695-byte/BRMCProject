@@ -124,11 +124,7 @@ public class YellowMonoChunkGenerator extends ChunkGenerator {
 		}
 
 		if (y < YellowMonoLayout.FLOOR_Y) {
-			if (pocket == FirstPocket.VESTIBULE_OOB && y >= YellowMonoLayout.FLOOR_Y - 2) {
-				return Blocks.AIR.defaultBlockState();
-			}
-
-			if (YellowMonoLayout.isFalseFloorPitDebris(worldX, y, worldZ)) {
+			if (YellowMonoLayout.isYellowMonoPitDebris(worldX, y, worldZ)) {
 				return BrmcBlocks.FIRST_DEBRIS_CARPET.defaultBlockState();
 			}
 

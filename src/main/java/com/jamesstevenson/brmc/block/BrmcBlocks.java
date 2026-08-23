@@ -40,7 +40,7 @@ public final class BrmcBlocks {
 	public static final Block UTILITIES_THRESHOLD = threshold(BrmcBlockItemIds.UTILITIES_THRESHOLD, GateKind.UTILITIES, SoundType.STONE);
 	public static final Block CURVING_HALL_THRESHOLD = threshold(BrmcBlockItemIds.CURVING_HALL_THRESHOLD, GateKind.CURVING_HALL, SoundType.WOOL);
 	public static final Block FALSE_FLOOR_THRESHOLD = threshold(BrmcBlockItemIds.FALSE_FLOOR_THRESHOLD, GateKind.FALSE_FLOOR, SoundType.WOOL);
-	public static final Block OOB_HOLE = threshold(BrmcBlockItemIds.OOB_HOLE, GateKind.OOB_HOLE, SoundType.STONE);
+	public static final Block OOB_HOLE = threshold(BrmcBlockItemIds.OOB_HOLE, GateKind.OOB_HOLE, SoundType.WOOL);
 	public static final Block CUSTODIAL_THRESHOLD = threshold(BrmcBlockItemIds.CUSTODIAL_THRESHOLD, GateKind.CUSTODIAL, SoundType.WOOL);
 
 	public static final Block FIRST_WALLPAPER = palette(BrmcBlockItemIds.FIRST_WALLPAPER, WALLPAPER_NAME, Block::new, yellowMono(SoundType.WOOL));

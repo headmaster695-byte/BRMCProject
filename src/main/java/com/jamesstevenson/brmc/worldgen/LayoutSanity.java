@@ -206,6 +206,16 @@ public final class LayoutSanity {
 			errors++;
 		}
 
+		net.minecraft.world.level.block.state.BlockState oobLook = YellowMonoChunkGenerator.columnState(67, YellowMonoLayout.FLOOR_Y - 1, 20);
+		if (oobLook.is(net.minecraft.world.level.block.Blocks.SMOOTH_STONE)
+			|| oobLook.isAir()
+			|| !YellowMonoLayout.isYellowMonoPitDebris(67, YellowMonoLayout.FLOOR_Y - 1, 20)
+			|| !oobLook.is(BrmcBlocks.FIRST_DEBRIS_CARPET)
+			|| !YellowMonoChunkGenerator.columnState(67, YellowMonoLayout.FLOOR_Y, 20).isAir()) {
+			BrmcMod.LOGGER.error("OOB mouth look-down must be first_debris_carpet, not gray void.");
+			errors++;
+		}
+
 		if (!YellowMonoLayout.isThresholdAnchor(-39, 22)) {
 			BrmcMod.LOGGER.error("Janitor closet is not a threshold.");
 			errors++;

@@ -24,7 +24,7 @@ Look-targets (texture only — not block names or tooltips):
 | `first_wallpaper_dead` | Wallpaper | Dead-zone field + sparse wear |
 | `first_carpet` | Carpet | Beige loop-pile field (blotch *read* in texture only) |
 | `first_carpet_torn` | Carpet | Sparse maze wear — never a hole marker |
-| `first_debris_carpet` | Carpet | Pit look-down |
+| `first_debris_carpet` | Carpet | Pit / OOB mouth look-down (yellow-mono only) |
 | `first_carpet_stained` | Carpet | Sparse wear |
 | `first_carpet_dry` | Carpet | Sparse wear |
 | `first_ceiling_tile` | Ceiling Tile | Layer lid |
