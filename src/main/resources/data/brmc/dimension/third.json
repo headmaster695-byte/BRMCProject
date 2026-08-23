@@ -1,0 +1,11 @@
+{
+	"type": "brmc:third",
+	"generator": {
+		"type": "brmc:dest_climate",
+		"biome_source": {
+			"type": "minecraft:fixed",
+			"biome": "brmc:third_stub"
+		},
+		"climate": "cold_garage"
+	}
+}

@@ -10,13 +10,16 @@ import net.minecraft.world.level.dimension.LevelStem;
 
 /**
  * First is the hub. Second is only via the true-exit vestibule.
- * Other First exits are sub-dimensions, not Second. False Gate is not a
- * First hop — only via False First. Digital is sealed. Fourth does not exist.
- * Bounded is not a First pocket; apartment janitor goes to Custodial.
+ * Third is a dest-climate stub beyond Second — not a First pocket and not a
+ * new live First / Second plane-cross this pass. Other First exits are
+ * sub-dimensions, not Second. False Gate is not a First hop — only via False
+ * First. Digital is sealed. Fourth does not exist. Bounded is not a First
+ * pocket; apartment janitor goes to Custodial.
  */
 public final class BrmcDimensions {
 	public static final ResourceKey<Level> FIRST = level("first");
 	public static final ResourceKey<Level> SECOND = level("second");
+	public static final ResourceKey<Level> THIRD = level("third");
 	public static final ResourceKey<Level> FALSE_FIRST = level("false_first");
 	public static final ResourceKey<Level> SECOND_FALSE_FIRST = level("second_false_first");
 	public static final ResourceKey<Level> BUTTONS = level("buttons");
@@ -26,6 +29,7 @@ public final class BrmcDimensions {
 
 	public static final ResourceKey<DimensionType> FIRST_TYPE = dimensionType("first");
 	public static final ResourceKey<DimensionType> SECOND_TYPE = dimensionType("second");
+	public static final ResourceKey<DimensionType> THIRD_TYPE = dimensionType("third");
 	public static final ResourceKey<DimensionType> FALSE_FIRST_TYPE = dimensionType("false_first");
 	public static final ResourceKey<DimensionType> SECOND_FALSE_FIRST_TYPE = dimensionType("second_false_first");
 	public static final ResourceKey<DimensionType> BUTTONS_TYPE = dimensionType("buttons");
@@ -35,6 +39,7 @@ public final class BrmcDimensions {
 
 	public static final ResourceKey<LevelStem> FIRST_STEM = stem("first");
 	public static final ResourceKey<LevelStem> SECOND_STEM = stem("second");
+	public static final ResourceKey<LevelStem> THIRD_STEM = stem("third");
 	public static final ResourceKey<LevelStem> FALSE_FIRST_STEM = stem("false_first");
 	public static final ResourceKey<LevelStem> SECOND_FALSE_FIRST_STEM = stem("second_false_first");
 	public static final ResourceKey<LevelStem> BUTTONS_STEM = stem("buttons");

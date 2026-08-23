@@ -38,7 +38,9 @@ public final class BrmcBlockEntities {
 				BrmcBlocks.FIRST_TROFFER_DEAD,
 				BrmcBlocks.FIRST_TROFFER_HALF,
 				BrmcBlocks.SECOND_TROFFER,
-				BrmcBlocks.SECOND_TROFFER_DEAD
+				BrmcBlocks.SECOND_TROFFER_DEAD,
+				BrmcBlocks.THIRD_FLUORESCENT,
+				BrmcBlocks.THIRD_FLUORESCENT_DEAD
 			)
 		)
 	);

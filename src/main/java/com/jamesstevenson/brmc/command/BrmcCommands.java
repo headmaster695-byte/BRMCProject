@@ -41,6 +41,7 @@ public final class BrmcCommands {
 				.requires(source -> source.permissions().hasPermission(Permissions.COMMANDS_MODERATOR))
 				.then(Commands.literal("first").executes(ctx -> enter(ctx, BrmcDimensions.FIRST)))
 				.then(Commands.literal("second").executes(ctx -> enter(ctx, BrmcDimensions.SECOND)))
+				.then(Commands.literal("third").executes(ctx -> enter(ctx, BrmcDimensions.THIRD)))
 				.then(Commands.literal("false_first").executes(ctx -> enter(ctx, BrmcDimensions.FALSE_FIRST)))
 				.then(Commands.literal("pocket")
 					.then(Commands.literal("clark").executes(ctx -> pocket(ctx, FirstPocket.CLARK_CHAMBER)))

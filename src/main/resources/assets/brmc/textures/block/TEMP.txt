@@ -10,3 +10,9 @@ Second P0 TEMP: Architect pack v2 (lifted crimson; v1 ran darker than §7).
 second_carpet_torn: Architect IDAT recovered (handoff Adler-32 was bad); pixels unchanged.
 No safelight. No yellow-bleed. Debris fill is second_debris_carpet, never gray.
 Regen dest / Second chunks after pull.
+
+Third P0 TEMP: Architect third-p0 pack under third_*. Cold lamp / wet concrete, not crimson.
+third_pipe: Architect IDAT recovered (handoff Adler-32 was bad); pixels unchanged.
+No chainlink / crate / headlight_prop. No Frontrooms sky. Stall paint lies.
+Debris fill is third_concrete, never gray void.
+Regen Third chunks after pull.

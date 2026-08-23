@@ -46,6 +46,17 @@ public final class BrmcBlockItemIds {
 	public static final BlockItemId SECOND_DOOR_COMMERCIAL = create("second_door_commercial");
 	public static final BlockItemId SECOND_DOOR_FRAME = create("second_door_frame");
 
+	public static final BlockItemId THIRD_CONCRETE = create("third_concrete");
+	public static final BlockItemId THIRD_CONCRETE_WET = create("third_concrete_wet");
+	public static final BlockItemId THIRD_PILLAR = create("third_pillar");
+	public static final BlockItemId THIRD_PIPE = create("third_pipe");
+	public static final BlockItemId THIRD_FLUORESCENT = create("third_fluorescent");
+	public static final BlockItemId THIRD_FLUORESCENT_DEAD = create("third_fluorescent_dead");
+	public static final BlockItemId THIRD_STALL_PAINT = create("third_stall_paint");
+	public static final BlockItemId THIRD_DRAIN = create("third_drain");
+	public static final BlockItemId THIRD_DOOR_RAMP = create("third_door_ramp");
+	public static final BlockItemId THIRD_DOOR_FRAME = create("third_door_frame");
+
 	private BrmcBlockItemIds() {
 	}
 

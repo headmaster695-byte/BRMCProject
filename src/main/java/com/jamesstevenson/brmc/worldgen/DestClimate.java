@@ -16,7 +16,8 @@ public enum DestClimate implements StringRepresentable {
 	SOFT_YELLOW("soft_yellow"),
 	PLANT("plant"),
 	SPIRAL_WELL("spiral_well"),
-	CUSTODIAL("custodial");
+	CUSTODIAL("custodial"),
+	COLD_GARAGE("cold_garage");
 
 	public static final StringRepresentable.EnumCodec<DestClimate> CODEC = StringRepresentable.fromEnum(DestClimate::values);
 
@@ -35,6 +36,7 @@ public enum DestClimate implements StringRepresentable {
 		return switch (this) {
 			case YELLOW_MONO, SOFT_YELLOW -> Blocks.WOOL.pick(DyeColor.YELLOW).defaultBlockState();
 			case RED_MONO -> RedMonoPalette.floor();
+			case COLD_GARAGE -> ColdGaragePalette.floor();
 			case PLANT -> Blocks.IRON_BLOCK.defaultBlockState();
 			case SPIRAL_WELL -> Blocks.WOOL.pick(DyeColor.GRAY).defaultBlockState();
 			case CUSTODIAL -> Blocks.WOOL.pick(DyeColor.LIGHT_GRAY).defaultBlockState();
@@ -50,6 +52,7 @@ public enum DestClimate implements StringRepresentable {
 			case YELLOW_MONO -> Blocks.CARPET.pick(DyeColor.YELLOW).defaultBlockState();
 			case SOFT_YELLOW -> Blocks.CARPET.pick(DyeColor.LIME).defaultBlockState();
 			case RED_MONO -> RedMonoPalette.carpet(worldX, worldZ);
+			case COLD_GARAGE -> ColdGaragePalette.field(worldX, worldZ);
 			case PLANT -> Blocks.CARPET.pick(DyeColor.GRAY).defaultBlockState();
 			case SPIRAL_WELL -> Blocks.CARPET.pick(DyeColor.GRAY).defaultBlockState();
 			case CUSTODIAL -> Blocks.CARPET.pick(DyeColor.WHITE).defaultBlockState();
@@ -63,6 +66,7 @@ public enum DestClimate implements StringRepresentable {
 				: Blocks.WOOL.pick(DyeColor.YELLOW).defaultBlockState();
 			case SOFT_YELLOW -> Blocks.WOOL.pick(DyeColor.YELLOW).defaultBlockState();
 			case RED_MONO -> RedMonoPalette.wallpaper(worldX, y, worldZ);
+			case COLD_GARAGE -> ColdGaragePalette.wall(worldX, worldZ);
 			case PLANT -> Math.floorMod(worldX + worldZ, 5) == 0
 				? Blocks.COPPER_BLOCK.weathering().pick(WeatheringCopper.WeatherState.OXIDIZED).defaultBlockState()
 				: Blocks.SMOOTH_STONE.defaultBlockState();
@@ -81,12 +85,14 @@ public enum DestClimate implements StringRepresentable {
 				case PLANT -> Blocks.COPPER_BLOCK.weathering().pick(WeatheringCopper.WeatherState.UNAFFECTED).defaultBlockState();
 				case SPIRAL_WELL -> Blocks.SMOOTH_STONE.defaultBlockState();
 				case RED_MONO -> RedMonoPalette.ceiling(true, worldX, worldZ);
+				case COLD_GARAGE -> ColdGaragePalette.ceiling(true, worldX, worldZ);
 				default -> Blocks.OCHRE_FROGLIGHT.defaultBlockState();
 			};
 		}
 
 		return switch (this) {
 			case RED_MONO -> RedMonoPalette.ceiling(false, worldX, worldZ);
+			case COLD_GARAGE -> ColdGaragePalette.ceiling(false, worldX, worldZ);
 			case PLANT, SPIRAL_WELL -> Blocks.SMOOTH_STONE.defaultBlockState();
 			case CUSTODIAL -> Blocks.WOOL.pick(DyeColor.LIGHT_GRAY).defaultBlockState();
 			default -> Blocks.CONCRETE.pick(DyeColor.LIGHT_GRAY).defaultBlockState();
@@ -94,8 +100,13 @@ public enum DestClimate implements StringRepresentable {
 	}
 
 	public BlockState prop() {
+		return prop(0, 0);
+	}
+
+	public BlockState prop(int worldX, int worldZ) {
 		return switch (this) {
 			case PLANT -> Blocks.COPPER_BLOCK.weathering().pick(WeatheringCopper.WeatherState.UNAFFECTED).defaultBlockState();
+			case COLD_GARAGE -> ColdGaragePalette.prop(worldX, worldZ);
 			case CUSTODIAL -> Blocks.IRON_BLOCK.defaultBlockState();
 			case SOFT_YELLOW -> Blocks.WOOL.pick(DyeColor.LIME).defaultBlockState();
 			case SPIRAL_WELL -> Blocks.DEEPSLATE.defaultBlockState();

@@ -130,6 +130,10 @@ public class DestClimateChunkGenerator extends ChunkGenerator {
 			return Blocks.BEDROCK.defaultBlockState();
 		}
 
+		if (climate == DestClimate.COLD_GARAGE && y < YellowMonoLayout.FLOOR_Y) {
+			return ColdGaragePalette.fill();
+		}
+
 		if (y < wellFloor) {
 			return Blocks.DEEPSLATE.defaultBlockState();
 		}
@@ -178,13 +182,20 @@ public class DestClimateChunkGenerator extends ChunkGenerator {
 			return RedMonoPalette.doorSkin(worldX, worldZ);
 		}
 
+		if (climate == DestClimate.COLD_GARAGE
+			&& ColdGaragePalette.isRampMouth(worldX, worldZ)
+			&& y >= YellowMonoLayout.CARPET_Y
+			&& y < YellowMonoLayout.CEILING_Y) {
+			return ColdGaragePalette.doorSkin(worldX, worldZ);
+		}
+
 		if (y == YellowMonoLayout.CARPET_Y) {
 			if (wall) {
 				return climate.wall(worldX, y, worldZ);
 			}
 
 			if (DestClimate.isProp(worldX, worldZ)) {
-				return climate.prop();
+				return climate.prop(worldX, worldZ);
 			}
 
 			return climate.carpet(worldX, worldZ);

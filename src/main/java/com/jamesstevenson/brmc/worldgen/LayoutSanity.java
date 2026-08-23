@@ -291,6 +291,67 @@ public final class LayoutSanity {
 			errors++;
 		}
 
+		net.minecraft.world.level.block.state.BlockState thirdField = DestClimateChunkGenerator.columnState(
+			DestClimate.COLD_GARAGE,
+			20,
+			YellowMonoLayout.CARPET_Y,
+			20
+		);
+		net.minecraft.world.level.block.state.BlockState thirdFill = DestClimateChunkGenerator.columnState(
+			DestClimate.COLD_GARAGE,
+			20,
+			YellowMonoLayout.FLOOR_Y - 1,
+			20
+		);
+		net.minecraft.world.level.block.state.BlockState thirdLight = DestClimateChunkGenerator.columnState(
+			DestClimate.COLD_GARAGE,
+			19,
+			YellowMonoLayout.CEILING_Y,
+			20
+		);
+		net.minecraft.world.level.block.state.BlockState thirdCorner = DestClimateChunkGenerator.columnState(
+			DestClimate.COLD_GARAGE,
+			16,
+			YellowMonoLayout.CARPET_Y + 1,
+			16
+		);
+		if (thirdField.is(net.minecraft.world.level.block.Blocks.SMOOTH_STONE)
+			|| thirdField.is(net.minecraft.world.level.block.Blocks.WOOL.pick(net.minecraft.world.item.DyeColor.GRAY))
+			|| thirdFill.is(net.minecraft.world.level.block.Blocks.DEEPSLATE)
+			|| thirdFill.is(net.minecraft.world.level.block.Blocks.SMOOTH_STONE)
+			|| !thirdField.is(BrmcBlocks.THIRD_CONCRETE)
+			|| !thirdFill.is(BrmcBlocks.THIRD_CONCRETE)
+			|| !thirdLight.is(BrmcBlocks.THIRD_FLUORESCENT)
+			|| !(thirdCorner.is(BrmcBlocks.THIRD_PILLAR) || thirdCorner.is(BrmcBlocks.THIRD_PIPE))
+			|| !DestClimateChunkGenerator.columnState(
+				DestClimate.COLD_GARAGE,
+				23,
+				YellowMonoLayout.CARPET_Y + 1,
+				19
+			).is(BrmcBlocks.THIRD_DOOR_RAMP)
+			|| !DestClimateChunkGenerator.columnState(
+				DestClimate.COLD_GARAGE,
+				23,
+				YellowMonoLayout.CARPET_Y + 1,
+				18
+			).is(BrmcBlocks.THIRD_DOOR_FRAME)
+			|| DestClimateChunkGenerator.columnState(
+				DestClimate.COLD_GARAGE,
+				23,
+				YellowMonoLayout.CARPET_Y + 1,
+				19
+			).getBlock() instanceof ThresholdBlock
+			|| ColdGaragePalette.isStallPaint(19, 20)
+			|| ColdGaragePalette.isStallPaint(20, 19)
+			|| ColdGaragePalette.isDeadFluorescent(19, 20)
+			|| DestClimateChunkGenerator.columnState(DestClimate.RED_MONO, 68, YellowMonoLayout.CARPET_Y, 20)
+				.is(BrmcBlocks.THIRD_CONCRETE)
+			|| DestClimateChunkGenerator.columnState(DestClimate.YELLOW_MONO, 4, YellowMonoLayout.CARPET_Y, 4)
+				.is(BrmcBlocks.THIRD_CONCRETE)) {
+			BrmcMod.LOGGER.error("Third dest must be cold-garage P0 — concrete family, stall lie, ramp liar not EXIT, First/Second untouched.");
+			errors++;
+		}
+
 		if (!DestClimateChunkGenerator.columnState(DestClimate.SPIRAL_WELL, -20, 64, 52).isAir()) {
 			BrmcMod.LOGGER.error("Spiral well shaft is sealed at the false-floor identity column.");
 			errors++;
@@ -316,7 +377,7 @@ public final class LayoutSanity {
 		}
 
 		if (errors == 0) {
-			BrmcMod.LOGGER.info("First layout sanity: Clark 32×32, cardinal spines, authored pockets placed. Second dest is crimson P0.");
+			BrmcMod.LOGGER.info("First layout sanity: Clark 32×32, cardinal spines, authored pockets placed. Second dest is crimson P0. Third dest is cold garage P0.");
 		} else {
 			BrmcMod.LOGGER.error("First layout sanity failed with {} issue(s).", errors);
 		}

@@ -34,6 +34,11 @@ public final class BrmcBlocks {
 	public static final String LIGHT_NAME = TrofferBlock.VISIBLE_NAME;
 	public static final String DOOR_NAME = "block.brmc.door";
 	public static final String DOOR_FRAME_NAME = "block.brmc.door_frame";
+	public static final String CONCRETE_NAME = "block.brmc.concrete";
+	public static final String PILLAR_NAME = "block.brmc.pillar";
+	public static final String PIPE_NAME = "block.brmc.pipe";
+	public static final String PAINT_NAME = "block.brmc.paint";
+	public static final String DRAIN_NAME = "block.brmc.drain";
 
 	public static final Block VESTIBULE_THRESHOLD = threshold(BrmcBlockItemIds.VESTIBULE_THRESHOLD, GateKind.VESTIBULE, SoundType.STONE);
 	public static final Block COMMONS_THRESHOLD = threshold(BrmcBlockItemIds.COMMONS_THRESHOLD, GateKind.COMMONS, SoundType.WOOL);
@@ -100,6 +105,27 @@ public final class BrmcBlocks {
 	public static final Block SECOND_DOOR_COMMERCIAL = palette(BrmcBlockItemIds.SECOND_DOOR_COMMERCIAL, DOOR_NAME, Block::new, crimsonMono(SoundType.WOOD));
 	public static final Block SECOND_DOOR_FRAME = palette(BrmcBlockItemIds.SECOND_DOOR_FRAME, DOOR_FRAME_NAME, Block::new, crimsonMono(SoundType.WOOD));
 
+	public static final Block THIRD_CONCRETE = palette(BrmcBlockItemIds.THIRD_CONCRETE, CONCRETE_NAME, Block::new, coldGarage(SoundType.STONE));
+	public static final Block THIRD_CONCRETE_WET = palette(BrmcBlockItemIds.THIRD_CONCRETE_WET, CONCRETE_NAME, Block::new, coldGarage(SoundType.STONE));
+	public static final Block THIRD_PILLAR = palette(BrmcBlockItemIds.THIRD_PILLAR, PILLAR_NAME, Block::new, coldGarage(SoundType.STONE));
+	public static final Block THIRD_PIPE = palette(BrmcBlockItemIds.THIRD_PIPE, PIPE_NAME, Block::new, coldGarage(SoundType.METAL));
+	public static final Block THIRD_FLUORESCENT = palette(
+		BrmcBlockItemIds.THIRD_FLUORESCENT,
+		LIGHT_NAME,
+		TrofferBlock::new,
+		coldGarage(SoundType.GLASS).lightLevel(state -> 15)
+	);
+	public static final Block THIRD_FLUORESCENT_DEAD = palette(
+		BrmcBlockItemIds.THIRD_FLUORESCENT_DEAD,
+		LIGHT_NAME,
+		TrofferBlock::new,
+		coldGarage(SoundType.GLASS)
+	);
+	public static final Block THIRD_STALL_PAINT = palette(BrmcBlockItemIds.THIRD_STALL_PAINT, PAINT_NAME, Block::new, coldGarage(SoundType.STONE));
+	public static final Block THIRD_DRAIN = palette(BrmcBlockItemIds.THIRD_DRAIN, DRAIN_NAME, Block::new, coldGarage(SoundType.METAL));
+	public static final Block THIRD_DOOR_RAMP = palette(BrmcBlockItemIds.THIRD_DOOR_RAMP, DOOR_NAME, Block::new, coldGarage(SoundType.METAL));
+	public static final Block THIRD_DOOR_FRAME = palette(BrmcBlockItemIds.THIRD_DOOR_FRAME, DOOR_FRAME_NAME, Block::new, coldGarage(SoundType.METAL));
+
 	public static final ResourceKey<CreativeModeTab> BUILDING_TAB = ResourceKey.create(
 		Registries.CREATIVE_MODE_TAB,
 		Identifier.fromNamespaceAndPath(BrmcMod.MOD_ID, "building")
@@ -129,6 +155,10 @@ public final class BrmcBlocks {
 					output.accept(SECOND_TROFFER);
 					output.accept(SECOND_DOOR_COMMERCIAL);
 					output.accept(SECOND_DOOR_FRAME);
+					output.accept(THIRD_CONCRETE);
+					output.accept(THIRD_FLUORESCENT);
+					output.accept(THIRD_DOOR_RAMP);
+					output.accept(THIRD_DOOR_FRAME);
 					output.accept(VESTIBULE_THRESHOLD);
 					output.accept(OOB_HOLE);
 				})
@@ -166,6 +196,10 @@ public final class BrmcBlocks {
 
 	private static BlockBehaviour.Properties crimsonMono(SoundType sound) {
 		return BlockBehaviour.Properties.of().mapColor(DyeColor.RED).strength(0.8F).sound(sound);
+	}
+
+	private static BlockBehaviour.Properties coldGarage(SoundType sound) {
+		return BlockBehaviour.Properties.of().mapColor(DyeColor.LIGHT_GRAY).strength(0.8F).sound(sound);
 	}
 
 	private static Block threshold(BlockItemId id, GateKind kind, SoundType sound) {

@@ -21,6 +21,7 @@ public final class NavigationLiesRule {
 
 		return BrmcDimensions.isFirst(level)
 			|| BrmcDimensions.SECOND.equals(level.dimension())
+			|| BrmcDimensions.THIRD.equals(level.dimension())
 			|| BrmcDimensions.isSubDimension(level.dimension());
 	}
 

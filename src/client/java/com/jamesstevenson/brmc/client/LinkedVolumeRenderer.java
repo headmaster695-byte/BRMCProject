@@ -223,6 +223,19 @@ public class LinkedVolumeRenderer implements BlockEntityRenderer<ThresholdBlockE
 			return ARGB.color(230, 138, 32, 32);
 		}
 
+		if (block == BrmcBlocks.THIRD_CONCRETE
+			|| block == BrmcBlocks.THIRD_CONCRETE_WET
+			|| block == BrmcBlocks.THIRD_PILLAR
+			|| block == BrmcBlocks.THIRD_PIPE
+			|| block == BrmcBlocks.THIRD_STALL_PAINT
+			|| block == BrmcBlocks.THIRD_DRAIN
+			|| block == BrmcBlocks.THIRD_DOOR_RAMP
+			|| block == BrmcBlocks.THIRD_DOOR_FRAME
+			|| block == BrmcBlocks.THIRD_FLUORESCENT
+			|| block == BrmcBlocks.THIRD_FLUORESCENT_DEAD) {
+			return ARGB.color(230, 72, 78, 68);
+		}
+
 		if (block == Blocks.WOOL.pick(DyeColor.YELLOW) || block == Blocks.CARPET.pick(DyeColor.YELLOW)
 			|| block == Blocks.DYED_TERRACOTTA.pick(DyeColor.YELLOW)) {
 			return ARGB.color(220, 201, 180, 88);
