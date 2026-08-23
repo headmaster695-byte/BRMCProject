@@ -1,6 +1,6 @@
 {
 	"parent": "minecraft:block/cube_all",
 	"textures": {
-		"all": "brmc:block/first_wallpaper_b"
+		"all": "brmc:block/first_wallpaper_c"
 	}
 }

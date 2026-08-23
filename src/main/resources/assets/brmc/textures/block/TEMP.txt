@@ -1,5 +1,6 @@
-TEMP atlas placeholders until Architect art lands. No tutorial labels.
-First paint-over: two-yellow vinyl chevron (world-stepped), beige loop-pile nap, troffer housing/bar, acoustic ceiling tile.
-Carpet family: blotch *read* is texture-only (not a name).
-Door family: glass airlock grammar cousin. Contrast unchanged. Not yellow→red First paint.
-Do not invent EXIT.
+TEMP 16² atlas from Architect UV-hex locks. No tutorial labels. No EXIT bake.
+Wallpaper A/B/C: mustard diamond print; B/C are seam phases.
+Carpet family: beige nap; blotch *read* is texture-only (not a name).
+Troffer: housing + bar. Dead is unlit louvers.
+Door 1 / frame: commercial beige + metal. Door 2 stays glass airlock cousin.
+Regen First chunks after pull.

@@ -15,6 +15,8 @@ public final class BrmcBlockItemIds {
 	public static final BlockItemId CUSTODIAL_THRESHOLD = create("custodial_threshold");
 
 	public static final BlockItemId FIRST_WALLPAPER = create("first_wallpaper");
+	public static final BlockItemId FIRST_WALLPAPER_B = create("first_wallpaper_b");
+	public static final BlockItemId FIRST_WALLPAPER_C = create("first_wallpaper_c");
 	public static final BlockItemId FIRST_WALLPAPER_SEAM = create("first_wallpaper_seam");
 	public static final BlockItemId FIRST_WALLPAPER_PEEL = create("first_wallpaper_peel");
 	public static final BlockItemId FIRST_WALLPAPER_DEAD = create("first_wallpaper_dead");

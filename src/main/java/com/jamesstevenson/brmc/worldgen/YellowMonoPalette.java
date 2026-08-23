@@ -3,6 +3,7 @@ package com.jamesstevenson.brmc.worldgen;
 import com.jamesstevenson.brmc.block.BrmcBlocks;
 
 import net.minecraft.world.item.DyeColor;
+import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.WeatheringCopper;
 import net.minecraft.world.level.block.state.BlockState;
@@ -51,10 +52,17 @@ public final class YellowMonoPalette {
 		}
 
 		if (y == YellowMonoLayout.CARPET_Y || YellowMonoLayout.chevronDark(worldX, y, worldZ)) {
-			return BrmcBlocks.FIRST_WALLPAPER_SEAM.defaultBlockState();
+			return wallpaperSeamPhase(worldX, y, worldZ).defaultBlockState();
 		}
 
 		return BrmcBlocks.FIRST_WALLPAPER.defaultBlockState();
+	}
+
+	/** B/C are the same print, phase-shifted so a seam does not tile as a landmark. */
+	private static Block wallpaperSeamPhase(int worldX, int y, int worldZ) {
+		return Math.floorMod(worldX + worldZ * 2 + (y >> 1), 2) == 0
+			? BrmcBlocks.FIRST_WALLPAPER_B
+			: BrmcBlocks.FIRST_WALLPAPER_C;
 	}
 
 	public static BlockState carpet(int worldX, int worldZ) {
@@ -104,7 +112,7 @@ public final class YellowMonoPalette {
 			case FLOOR -> Blocks.WOOL.pick(DyeColor.YELLOW).defaultBlockState();
 			case YELLOW_CARPET -> BrmcBlocks.FIRST_CARPET.defaultBlockState();
 			case CHEVRON_LIGHT -> BrmcBlocks.FIRST_WALLPAPER.defaultBlockState();
-			case CHEVRON_DARK -> BrmcBlocks.FIRST_WALLPAPER_SEAM.defaultBlockState();
+			case CHEVRON_DARK -> BrmcBlocks.FIRST_WALLPAPER_B.defaultBlockState();
 			case CEILING_TILE -> BrmcBlocks.FIRST_CEILING_TILE.defaultBlockState();
 			case TROFFER -> BrmcBlocks.FIRST_TROFFER.defaultBlockState();
 			case HABITATION_WALL -> Blocks.WOOL.pick(DyeColor.WHITE).defaultBlockState();

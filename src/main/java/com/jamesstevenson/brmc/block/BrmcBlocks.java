@@ -44,6 +44,8 @@ public final class BrmcBlocks {
 	public static final Block CUSTODIAL_THRESHOLD = threshold(BrmcBlockItemIds.CUSTODIAL_THRESHOLD, GateKind.CUSTODIAL, SoundType.WOOL);
 
 	public static final Block FIRST_WALLPAPER = palette(BrmcBlockItemIds.FIRST_WALLPAPER, WALLPAPER_NAME, Block::new, yellowMono(SoundType.WOOL));
+	public static final Block FIRST_WALLPAPER_B = palette(BrmcBlockItemIds.FIRST_WALLPAPER_B, WALLPAPER_NAME, Block::new, yellowMono(SoundType.WOOL));
+	public static final Block FIRST_WALLPAPER_C = palette(BrmcBlockItemIds.FIRST_WALLPAPER_C, WALLPAPER_NAME, Block::new, yellowMono(SoundType.WOOL));
 	public static final Block FIRST_WALLPAPER_SEAM = palette(BrmcBlockItemIds.FIRST_WALLPAPER_SEAM, WALLPAPER_NAME, Block::new, yellowMono(SoundType.WOOL));
 	public static final Block FIRST_WALLPAPER_PEEL = palette(BrmcBlockItemIds.FIRST_WALLPAPER_PEEL, WALLPAPER_NAME, Block::new, yellowMono(SoundType.WOOL));
 	public static final Block FIRST_WALLPAPER_DEAD = palette(BrmcBlockItemIds.FIRST_WALLPAPER_DEAD, WALLPAPER_NAME, Block::new, yellowMono(SoundType.WOOL));

@@ -118,6 +118,8 @@ public final class LayoutSanity {
 		}
 
 		if (!YellowMonoChunkGenerator.columnState(0, YellowMonoLayout.CARPET_Y, 16).is(BrmcBlocks.FIRST_WALLPAPER)
+			&& !YellowMonoChunkGenerator.columnState(0, YellowMonoLayout.CARPET_Y, 16).is(BrmcBlocks.FIRST_WALLPAPER_B)
+			&& !YellowMonoChunkGenerator.columnState(0, YellowMonoLayout.CARPET_Y, 16).is(BrmcBlocks.FIRST_WALLPAPER_C)
 			&& !YellowMonoChunkGenerator.columnState(0, YellowMonoLayout.CARPET_Y, 16).is(BrmcBlocks.FIRST_WALLPAPER_SEAM)) {
 			BrmcMod.LOGGER.error("Clark walls must use first_wallpaper family, not vanilla wool.");
 			errors++;
