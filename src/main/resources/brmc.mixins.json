@@ -5,6 +5,7 @@
 	"mixins": [
 		"BlockItemMixin",
 		"CompassItemMixin",
+		"ItemStackMixin",
 		"MapItemMixin"
 	],
 	"injectors": {

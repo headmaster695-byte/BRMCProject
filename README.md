@@ -38,7 +38,7 @@ The mod stays on 26.2. Immersive Portals is not downported. The player-facing pa
 - **Architecture:** `LinkedDimensionPortal` + `PortalLod` (`FULL` / `MESH` / `IMPOSTOR`) + `PortalRenderBudget` (near portals spend FULL slots; farther / many open portals degrade). Not one forever-fullscreen blit.
 - **See-through:** `DestinationVolumeSampler` reads the dest `ServerLevel` at identity coordinates (wider box, including DOWN wells) and syncs voxels to the threshold. Near portal = dest voxels. Mid = dest-climate room mesh oriented to facing. Far = tinted plane.
 - **Walk-through:** `PortalCrossTracker` fires only on was-behind → now-through (horizontal or down). Dest chunks are held with `TicketType.PORTAL` before the identity-pose swap (`TeleportTransition.DO_NOTHING`). Loading swirl / “Downloading terrain” / “Entering X” are held off while a crossing is flagged.
-- **Wired exits (with mercy return):** commons → False First, vestibule door 2 → Second, utilities → Buttons, curving hall → Second False First, janitor closet → Custodial. Walk back through the same plane to First. OOB hole and false-floor drop are architecture only — no live swap.
+- **Wired exits (with mercy return both ways):** commons → False First, vestibule door 2 → Second, utilities → Buttons, curving hall → Second False First, janitor closet → Custodial. Dest climate rooms stamp the same 3-high threshold at identity so the walk-back plane is as visible as the outbound. OOB hole and false-floor drop are architecture only — no live swap. `OutOfBoundsStub.holeLive()` is the OOB refuse switch.
 - **Visual tells (no tutorials):**
   - Commons: clean yellow→yellow dest room. `previewLies()` can invent First wallpaper dest does not have.
   - Vestibule door 2: yellow→red dest room; far side may chromatic-shift / heat-haze.
@@ -73,5 +73,17 @@ Build: Java 25, then `./gradlew build`.
 - Curving seam: look through — yellow + lime plan. Walk north through the plane into Second False First.
 - False-floor hole and vestibule OOB hole are architecture only — they do not dimension-cross.
 - `/brmc pocket janitor` (moderators only): walk west through the closet into Custodial; walk back east to First. No janitor NPC.
-- Dest stubs: walk back through the same plane. No F3 pocket / dest slugs on public walks.
+- Dest stubs: walk back through the matching dest-side threshold at the same XYZ. No F3 pocket / dest / dim slugs (`brmc:first`) on public walks. Creative hover says Threshold / Opening, not vestibule_threshold / oob_hole.
 - Hop stays off unless `brmc.devAllowHopGates=true`.
+
+## Moderator-only mercy-return verify
+
+`/brmc` is moderator-only. Desk cannot prove client feel — check that each dest room shows a return plane at the same identity as the outbound, then walk back:
+
+1. `/brmc pocket commons` — east into False First; dest threshold at `(23, 65, 52)`; walk west back to First.
+2. `/brmc pocket vestibule` — east through door 2 into Second; dest threshold at `(70, 65, 20)`; walk west back.
+3. `/brmc pocket utilities` — north into Buttons; dest thresholds at `(19, 65, -40)` and `(20, 65, -40)`; walk south back.
+4. `/brmc pocket curving` — north into Second False First; dest threshold at `(62, 65, 62)`; walk south back.
+5. `/brmc pocket janitor` — west into Custodial; dest threshold at `(-39, 65, 22)`; walk east back.
+
+Already-generated dest chunks need a new world (or dest-chunk regen) to stamp the return thresholds. Mercy walk-back still fires in air at those identities if the old chunk has no block.

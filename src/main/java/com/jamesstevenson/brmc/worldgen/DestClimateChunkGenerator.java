@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.concurrent.CompletableFuture;
 
 import com.jamesstevenson.brmc.BrmcMod;
+import com.jamesstevenson.brmc.gate.LinkedOpenings;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 
@@ -105,6 +106,13 @@ public class DestClimateChunkGenerator extends ChunkGenerator {
 
 					cursor.set(localX, y, localZ);
 					centerChunk.setBlockState(cursor, state);
+					if (state.getBlock() instanceof net.minecraft.world.level.block.EntityBlock entityBlock) {
+						var blockEntity = entityBlock.newBlockEntity(new BlockPos(worldX, y, worldZ), state);
+						if (blockEntity != null) {
+							centerChunk.setBlockEntity(blockEntity);
+						}
+					}
+
 					oceanFloor.update(localX, y, localZ, state);
 					worldSurface.update(localX, y, localZ, state);
 				}
@@ -149,6 +157,16 @@ public class DestClimateChunkGenerator extends ChunkGenerator {
 		}
 
 		boolean wall = DestClimate.isPerimeterWall(worldX, worldZ);
+		if (!wall
+			&& LinkedOpenings.isDestReturnColumn(climate, worldX, worldZ)
+			&& y >= YellowMonoLayout.CARPET_Y
+			&& y <= YellowMonoLayout.CARPET_Y + 2) {
+			var marker = LinkedOpenings.destReturnBlock(climate);
+			if (marker != null) {
+				return marker.defaultBlockState();
+			}
+		}
+
 		if (y == YellowMonoLayout.CARPET_Y) {
 			if (wall) {
 				return climate.wall(worldX, worldZ);

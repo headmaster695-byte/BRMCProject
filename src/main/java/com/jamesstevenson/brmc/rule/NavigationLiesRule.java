@@ -44,4 +44,12 @@ public final class NavigationLiesRule {
 
 		return 4096 + Math.floorMod(level.dimension().identifier().hashCode(), 2048);
 	}
+
+	/**
+	 * F3 / advanced-tooltip lines that would print a BRMC resource id
+	 * ({@code brmc:first}, {@code brmc:vestibule_threshold}, biome slugs).
+	 */
+	public static boolean isHiddenDebugLine(String line) {
+		return line != null && line.contains("brmc:");
+	}
 }

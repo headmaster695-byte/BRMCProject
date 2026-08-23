@@ -1,6 +1,8 @@
 package com.jamesstevenson.brmc.worldgen;
 
 import com.jamesstevenson.brmc.BrmcMod;
+import com.jamesstevenson.brmc.block.ThresholdBlock;
+import com.jamesstevenson.brmc.gate.LinkedOpenings;
 
 /**
  * Invariant checks for the First layout lock. Failures log; they do not crash play.
@@ -83,6 +85,25 @@ public final class LayoutSanity {
 		if (!DestClimateChunkGenerator.columnState(DestClimate.SPIRAL_WELL, -20, 64, 52).isAir()) {
 			BrmcMod.LOGGER.error("Spiral well shaft is sealed at the false-floor identity column.");
 			errors++;
+		}
+
+		for (LinkedOpenings.Opening opening : LinkedOpenings.ALL) {
+			for (net.minecraft.core.BlockPos identity : opening.identities()) {
+				if (!YellowMonoLayout.isThresholdAnchor(identity.getX(), identity.getZ())) {
+					BrmcMod.LOGGER.error("Live opening {} identity {},{} is not a First threshold.", opening.kind(), identity.getX(), identity.getZ());
+					errors++;
+				}
+
+				if (!(DestClimateChunkGenerator.columnState(
+					opening.destClimate(),
+					identity.getX(),
+					YellowMonoLayout.CARPET_Y,
+					identity.getZ()
+				).getBlock() instanceof ThresholdBlock)) {
+					BrmcMod.LOGGER.error("Dest return plane missing for {} at {},{}.", opening.kind(), identity.getX(), identity.getZ());
+					errors++;
+				}
+			}
 		}
 
 		if (errors == 0) {

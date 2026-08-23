@@ -63,6 +63,38 @@ public final class PortalArchitectureSanity {
 			errors++;
 		}
 
+		if (OutOfBoundsStub.holeLive()) {
+			BrmcMod.LOGGER.error("OOB holeLive() is on — refuse path expects it false this pass.");
+			errors++;
+		}
+
+		if (GateKind.OOB_HOLE.architectureOnly() == OutOfBoundsStub.holeLive()) {
+			BrmcMod.LOGGER.error("OOB architectureOnly() must track !holeLive().");
+			errors++;
+		}
+
+		if (LinkedOpenings.ALL.size() != 5 || LinkedOpenings.destReturnGates().size() != LinkedOpenings.firstOutboundGates().size()) {
+			BrmcMod.LOGGER.error("Live openings must register matching outbound and dest-return planes.");
+			errors++;
+		}
+
+		for (LinkedOpenings.Opening opening : LinkedOpenings.ALL) {
+			if (opening.destReturnFacing() != opening.firstOutboundFacing().getOpposite()) {
+				BrmcMod.LOGGER.error("{} dest return facing is not the outbound opposite.", opening.kind());
+				errors++;
+			}
+
+			if (!MercyReturnService.outboundRegistered(opening.kind()) || !MercyReturnService.destReturnRegistered(opening.kind())) {
+				BrmcMod.LOGGER.error("{} is missing a both-ways mercy plane.", opening.kind());
+				errors++;
+			}
+
+			if (!opening.destination().equals(SeamlessGateService.gate(opening.kind(), opening.identities().getFirst(), opening.firstOutboundFacing()).to())) {
+				BrmcMod.LOGGER.error("{} dest world does not match the outbound gate.", opening.kind());
+				errors++;
+			}
+		}
+
 		if (GateKind.CUSTODIAL.planeFacing() != net.minecraft.core.Direction.WEST) {
 			BrmcMod.LOGGER.error("Custodial closet must face west from the apartment.");
 			errors++;

@@ -58,11 +58,15 @@ public class ThresholdBlockEntity extends BlockEntity implements LinkedDimension
 
 	@Override
 	public ResourceKey<Level> from() {
-		return BrmcDimensions.FIRST;
+		return this.level != null ? this.level.dimension() : BrmcDimensions.FIRST;
 	}
 
 	@Override
 	public ResourceKey<Level> to() {
+		if (this.level != null && !BrmcDimensions.isFirst(this.level)) {
+			return BrmcDimensions.FIRST;
+		}
+
 		SeamlessGate gate = gate();
 		return gate == null ? BrmcDimensions.FALSE_FIRST : gate.to();
 	}
@@ -74,6 +78,10 @@ public class ThresholdBlockEntity extends BlockEntity implements LinkedDimension
 
 	@Override
 	public Direction facing() {
+		if (this.level != null && !BrmcDimensions.isFirst(this.level)) {
+			return this.kind().planeFacing().getOpposite();
+		}
+
 		return this.kind().planeFacing();
 	}
 
@@ -95,7 +103,7 @@ public class ThresholdBlockEntity extends BlockEntity implements LinkedDimension
 			return;
 		}
 
-		if (!BrmcDimensions.isFirst(serverLevel)) {
+		if (be.kind().architectureOnly()) {
 			return;
 		}
 
@@ -184,6 +192,16 @@ public class ThresholdBlockEntity extends BlockEntity implements LinkedDimension
 	}
 
 	private SeamlessGate gate() {
+		if (this.level != null && !BrmcDimensions.isFirst(this.level)) {
+			return new SeamlessGate(
+				this.kind(),
+				this.level.dimension(),
+				BrmcDimensions.FIRST,
+				this.worldPosition,
+				this.facing()
+			);
+		}
+
 		return SeamlessGateService.gate(this.kind(), this.worldPosition, this.facing());
 	}
 

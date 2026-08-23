@@ -49,7 +49,15 @@ public final class BrmcBlocks {
 			return null;
 		}
 
-		return switch (pocket.gate()) {
+		return blockFor(pocket.gate());
+	}
+
+	public static @Nullable Block blockFor(GateKind kind) {
+		if (kind == null) {
+			return null;
+		}
+
+		return switch (kind) {
 			case VESTIBULE -> VESTIBULE_THRESHOLD;
 			case COMMONS -> COMMONS_THRESHOLD;
 			case UTILITIES -> UTILITIES_THRESHOLD;
@@ -61,9 +69,11 @@ public final class BrmcBlocks {
 	}
 
 	private static Block threshold(BlockItemId id, GateKind kind, SoundType sound) {
+		String visibleName = kind.architectureOnly() ? "block.brmc.opening" : "block.brmc.threshold";
 		return register(
 			id,
-			properties -> new ThresholdBlock(kind, properties),
+			visibleName,
+			properties -> new ThresholdBlock(kind, properties.overrideDescription(visibleName)),
 			BlockBehaviour.Properties.of().strength(1.5F).sound(sound).noCollision().noOcclusion()
 		);
 	}
@@ -73,9 +83,17 @@ public final class BrmcBlocks {
 		return Registry.register(BuiltInRegistries.BLOCK, id, block);
 	}
 
-	private static Block register(BlockItemId id, Function<BlockBehaviour.Properties, Block> blockFactory, BlockBehaviour.Properties properties) {
+	private static Block register(
+		BlockItemId id,
+		String visibleName,
+		Function<BlockBehaviour.Properties, Block> blockFactory,
+		BlockBehaviour.Properties properties
+	) {
 		Block block = register(id.block(), blockFactory, properties);
-		BlockItem blockItem = new BlockItem(block, new Item.Properties().useBlockDescriptionPrefix().setId(id.item()));
+		BlockItem blockItem = new BlockItem(
+			block,
+			new Item.Properties().overrideDescription(visibleName).setId(id.item())
+		);
 		Registry.register(BuiltInRegistries.ITEM, id.item(), blockItem);
 		return block;
 	}

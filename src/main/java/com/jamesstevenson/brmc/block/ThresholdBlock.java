@@ -9,6 +9,8 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.InsideBlockEffectApplier;
@@ -39,6 +41,16 @@ public class ThresholdBlock extends net.minecraft.world.level.block.Block implem
 
 	public GateKind kind() {
 		return this.kind;
+	}
+
+	/** Player-visible name. Internal registry ids stay technical and must not appear here. */
+	public String visibleNameKey() {
+		return this.kind.architectureOnly() ? "block.brmc.opening" : "block.brmc.threshold";
+	}
+
+	@Override
+	public MutableComponent getName() {
+		return Component.translatable(this.visibleNameKey());
 	}
 
 	@Override

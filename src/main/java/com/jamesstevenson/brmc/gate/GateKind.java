@@ -33,9 +33,13 @@ public enum GateKind {
 		return this != OOB_HOLE && this != FALSE_FLOOR;
 	}
 
-	/** Architecture only — no live swap until the drop systems exist. */
+	/**
+	 * Architecture only — no live swap. False floor is a drop without a
+	 * dest volume. OOB uses {@link OutOfBoundsStub#holeLive()} so refuse
+	 * is one path, not a dead flag beside a hardcoded hole check.
+	 */
 	public boolean architectureOnly() {
-		return this == OOB_HOLE || this == FALSE_FLOOR;
+		return this == FALSE_FLOOR || (this == OOB_HOLE && !OutOfBoundsStub.holeLive());
 	}
 
 	/** Commons / False First: see-through may invent First wallpaper dest does not have. */

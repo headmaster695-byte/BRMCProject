@@ -1,4 +1,6 @@
 {
+	"block.brmc.threshold": "Threshold",
+	"block.brmc.opening": "Opening",
 	"block.brmc.vestibule_threshold": "Threshold",
 	"block.brmc.commons_threshold": "Threshold",
 	"block.brmc.utilities_threshold": "Threshold",

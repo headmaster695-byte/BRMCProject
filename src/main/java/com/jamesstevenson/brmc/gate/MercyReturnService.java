@@ -4,10 +4,7 @@ import java.util.List;
 
 import com.jamesstevenson.brmc.BrmcMod;
 import com.jamesstevenson.brmc.dimension.BrmcDimensions;
-import com.jamesstevenson.brmc.worldgen.YellowMonoLayout;
 
-import net.minecraft.core.BlockPos;
-import net.minecraft.core.Direction;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
@@ -22,14 +19,8 @@ import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents;
  * Live dest stubs without this are softlocks; refuse those gates instead.
  */
 public final class MercyReturnService {
-	private static final List<SeamlessGate> RETURNS = List.of(
-		SeamlessGateService.gate(GateKind.VESTIBULE, new BlockPos(70, YellowMonoLayout.CARPET_Y, 20), Direction.EAST),
-		SeamlessGateService.gate(GateKind.COMMONS, new BlockPos(23, YellowMonoLayout.CARPET_Y, 52), Direction.EAST),
-		SeamlessGateService.gate(GateKind.UTILITIES, new BlockPos(19, YellowMonoLayout.CARPET_Y, -40), Direction.NORTH),
-		SeamlessGateService.gate(GateKind.UTILITIES, new BlockPos(20, YellowMonoLayout.CARPET_Y, -40), Direction.NORTH),
-		SeamlessGateService.gate(GateKind.CURVING_HALL, new BlockPos(62, YellowMonoLayout.CARPET_Y, 62), Direction.NORTH),
-		SeamlessGateService.gate(GateKind.CUSTODIAL, new BlockPos(-39, YellowMonoLayout.CARPET_Y, 22), Direction.WEST)
-	);
+	private static final List<SeamlessGate> RETURNS = LinkedOpenings.firstOutboundGates();
+	private static final List<SeamlessGate> DEST_RETURNS = LinkedOpenings.destReturnGates();
 
 	private static final PortalCrossTracker TRACKER = new PortalCrossTracker();
 
@@ -45,7 +36,21 @@ public final class MercyReturnService {
 			return false;
 		}
 
+		return outboundRegistered(kind) && destReturnRegistered(kind);
+	}
+
+	public static boolean outboundRegistered(GateKind kind) {
 		for (SeamlessGate gate : RETURNS) {
+			if (gate.kind() == kind) {
+				return true;
+			}
+		}
+
+		return false;
+	}
+
+	public static boolean destReturnRegistered(GateKind kind) {
+		for (SeamlessGate gate : DEST_RETURNS) {
 			if (gate.kind() == kind) {
 				return true;
 			}
