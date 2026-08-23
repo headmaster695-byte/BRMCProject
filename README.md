@@ -71,9 +71,9 @@ Build: Java 25, then `./gradlew build`.
 - Vestibule door 2: look through — red dest room, possible haze. Walk through the plane into Second.
 - Utilities deep door: look through — iron/copper plant. Walk north through the plane into Buttons.
 - Curving seam: look through — yellow + lime plan. Walk north through the plane into Second False First.
-- False-floor hole and vestibule OOB hole are architecture only — they do not dimension-cross.
+- False-floor hole and vestibule OOB hole are architecture only — they do not dimension-cross. The false-floor pit has a sagged subfloor lip; walk back onto the carpet without commands.
 - `/brmc pocket janitor` (moderators only): walk west through the closet into Custodial; walk back east to First. No janitor NPC.
-- Dest stubs: walk back through the matching dest-side threshold at the same XYZ. No F3 pocket / dest / dim slugs (`brmc:first`) on public walks. Creative hover says Threshold / Opening, not vestibule_threshold / oob_hole.
+- Dest stubs: regen dest chunks so return doors are visible. Mercy still fires in air at the identities if the old chunk has no block. Walk back through the matching dest-side threshold at the same XYZ. Do not use `/brmc second` (or other off-identity dest warps) to verify returns. No F3 pocket / dest / dim slugs (`brmc:first`) on public walks. Creative hover says Threshold / Opening, not vestibule_threshold / oob_hole.
 - Hop stays off unless `brmc.devAllowHopGates=true`.
 
 ## Moderator-only mercy-return verify
@@ -86,4 +86,4 @@ Build: Java 25, then `./gradlew build`.
 4. `/brmc pocket curving` — north into Second False First; dest threshold at `(62, 65, 62)`; walk south back.
 5. `/brmc pocket janitor` — west into Custodial; dest threshold at `(-39, 65, 22)`; walk east back.
 
-Already-generated dest chunks need a new world (or dest-chunk regen) to stamp the return thresholds. Mercy walk-back still fires in air at those identities if the old chunk has no block.
+Already-generated dest chunks need a new world (or dest-chunk regen) to stamp the return thresholds. Mercy walk-back still fires in air at those identities if the old chunk has no block. Do not use `/brmc second` / `/brmc false_first` off-identity warps for this check — those land at Clark XYZ, not the gate identities.

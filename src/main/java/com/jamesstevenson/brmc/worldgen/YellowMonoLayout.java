@@ -156,10 +156,31 @@ public final class YellowMonoLayout {
 			case COMMON_EXIT -> localX == 7 && localZ == 4;
 			case UTILITIES -> isDeepDoor(worldX, worldZ);
 			case CURVING_HALL -> cellCoord(worldX) == 7 && cellCoord(worldZ) == 7 && localX == 6 && localZ == 6;
-			case FALSE_FLOOR -> localX == 4 && localZ == 4;
+			case FALSE_FLOOR -> isFalseFloorHole(worldX, worldZ);
 			case APARTMENT_JANITOR -> localX == 1 && localZ == 6;
 			default -> false;
 		};
+	}
+
+	/** Architecture-only drop column. No dimension-cross. */
+	public static boolean isFalseFloorHole(int worldX, int worldZ) {
+		return pocketAt(worldX, worldZ) == FirstPocket.FALSE_FLOOR
+			&& localInCell(worldX) == 4
+			&& localInCell(worldZ) == 4;
+	}
+
+	/**
+	 * Sagged lip around the hole: exposed subfloor slab, same layer language.
+	 * Walk-up from the pit without a jump, command, or marked exit.
+	 */
+	public static boolean isFalseFloorClimbOut(int worldX, int worldZ) {
+		if (pocketAt(worldX, worldZ) != FirstPocket.FALSE_FLOOR || isFalseFloorHole(worldX, worldZ)) {
+			return false;
+		}
+
+		int dx = Math.abs(localInCell(worldX) - 4);
+		int dz = Math.abs(localInCell(worldZ) - 4);
+		return dx + dz == 1;
 	}
 
 	public static boolean isAirlockInterior(int worldX, int worldZ) {

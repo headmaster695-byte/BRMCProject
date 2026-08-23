@@ -62,8 +62,24 @@ public final class LayoutSanity {
 			errors++;
 		}
 
-		if (!YellowMonoLayout.isThresholdAnchor(-20, 52)) {
+		if (!YellowMonoLayout.isThresholdAnchor(-20, 52) || !YellowMonoLayout.isFalseFloorHole(-20, 52)) {
 			BrmcMod.LOGGER.error("False floor hole is not a threshold.");
+			errors++;
+		}
+
+		if (!YellowMonoLayout.isFalseFloorClimbOut(-19, 52)
+			|| !YellowMonoLayout.isFalseFloorClimbOut(-21, 52)
+			|| !YellowMonoLayout.isFalseFloorClimbOut(-20, 53)
+			|| !YellowMonoLayout.isFalseFloorClimbOut(-20, 51)
+			|| YellowMonoLayout.isFalseFloorClimbOut(-20, 52)) {
+			BrmcMod.LOGGER.error("False floor hole is missing a four-side sagged climb-out.");
+			errors++;
+		}
+
+		if (!YellowMonoChunkGenerator.columnState(-19, YellowMonoLayout.FLOOR_Y, 52).is(net.minecraft.world.level.block.Blocks.SMOOTH_STONE_SLAB)
+			|| !YellowMonoChunkGenerator.columnState(-19, YellowMonoLayout.CARPET_Y, 52).isAir()
+			|| !YellowMonoChunkGenerator.columnState(-20, YellowMonoLayout.FLOOR_Y, 52).isAir()) {
+			BrmcMod.LOGGER.error("False floor climb-out is not a walk-up sag (slab lip, open hole).");
 			errors++;
 		}
 

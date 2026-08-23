@@ -14,6 +14,7 @@ public final class YellowMonoPalette {
 	public enum Role {
 		BEDROCK,
 		SUBFLOOR,
+		SUBFLOOR_SLAB,
 		FLOOR,
 		MOIST_CARPET,
 		CHEVRON_LIGHT,
@@ -47,6 +48,7 @@ public final class YellowMonoPalette {
 		return switch (role) {
 			case BEDROCK -> Blocks.BEDROCK.defaultBlockState();
 			case SUBFLOOR -> Blocks.SMOOTH_STONE.defaultBlockState();
+			case SUBFLOOR_SLAB -> Blocks.SMOOTH_STONE_SLAB.defaultBlockState();
 			case FLOOR -> Blocks.WOOL.pick(DyeColor.YELLOW).defaultBlockState();
 			case MOIST_CARPET -> Blocks.CARPET.pick(DyeColor.YELLOW).defaultBlockState();
 			case CHEVRON_LIGHT -> Blocks.WOOL.pick(DyeColor.YELLOW).defaultBlockState();

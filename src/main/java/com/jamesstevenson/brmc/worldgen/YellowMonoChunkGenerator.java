@@ -112,7 +112,7 @@ public class YellowMonoChunkGenerator extends ChunkGenerator {
 		return CompletableFuture.completedFuture(centerChunk);
 	}
 
-	private static BlockState columnState(int worldX, int y, int worldZ) {
+	static BlockState columnState(int worldX, int y, int worldZ) {
 		boolean wall = YellowMonoLayout.isWall(worldX, worldZ);
 		boolean doorway = YellowMonoLayout.isDoorway(worldX, worldZ);
 		boolean threshold = YellowMonoLayout.isThresholdAnchor(worldX, worldZ);
@@ -132,8 +132,12 @@ public class YellowMonoChunkGenerator extends ChunkGenerator {
 		}
 
 		if (y == YellowMonoLayout.FLOOR_Y) {
-			if (pocket == FirstPocket.VESTIBULE_OOB || pocket == FirstPocket.FALSE_FLOOR && threshold) {
+			if (pocket == FirstPocket.VESTIBULE_OOB || YellowMonoLayout.isFalseFloorHole(worldX, worldZ)) {
 				return Blocks.AIR.defaultBlockState();
+			}
+
+			if (YellowMonoLayout.isFalseFloorClimbOut(worldX, worldZ)) {
+				return YellowMonoPalette.state(YellowMonoPalette.Role.SUBFLOOR_SLAB);
 			}
 
 			if (YellowMonoLayout.isDoor2RedFrame(worldX, worldZ)) {
@@ -160,9 +164,13 @@ public class YellowMonoChunkGenerator extends ChunkGenerator {
 		}
 
 		if (y == YellowMonoLayout.CARPET_Y && !wall) {
-			if (pocket == FirstPocket.VESTIBULE_OOB || pocket == FirstPocket.FALSE_FLOOR && threshold) {
+			if (pocket == FirstPocket.VESTIBULE_OOB || YellowMonoLayout.isFalseFloorHole(worldX, worldZ)) {
 				Block marker = BrmcBlocks.blockFor(pocket);
 				return marker != null ? marker.defaultBlockState() : Blocks.AIR.defaultBlockState();
+			}
+
+			if (YellowMonoLayout.isFalseFloorClimbOut(worldX, worldZ)) {
+				return Blocks.AIR.defaultBlockState();
 			}
 
 			if (threshold) {
