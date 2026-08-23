@@ -63,7 +63,7 @@ public final class YellowMonoLayout {
 		int cellX = cellCoord(worldX);
 		int cellZ = cellCoord(worldZ);
 
-		if (cellZ == SPINE_CELL && cellX >= 6 && cellX <= 9) {
+		if (cellZ == SPINE_CELL && cellX >= 7 && cellX <= 9) {
 			if (cellX == 8 && localInCell(worldX) == 3 && localInCell(worldZ) == 4) {
 				return FirstPocket.VESTIBULE_OOB;
 			}
@@ -303,7 +303,7 @@ public final class YellowMonoLayout {
 	public static Vec3 warp(FirstPocket pocket) {
 		return switch (pocket) {
 			case CLARK_CHAMBER -> new Vec3(SPAWN_X + 0.5, CARPET_Y + 1, SPAWN_Z + 0.5);
-			case VESTIBULE, VESTIBULE_OOB -> cellCenter(6, SPINE_CELL);
+			case VESTIBULE, VESTIBULE_OOB -> cellCenter(7, SPINE_CELL);
 			case COMMON_EXIT -> cellCenter(SPINE_CELL, 6);
 			case APARTMENT, APARTMENT_JANITOR -> cellCenter(-4, SPINE_CELL);
 			case UTILITIES -> cellCenter(SPINE_CELL, -4);
@@ -323,7 +323,7 @@ public final class YellowMonoLayout {
 			return true;
 		}
 
-		if (cellZ == SPINE_CELL && cellX >= 6 && cellX <= 9) {
+		if (cellZ == SPINE_CELL && cellX >= 7 && cellX <= 9) {
 			return true;
 		}
 

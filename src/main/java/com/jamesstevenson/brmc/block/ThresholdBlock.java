@@ -93,7 +93,12 @@ public class ThresholdBlock extends net.minecraft.world.level.block.Block implem
 	}
 
 	private void attemptTouchTraverse(ServerLevel level, ServerPlayer player, BlockPos pos) {
-		if (!BrmcDimensions.isFirst(level) || this.kind.architectureOnly()) {
+		if (!BrmcDimensions.isFirst(level)) {
+			return;
+		}
+
+		if (this.kind.architectureOnly()) {
+			SeamlessGateService.refuseArchitecture(this.kind, pos);
 			return;
 		}
 

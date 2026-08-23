@@ -21,7 +21,12 @@ public final class LayoutSanity {
 			errors++;
 		}
 
-		errors += expectPocket(52, 20, FirstPocket.VESTIBULE, "east spine vestibule");
+		if (YellowMonoLayout.pocketAt(52, 20) != null) {
+			BrmcMod.LOGGER.error("East cell before the airlock must stay uncommon yellow, not a vestibule aperture.");
+			errors++;
+		}
+
+		errors += expectPocket(60, 20, FirstPocket.VESTIBULE, "vestibule airlock");
 		errors += expectPocket(20, 52, FirstPocket.COMMON_EXIT, "south spine commons");
 		errors += expectPocket(-28, 20, FirstPocket.APARTMENT, "west spine apartment");
 		errors += expectPocket(20, -28, FirstPocket.UTILITIES, "north spine utilities");

@@ -45,7 +45,7 @@ The mod stays on 26.2. Immersive Portals is not downported. The player-facing pa
   - Utilities: plant continues (iron / copper).
   - Curving: yellow around a soft (lime) plan.
   - Custodial: light-gray closet.
-  - East is not a marked compass: Clark→vestibule uses a yellow dogleg, not a cleaner runway.
+  - East is not a marked compass: Clark→vestibule uses a yellow dogleg, then uncommon yellow. The airlock starts one cell later — same yellow language, not a cleaner runway.
 
 ### Honest gaps
 

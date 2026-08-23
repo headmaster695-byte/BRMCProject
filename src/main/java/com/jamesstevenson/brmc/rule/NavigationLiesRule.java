@@ -15,7 +15,13 @@ public final class NavigationLiesRule {
 	}
 
 	public static boolean shouldLie(Level level) {
-		return BrmcDimensions.isFirst(level);
+		if (level == null) {
+			return false;
+		}
+
+		return BrmcDimensions.isFirst(level)
+			|| BrmcDimensions.SECOND.equals(level.dimension())
+			|| BrmcDimensions.isSubDimension(level.dimension());
 	}
 
 	public static boolean shouldLieCoordinates(Level level) {

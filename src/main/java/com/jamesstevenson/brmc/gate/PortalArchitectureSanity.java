@@ -58,8 +58,8 @@ public final class PortalArchitectureSanity {
 			}
 		}
 
-		if (GateKind.FALSE_FLOOR.planeFacing() != net.minecraft.core.Direction.DOWN) {
-			BrmcMod.LOGGER.error("False floor must cross downward.");
+		if (!GateKind.FALSE_FLOOR.architectureOnly() || !GateKind.OOB_HOLE.architectureOnly()) {
+			BrmcMod.LOGGER.error("False floor and OOB must stay architecture-only.");
 			errors++;
 		}
 

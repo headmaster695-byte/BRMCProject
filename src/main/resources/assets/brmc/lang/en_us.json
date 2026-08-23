@@ -1,9 +1,9 @@
 {
-	"block.brmc.vestibule_threshold": "Vestibule Threshold",
-	"block.brmc.commons_threshold": "Commons Threshold",
-	"block.brmc.utilities_threshold": "Utilities Threshold",
-	"block.brmc.curving_hall_threshold": "Curving Hall Threshold",
-	"block.brmc.false_floor_threshold": "False Floor",
-	"block.brmc.oob_hole": "Out of Bounds Hole",
-	"block.brmc.custodial_threshold": "Custodial Threshold"
+	"block.brmc.vestibule_threshold": "Threshold",
+	"block.brmc.commons_threshold": "Threshold",
+	"block.brmc.utilities_threshold": "Threshold",
+	"block.brmc.curving_hall_threshold": "Threshold",
+	"block.brmc.false_floor_threshold": "Opening",
+	"block.brmc.oob_hole": "Opening",
+	"block.brmc.custodial_threshold": "Threshold"
 }

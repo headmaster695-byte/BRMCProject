@@ -14,7 +14,9 @@ import net.minecraft.server.level.ServerPlayer;
 
 public final class SeamlessGateService {
 	private static final long TRAVERSE_COOLDOWN_TICKS = 40L;
+	private static final long REFUSE_LOG_COOLDOWN_TICKS = 200L;
 	private static final Map<UUID, Long> lastTraverseTick = new HashMap<>();
+	private static long lastRefuseLogTick = Long.MIN_VALUE;
 	private static SeamlessGateBackend backend = new RefusingGateBackend();
 
 	private SeamlessGateService() {
@@ -83,6 +85,20 @@ public final class SeamlessGateService {
 		};
 	}
 
+	public static void refuseArchitecture(GateKind kind, BlockPos pos) {
+		long now = System.currentTimeMillis();
+		if (now - lastRefuseLogTick < REFUSE_LOG_COOLDOWN_TICKS * 50L) {
+			return;
+		}
+
+		lastRefuseLogTick = now;
+		BrmcMod.LOGGER.error(
+			"Refusing {} at {}: architecture only, no live swap until that system exists.",
+			kind,
+			pos
+		);
+	}
+
 	public static void ensureOpening(ServerLevel source, SeamlessGate gate) {
 		backend.ensureOpening(source, gate);
 	}
@@ -93,11 +109,7 @@ public final class SeamlessGateService {
 		}
 
 		if (gate.kind().architectureOnly()) {
-			BrmcMod.LOGGER.error(
-				"Refusing {} at {}: architecture only, no live swap.",
-				gate.kind(),
-				gate.threshold()
-			);
+			refuseArchitecture(gate.kind(), gate.threshold());
 			return false;
 		}
 
