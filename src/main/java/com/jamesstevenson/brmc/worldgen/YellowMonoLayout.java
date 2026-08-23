@@ -319,7 +319,15 @@ public final class YellowMonoLayout {
 	}
 
 	private static boolean spineOpenWest(int cellX, int cellZ) {
-		if (cellZ == SPINE_CELL && cellX >= 4 && cellX <= 9) {
+		if (cellZ == SPINE_CELL && cellX == 4) {
+			return true;
+		}
+
+		if (cellZ == SPINE_CELL && cellX >= 6 && cellX <= 9) {
+			return true;
+		}
+
+		if (cellZ == 3 && (cellX == 5 || cellX == 6)) {
 			return true;
 		}
 
@@ -343,6 +351,10 @@ public final class YellowMonoLayout {
 	}
 
 	private static boolean spineOpenSouth(int cellX, int cellZ) {
+		if (cellX == 4 && cellZ == 3 || cellX == 6 && cellZ == 3) {
+			return true;
+		}
+
 		if (cellX == SPINE_CELL && cellZ >= 4 && cellZ <= 6) {
 			return true;
 		}

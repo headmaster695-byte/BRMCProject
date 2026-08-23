@@ -4,6 +4,7 @@ import com.jamesstevenson.brmc.block.BrmcBlockEntities;
 import com.jamesstevenson.brmc.block.BrmcBlocks;
 import com.jamesstevenson.brmc.command.BrmcCommands;
 import com.jamesstevenson.brmc.dimension.BrmcDimensions;
+import com.jamesstevenson.brmc.gate.MercyReturnService;
 import com.jamesstevenson.brmc.gate.PortalArchitectureSanity;
 import com.jamesstevenson.brmc.gate.SeamlessGateService;
 import com.jamesstevenson.brmc.rule.BuildingTracker;
@@ -12,6 +13,7 @@ import com.jamesstevenson.brmc.rule.MiningRegenRule;
 import com.jamesstevenson.brmc.rule.NavigationLiesRule;
 import com.jamesstevenson.brmc.rule.UnresolvedSoundRule;
 import com.jamesstevenson.brmc.spawn.ClarkColdOpen;
+import com.jamesstevenson.brmc.worldgen.DestClimateChunkGenerator;
 import com.jamesstevenson.brmc.worldgen.LayoutSanity;
 import com.jamesstevenson.brmc.worldgen.YellowMonoChunkGenerator;
 
@@ -30,9 +32,11 @@ public class BrmcMod implements ModInitializer {
 	public void onInitialize() {
 		BrmcDimensions.bootstrap();
 		YellowMonoChunkGenerator.register();
+		DestClimateChunkGenerator.register();
 		BrmcBlocks.initialize();
 		BrmcBlockEntities.initialize();
 		SeamlessGateService.initialize();
+		MercyReturnService.initialize();
 		PortalArchitectureSanity.bootstrap();
 		ClarkColdOpen.initialize();
 		MiningRegenRule.initialize();

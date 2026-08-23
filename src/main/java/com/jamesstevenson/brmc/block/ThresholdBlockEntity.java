@@ -134,13 +134,12 @@ public class ThresholdBlockEntity extends BlockEntity implements LinkedDimension
 			return;
 		}
 
-		if (this.destVolume.isReady()) {
-			this.sampleCooldown = SAMPLE_REFRESH_TICKS;
+		DestinationVolume sampled = LinkedVolumeBackend.sampleDestination(level, gate);
+		this.sampleCooldown = sampled.isReady() ? SAMPLE_REFRESH_TICKS : SAMPLE_RETRY_TICKS;
+		if (sampled.voxelCount() == this.destVolume.voxelCount() && sampled.isReady() == this.destVolume.isReady()) {
 			return;
 		}
 
-		DestinationVolume sampled = LinkedVolumeBackend.sampleDestination(level, gate);
-		this.sampleCooldown = SAMPLE_RETRY_TICKS;
 		if (sampled.isEmpty() && this.destVolume.isEmpty()) {
 			return;
 		}

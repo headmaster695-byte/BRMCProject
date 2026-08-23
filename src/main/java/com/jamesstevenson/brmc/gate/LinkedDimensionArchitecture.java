@@ -18,10 +18,15 @@ package com.jamesstevenson.brmc.gate;
  *   <li>{@link PortalCrossTracker} fires only on was-behind → now-through.</li>
  *   <li>Dest chunks are ticketed ({@code TicketType.PORTAL}) before the
  *       identity-pose dimension swap so the player lands in dest volume.</li>
+ *   <li>Live First exits (commons, vestibule, utilities, curving,
+ *       custodial) use plane-cross + dest sample + LOD + mercy return.
+ *       OOB and false floor stay architecture-only.</li>
  *   <li>Commons: clean yellow→yellow dest sample; {@link GateKind#previewLies()}
  *       can draw First wallpaper that dest does not have.</li>
  *   <li>Vestibule door 2: yellow→red dest sample plus far-side
  *       chromatic / heat-haze.</li>
+ *   <li>Dest stubs are tiled climate cells ({@code brmc:dest_climate}), not
+ *       barren floor slabs.</li>
  * </ul>
  *
  * <h2>Honest gaps</h2>
@@ -30,7 +35,9 @@ package com.jamesstevenson.brmc.gate;
  * 26.2 BER ({@code SubmitNodeCollector.submitCustomGeometry}) does not
  * give that in this commit. {@link PortalLod#FULL} is dest-sampled voxels,
  * not a dual-world stencil. First still paints a short dest-climate
- * backing alcove so IMPOSTOR / missing samples do not show void.
+ * backing alcove on commons / vestibule so IMPOSTOR / missing samples do
+ * not show void. OOB / false-floor systems are not live. Dest interiors
+ * are still stubs (one climate cell language, not full floors).
  *
  * Hop ({@link LoadingHopBackend}) stays non-default.
  */

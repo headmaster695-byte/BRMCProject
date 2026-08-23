@@ -37,8 +37,34 @@ public final class PortalArchitectureSanity {
 			errors++;
 		}
 
-		if (!GateKind.COMMONS.planeCrossOnly() || !GateKind.VESTIBULE.planeCrossOnly()) {
-			BrmcMod.LOGGER.error("Commons and vestibule must cross on the plane, not on any touch.");
+		for (GateKind kind : GateKind.values()) {
+			if (kind.architectureOnly()) {
+				if (kind.hasLinkedVolumeThisPass() || kind.planeCrossOnly()) {
+					BrmcMod.LOGGER.error("{} is architecture only and must not live-swap.", kind);
+					errors++;
+				}
+
+				continue;
+			}
+
+			if (!kind.hasLinkedVolumeThisPass() || !kind.planeCrossOnly()) {
+				BrmcMod.LOGGER.error("{} must use dest-sampled plane-cross, not touch hop.", kind);
+				errors++;
+			}
+
+			if (!MercyReturnService.hasReturn(kind)) {
+				BrmcMod.LOGGER.error("{} is live without a mercy return — that is a softlock.", kind);
+				errors++;
+			}
+		}
+
+		if (GateKind.FALSE_FLOOR.planeFacing() != net.minecraft.core.Direction.DOWN) {
+			BrmcMod.LOGGER.error("False floor must cross downward.");
+			errors++;
+		}
+
+		if (GateKind.CUSTODIAL.planeFacing() != net.minecraft.core.Direction.WEST) {
+			BrmcMod.LOGGER.error("Custodial closet must face west from the apartment.");
 			errors++;
 		}
 
@@ -53,7 +79,8 @@ public final class PortalArchitectureSanity {
 
 		if (errors == 0) {
 			BrmcMod.LOGGER.info(
-				"Portal architecture: dest-sampled LOD + plane-cross. Dual-world ClientLevel: no. Hop default: no."
+				"Portal architecture: dest-sampled LOD + plane-cross on all live First exits. "
+					+ "Dual-world ClientLevel: no. Hop default: no. OOB: not live."
 			);
 		} else {
 			BrmcMod.LOGGER.error("Portal architecture sanity failed with {} issue(s).", errors);

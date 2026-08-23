@@ -92,6 +92,25 @@ public final class SeamlessGateService {
 			return false;
 		}
 
+		if (gate.kind().architectureOnly()) {
+			BrmcMod.LOGGER.error(
+				"Refusing {} at {}: architecture only, no live swap.",
+				gate.kind(),
+				gate.threshold()
+			);
+			return false;
+		}
+
+		if (!MercyReturnService.hasReturn(gate.kind())) {
+			BrmcMod.LOGGER.error(
+				"Refusing {} at {}: no mercy return from {}. Softlock stubs stay closed.",
+				gate.kind(),
+				gate.threshold(),
+				gate.to().identifier()
+			);
+			return false;
+		}
+
 		long now = source.getGameTime();
 		Long previous = lastTraverseTick.get(player.getUUID());
 		if (previous != null && now - previous < TRAVERSE_COOLDOWN_TICKS) {

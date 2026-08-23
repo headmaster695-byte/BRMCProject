@@ -1,18 +1,11 @@
 {
 	"type": "brmc:second",
 	"generator": {
-		"type": "minecraft:flat",
-		"settings": {
-			"biome": "brmc:second_stub",
-			"lakes": false,
-			"features": false,
-			"layers": [
-				{ "block": "minecraft:bedrock", "height": 1 },
-				{ "block": "minecraft:deepslate", "height": 63 },
-				{ "block": "minecraft:red_wool", "height": 1 },
-				{ "block": "minecraft:red_carpet", "height": 1 }
-			],
-			"structure_overrides": []
-		}
+		"type": "brmc:dest_climate",
+		"biome_source": {
+			"type": "minecraft:fixed",
+			"biome": "brmc:second_stub"
+		},
+		"climate": "red_mono"
 	}
 }

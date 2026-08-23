@@ -2,8 +2,8 @@ package com.jamesstevenson.brmc.gate;
 
 /**
  * Rare janitor leak from {@code first-apartment-pocket} into Custodial.
- * The closet hook exists; the live encounter is not implemented.
- * Apartment is a habitation lobe — not Bounded.
+ * The closet threshold is a live plane-cross gate; the janitor NPC encounter
+ * is not implemented. Apartment is a habitation lobe — not Bounded.
  */
 public final class CustodialStub {
 	private CustodialStub() {

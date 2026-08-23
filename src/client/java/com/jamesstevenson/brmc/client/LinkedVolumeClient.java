@@ -54,8 +54,11 @@ public final class LinkedVolumeClient {
 			return;
 		}
 
-		if (BrmcDimensions.FIRST.equals(from)
-			&& (BrmcDimensions.SECOND.equals(to) || BrmcDimensions.FALSE_FIRST.equals(to))) {
+		boolean fromFirst = BrmcDimensions.FIRST.equals(from);
+		boolean toFirst = BrmcDimensions.FIRST.equals(to);
+		boolean fromDest = BrmcDimensions.SECOND.equals(from) || BrmcDimensions.isSubDimension(from);
+		boolean toDest = BrmcDimensions.SECOND.equals(to) || BrmcDimensions.isSubDimension(to);
+		if (fromFirst && toDest || fromDest && toFirst) {
 			markCrossing();
 		}
 	}

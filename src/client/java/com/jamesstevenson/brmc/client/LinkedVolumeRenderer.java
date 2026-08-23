@@ -1,7 +1,6 @@
 package com.jamesstevenson.brmc.client;
 
 import com.jamesstevenson.brmc.block.ThresholdBlockEntity;
-import com.jamesstevenson.brmc.gate.GateKind;
 import com.jamesstevenson.brmc.gate.PortalLod;
 import com.jamesstevenson.brmc.gate.PresentationLock;
 
@@ -12,10 +11,12 @@ import net.minecraft.client.renderer.feature.ModelFeatureRenderer;
 import net.minecraft.client.renderer.rendertype.RenderTypes;
 import net.minecraft.client.renderer.state.level.CameraRenderState;
 import net.minecraft.client.renderer.texture.OverlayTexture;
+import net.minecraft.core.Direction;
 import net.minecraft.resources.Identifier;
 import net.minecraft.util.ARGB;
 import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.WeatheringCopper;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.Vec3;
 
@@ -26,8 +27,8 @@ import org.jspecify.annotations.Nullable;
 
 /**
  * Per-portal LOD see-through of the linked dest volume. FULL draws dest-sampled
- * voxels. MESH is a dest-climate room. IMPOSTOR is a tinted plane. Vestibule
- * far side can chromatic / heat-haze. Commons can lie about walls.
+ * voxels. MESH is a dest-climate room. IMPOSTOR is a tinted plane. Oriented to
+ * the gate facing (including DOWN for false floor).
  */
 public class LinkedVolumeRenderer implements BlockEntityRenderer<ThresholdBlockEntity, LinkedVolumeRenderState> {
 	private static final Identifier WOOL = Identifier.withDefaultNamespace("textures/block/white_wool.png");
@@ -48,6 +49,7 @@ public class LinkedVolumeRenderer implements BlockEntityRenderer<ThresholdBlockE
 	) {
 		BlockEntityRenderState.extractBase(blockEntity, state, breakProgress);
 		state.kind = blockEntity.kind();
+		state.facing = blockEntity.facing();
 		state.crossing = PresentationLock.crossing(state.kind);
 		state.previewLies = blockEntity.previewLies();
 		state.farSideDistorts = blockEntity.farSideDistorts();
@@ -63,13 +65,12 @@ public class LinkedVolumeRenderer implements BlockEntityRenderer<ThresholdBlockE
 
 	@Override
 	public void submit(LinkedVolumeRenderState state, PoseStack poseStack, SubmitNodeCollector collector, CameraRenderState camera) {
-		if (!state.draw || state.kind != GateKind.VESTIBULE && state.kind != GateKind.COMMONS) {
+		if (!state.draw) {
 			return;
 		}
 
-		boolean red = state.crossing == PresentationLock.Crossing.YELLOW_TO_RED;
-		int plane = red ? ARGB.color(110, 138, 32, 32) : ARGB.color(90, 201, 180, 88);
-		int volume = red ? ARGB.color(230, 138, 32, 32) : ARGB.color(220, 201, 180, 88);
+		int plane = planeColor(state.crossing);
+		int volume = volumeColor(state.crossing);
 		var type = RenderTypes.entityTranslucent(WOOL);
 
 		poseStack.pushPose();
@@ -92,17 +93,72 @@ public class LinkedVolumeRenderer implements BlockEntityRenderer<ThresholdBlockE
 		poseStack.popPose();
 	}
 
+	private static int planeColor(PresentationLock.Crossing crossing) {
+		return switch (crossing) {
+			case YELLOW_TO_RED -> ARGB.color(110, 138, 32, 32);
+			case CONTINUOUS_PLANT -> ARGB.color(90, 90, 100, 96);
+			case DROP -> ARGB.color(80, 36, 36, 40);
+			case RARE_ENCOUNTER -> ARGB.color(90, 180, 180, 176);
+			default -> ARGB.color(90, 201, 180, 88);
+		};
+	}
+
+	private static int volumeColor(PresentationLock.Crossing crossing) {
+		return switch (crossing) {
+			case YELLOW_TO_RED -> ARGB.color(230, 138, 32, 32);
+			case CONTINUOUS_PLANT -> ARGB.color(220, 96, 108, 104);
+			case DROP -> ARGB.color(220, 48, 48, 52);
+			case RARE_ENCOUNTER -> ARGB.color(220, 188, 188, 184);
+			default -> ARGB.color(220, 201, 180, 88);
+		};
+	}
+
 	private static void drawPlane(PoseStack.Pose pose, VertexConsumer buffer, int color, LinkedVolumeRenderState state) {
 		float wobble = state.farSideDistorts ? haze(state.anim, 0.0F) : 0.0F;
-		quad(pose, buffer, color, 0.98F + wobble, 0.0F, 0.0F, 0.98F + wobble, 3.0F, 1.0F);
+		face(pose, buffer, color, state.facing, 0.0F, wobble);
 	}
 
 	private static void drawClimateRoom(PoseStack.Pose pose, VertexConsumer buffer, int volume, LinkedVolumeRenderState state) {
 		float depth = state.lod == PortalLod.MESH ? DEPTH : 3.0F;
-		quad(pose, buffer, volume, 0.98F, 0.0F, 0.0F, 0.98F + depth, 0.02F, 1.0F);
-		quad(pose, buffer, volume, 0.98F, 2.98F, 0.0F, 0.98F + depth, 3.0F, 1.0F);
-		quad(pose, buffer, volume, 0.98F, 0.0F, 0.0F, 0.98F + depth, 3.0F, 0.02F);
-		quad(pose, buffer, volume, 0.98F, 0.0F, 0.98F, 0.98F + depth, 3.0F, 1.0F);
+		Direction facing = state.facing;
+		if (facing.getAxis() == Direction.Axis.Y) {
+			quad(pose, buffer, volume, 0.0F, 0.02F, 0.0F, 1.0F, 0.02F - depth, 1.0F);
+			return;
+		}
+
+		int sx = facing.getStepX();
+		int sz = facing.getStepZ();
+		float start = sx + sz > 0 ? 0.98F : 0.02F;
+		if (facing.getAxis() == Direction.Axis.X) {
+			float x1 = start + sx * depth;
+			quad(pose, buffer, volume, start, 0.0F, 0.0F, x1, 0.02F, 1.0F);
+			quad(pose, buffer, volume, start, 2.98F, 0.0F, x1, 3.0F, 1.0F);
+			quad(pose, buffer, volume, start, 0.0F, 0.0F, x1, 3.0F, 0.02F);
+			quad(pose, buffer, volume, start, 0.0F, 0.98F, x1, 3.0F, 1.0F);
+			return;
+		}
+
+		float z1 = start + sz * depth;
+		quad(pose, buffer, volume, 0.0F, 0.0F, start, 1.0F, 0.02F, z1);
+		quad(pose, buffer, volume, 0.0F, 2.98F, start, 1.0F, 3.0F, z1);
+		quad(pose, buffer, volume, 0.0F, 0.0F, start, 0.02F, 3.0F, z1);
+		quad(pose, buffer, volume, 0.98F, 0.0F, start, 1.0F, 3.0F, z1);
+	}
+
+	private static void face(PoseStack.Pose pose, VertexConsumer buffer, int color, Direction facing, float along, float wobble) {
+		if (facing == Direction.DOWN) {
+			quad(pose, buffer, color, 0.0F, 0.02F + wobble, 0.0F, 1.0F, 0.02F + wobble, 1.0F);
+			return;
+		}
+
+		if (facing.getAxis() == Direction.Axis.X) {
+			float x = facing.getStepX() > 0 ? 0.98F + along + wobble : 0.02F - along - wobble;
+			quad(pose, buffer, color, x, 0.0F, 0.0F, x, 3.0F, 1.0F);
+			return;
+		}
+
+		float z = facing.getStepZ() > 0 ? 0.98F + along + wobble : 0.02F - along - wobble;
+		quad(pose, buffer, color, 0.0F, 0.0F, z, 1.0F, 3.0F, z);
 	}
 
 	private static void drawDestVoxels(PoseStack.Pose pose, VertexConsumer buffer, LinkedVolumeRenderState state) {
@@ -132,10 +188,10 @@ public class LinkedVolumeRenderer implements BlockEntityRenderer<ThresholdBlockE
 		float shift = 0.04F + Math.abs(haze(state.anim, 1.7F)) * 0.06F;
 		int red = ARGB.color(50, 220, 40, 40);
 		int cyan = ARGB.color(50, 40, 80, 200);
-		quad(pose, buffer, red, 1.2F + shift, 0.1F, 0.05F, 1.2F + shift, 2.9F, 0.95F);
-		quad(pose, buffer, cyan, 1.2F - shift, 0.1F, 0.05F, 1.2F - shift, 2.9F, 0.95F);
-		float far = 4.5F + haze(state.anim, 3.1F) * 0.2F;
-		quad(pose, buffer, ARGB.color(40, 160, 30, 30), far, 0.2F, 0.1F, far + 0.4F, 2.8F, 0.9F);
+		face(pose, buffer, red, state.facing, 0.22F + shift, 0.0F);
+		face(pose, buffer, cyan, state.facing, 0.22F - shift, 0.0F);
+		float far = 3.5F + haze(state.anim, 3.1F) * 0.2F;
+		face(pose, buffer, ARGB.color(40, 160, 30, 30), state.facing, far, 0.0F);
 	}
 
 	private static float haze(float anim, float seed) {
@@ -147,15 +203,43 @@ public class LinkedVolumeRenderer implements BlockEntityRenderer<ThresholdBlockE
 			return 0;
 		}
 
-		if (state.getBlock() == Blocks.WOOL.pick(DyeColor.RED) || state.getBlock() == Blocks.CARPET.pick(DyeColor.RED)) {
+		var block = state.getBlock();
+		if (block == Blocks.WOOL.pick(DyeColor.RED) || block == Blocks.CARPET.pick(DyeColor.RED)
+			|| block == Blocks.DYED_TERRACOTTA.pick(DyeColor.RED)) {
 			return ARGB.color(230, 138, 32, 32);
 		}
 
-		if (state.getBlock() == Blocks.WOOL.pick(DyeColor.YELLOW) || state.getBlock() == Blocks.CARPET.pick(DyeColor.YELLOW)) {
+		if (block == Blocks.WOOL.pick(DyeColor.YELLOW) || block == Blocks.CARPET.pick(DyeColor.YELLOW)
+			|| block == Blocks.DYED_TERRACOTTA.pick(DyeColor.YELLOW)) {
 			return ARGB.color(220, 201, 180, 88);
 		}
 
-		if (state.getBlock() == Blocks.DEEPSLATE || state.getBlock() == Blocks.SMOOTH_STONE) {
+		if (block == Blocks.WOOL.pick(DyeColor.LIME) || block == Blocks.CARPET.pick(DyeColor.LIME)) {
+			return ARGB.color(210, 160, 200, 80);
+		}
+
+		if (block == Blocks.WOOL.pick(DyeColor.GRAY) || block == Blocks.CARPET.pick(DyeColor.GRAY)) {
+			return ARGB.color(220, 72, 72, 76);
+		}
+
+		if (block == Blocks.WOOL.pick(DyeColor.LIGHT_GRAY) || block == Blocks.CARPET.pick(DyeColor.WHITE)) {
+			return ARGB.color(220, 196, 196, 192);
+		}
+
+		if (block == Blocks.IRON_BLOCK) {
+			return ARGB.color(230, 150, 150, 156);
+		}
+
+		if (block == Blocks.COPPER_BLOCK.weathering().pick(WeatheringCopper.WeatherState.OXIDIZED)
+			|| block == Blocks.COPPER_BLOCK.weathering().pick(WeatheringCopper.WeatherState.UNAFFECTED)) {
+			return ARGB.color(230, 72, 140, 96);
+		}
+
+		if (block == Blocks.OCHRE_FROGLIGHT) {
+			return ARGB.color(240, 230, 210, 120);
+		}
+
+		if (block == Blocks.DEEPSLATE || block == Blocks.SMOOTH_STONE) {
 			return ARGB.color(235, 42, 42, 46);
 		}
 

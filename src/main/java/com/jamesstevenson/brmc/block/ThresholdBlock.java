@@ -26,9 +26,8 @@ import net.minecraft.world.phys.BlockHitResult;
 import org.jspecify.annotations.Nullable;
 
 /**
- * Invisible walk-through plane. Linked commons / vestibule fire on plane-cross
- * only (was-behind → now-through). Other First exits still use touch until
- * they get the same dest-sampled path.
+ * Invisible walk-through plane. Live First exits fire on plane-cross
+ * (was-behind → now-through). OOB is present and not live.
  */
 public class ThresholdBlock extends net.minecraft.world.level.block.Block implements EntityBlock {
 	private final GateKind kind;
@@ -94,7 +93,7 @@ public class ThresholdBlock extends net.minecraft.world.level.block.Block implem
 	}
 
 	private void attemptTouchTraverse(ServerLevel level, ServerPlayer player, BlockPos pos) {
-		if (!BrmcDimensions.isFirst(level)) {
+		if (!BrmcDimensions.isFirst(level) || this.kind.architectureOnly()) {
 			return;
 		}
 

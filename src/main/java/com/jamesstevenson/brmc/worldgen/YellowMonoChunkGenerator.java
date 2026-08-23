@@ -281,7 +281,5 @@ public class YellowMonoChunkGenerator extends ChunkGenerator {
 
 	@Override
 	public void addDebugScreenInfo(List<String> result, RandomState randomState, BlockPos feetPos) {
-		FirstPocket pocket = YellowMonoLayout.pocketAt(feetPos.getX(), feetPos.getZ());
-		result.add("BRMC first " + (pocket == null ? "hub" : pocket.slug()));
 	}
 }

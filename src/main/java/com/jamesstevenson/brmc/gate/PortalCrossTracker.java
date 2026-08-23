@@ -25,17 +25,35 @@ public final class PortalCrossTracker {
 		return previous < 0.0 && signed >= 0.0;
 	}
 
+	public boolean crossedTowardSource(UUID id, double signed) {
+		Double previous = this.lastSigned.put(id, signed);
+		if (previous == null) {
+			return false;
+		}
+
+		return previous >= 0.0 && signed < 0.0;
+	}
+
 	public void forget(UUID id) {
 		this.lastSigned.remove(id);
 	}
 
 	public static double signedDistance(Vec3 position, BlockPos threshold, Direction facing) {
 		double planeX = threshold.getX() + planeOffset(facing.getStepX());
+		double planeY = threshold.getY() + planeOffset(facing.getStepY());
 		double planeZ = threshold.getZ() + planeOffset(facing.getStepZ());
-		return (position.x - planeX) * facing.getStepX() + (position.z - planeZ) * facing.getStepZ();
+		return (position.x - planeX) * facing.getStepX()
+			+ (position.y - planeY) * facing.getStepY()
+			+ (position.z - planeZ) * facing.getStepZ();
 	}
 
 	public static boolean inDoorway(Vec3 position, BlockPos threshold, Direction facing) {
+		if (facing.getAxis() == Direction.Axis.Y) {
+			return position.x >= threshold.getX() - 0.2 && position.x <= threshold.getX() + 1.2
+				&& position.z >= threshold.getZ() - 0.2 && position.z <= threshold.getZ() + 1.2
+				&& position.y >= threshold.getY() - 4.0 && position.y <= threshold.getY() + 2.0;
+		}
+
 		double y = position.y;
 		if (y < threshold.getY() - 0.2 || y > threshold.getY() + 3.2) {
 			return false;

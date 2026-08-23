@@ -16,9 +16,9 @@ import net.minecraft.world.level.block.state.BlockState;
  */
 public final class DestinationVolumeSampler {
 	public static final int DEPTH = 8;
-	public static final int HALF_WIDTH = 2;
+	public static final int HALF_WIDTH = 3;
 	public static final int Y_MIN = -1;
-	public static final int Y_MAX = 3;
+	public static final int Y_MAX = 4;
 
 	private DestinationVolumeSampler() {
 	}
@@ -32,26 +32,27 @@ public final class DestinationVolumeSampler {
 		BlockPos.MutableBlockPos cursor = new BlockPos.MutableBlockPos();
 		boolean complete = true;
 
-		for (int along = 1; along <= DEPTH; along++) {
-			for (int lateral = -HALF_WIDTH; lateral <= HALF_WIDTH; lateral++) {
-				for (int y = Y_MIN; y <= Y_MAX; y++) {
-					int dx = facing.getStepX() * along + facing.getStepZ() * lateral;
-					int dz = facing.getStepZ() * along + facing.getStepX() * lateral;
-					cursor.set(threshold.getX() + dx, threshold.getY() + y, threshold.getZ() + dz);
-					if (!destination.hasChunkAt(cursor)) {
-						complete = false;
-						continue;
+		if (facing.getAxis() == Direction.Axis.Y) {
+			for (int along = 1; along <= DEPTH; along++) {
+				for (int lx = -HALF_WIDTH; lx <= HALF_WIDTH; lx++) {
+					for (int lz = -HALF_WIDTH; lz <= HALF_WIDTH; lz++) {
+						int dy = facing.getStepY() * along;
+						if (!pack(destination, threshold, cursor, packed, lx, dy, lz)) {
+							complete = false;
+						}
 					}
-
-					BlockState state = destination.getBlockState(cursor);
-					if (state.isAir()) {
-						continue;
+				}
+			}
+		} else {
+			for (int along = 1; along <= DEPTH; along++) {
+				for (int lateral = -HALF_WIDTH; lateral <= HALF_WIDTH; lateral++) {
+					for (int y = Y_MIN; y <= Y_MAX; y++) {
+						int dx = facing.getStepX() * along + facing.getStepZ() * lateral;
+						int dz = facing.getStepZ() * along + facing.getStepX() * lateral;
+						if (!pack(destination, threshold, cursor, packed, dx, y, dz)) {
+							complete = false;
+						}
 					}
-
-					packed.add(dx);
-					packed.add(y);
-					packed.add(dz);
-					packed.add(Block.getId(state));
 				}
 			}
 		}
@@ -62,5 +63,30 @@ public final class DestinationVolumeSampler {
 		}
 
 		return new DestinationVolume(destination.dimension().identifier().toString(), array, complete);
+	}
+
+	private static boolean pack(
+		ServerLevel destination,
+		BlockPos threshold,
+		BlockPos.MutableBlockPos cursor,
+		List<Integer> packed,
+		int dx,
+		int dy,
+		int dz
+	) {
+		cursor.set(threshold.getX() + dx, threshold.getY() + dy, threshold.getZ() + dz);
+		if (!destination.hasChunkAt(cursor)) {
+			return false;
+		}
+
+		BlockState state = destination.getBlockState(cursor);
+		if (!state.isAir()) {
+			packed.add(dx);
+			packed.add(dy);
+			packed.add(dz);
+			packed.add(Block.getId(state));
+		}
+
+		return true;
 	}
 }

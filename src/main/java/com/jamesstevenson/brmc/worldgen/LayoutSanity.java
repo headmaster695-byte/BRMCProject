@@ -44,6 +44,42 @@ public final class LayoutSanity {
 			errors++;
 		}
 
+		errors += expectPocket(-39, 22, FirstPocket.APARTMENT_JANITOR, "apartment janitor closet");
+		if (!YellowMonoLayout.isThresholdAnchor(19, -40)) {
+			BrmcMod.LOGGER.error("Utilities deep door is not a threshold.");
+			errors++;
+		}
+
+		if (!YellowMonoLayout.isThresholdAnchor(62, 62)) {
+			BrmcMod.LOGGER.error("Curving hall seam is not a threshold.");
+			errors++;
+		}
+
+		if (!YellowMonoLayout.isThresholdAnchor(-20, 52)) {
+			BrmcMod.LOGGER.error("False floor hole is not a threshold.");
+			errors++;
+		}
+
+		if (!YellowMonoLayout.isThresholdAnchor(-39, 22)) {
+			BrmcMod.LOGGER.error("Janitor closet is not a threshold.");
+			errors++;
+		}
+
+		if (DestClimateChunkGenerator.columnState(DestClimate.YELLOW_MONO, 0, 66, 0).isAir()) {
+			BrmcMod.LOGGER.error("False First dest cell is missing corner walls.");
+			errors++;
+		}
+
+		if (!DestClimateChunkGenerator.columnState(DestClimate.YELLOW_MONO, 4, 66, 4).isAir()) {
+			BrmcMod.LOGGER.error("False First dest cell center is not walkable.");
+			errors++;
+		}
+
+		if (!DestClimateChunkGenerator.columnState(DestClimate.SPIRAL_WELL, -20, 64, 52).isAir()) {
+			BrmcMod.LOGGER.error("Spiral well shaft is sealed at the false-floor identity column.");
+			errors++;
+		}
+
 		if (errors == 0) {
 			BrmcMod.LOGGER.info("First layout sanity: Clark 32×32, cardinal spines, authored pockets placed.");
 		} else {

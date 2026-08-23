@@ -45,6 +45,7 @@ public final class BrmcCommands {
 				.then(Commands.literal("pocket")
 					.then(Commands.literal("clark").executes(ctx -> pocket(ctx, FirstPocket.CLARK_CHAMBER)))
 					.then(Commands.literal("apartment").executes(ctx -> pocket(ctx, FirstPocket.APARTMENT)))
+					.then(Commands.literal("janitor").executes(ctx -> pocket(ctx, FirstPocket.APARTMENT_JANITOR)))
 					.then(Commands.literal("utilities").executes(ctx -> pocket(ctx, FirstPocket.UTILITIES)))
 					.then(Commands.literal("commons").executes(ctx -> pocket(ctx, FirstPocket.COMMON_EXIT)))
 					.then(Commands.literal("vestibule").executes(ctx -> pocket(ctx, FirstPocket.VESTIBULE)))
@@ -63,7 +64,9 @@ public final class BrmcCommands {
 			return 0;
 		}
 
-		Vec3 pos = YellowMonoLayout.warp(pocket);
+		Vec3 pos = pocket == FirstPocket.APARTMENT_JANITOR
+			? new Vec3(YellowMonoLayout.cellOrigin(-5) + 2.5, YellowMonoLayout.CARPET_Y + 1, YellowMonoLayout.cellOrigin(2) + 5.5)
+			: YellowMonoLayout.warp(pocket);
 		player.teleport(new TeleportTransition(
 			first,
 			pos,

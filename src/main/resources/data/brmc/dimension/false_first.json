@@ -1,18 +1,11 @@
 {
 	"type": "brmc:false_first",
 	"generator": {
-		"type": "minecraft:flat",
-		"settings": {
-			"biome": "brmc:false_first_stub",
-			"lakes": false,
-			"features": false,
-			"layers": [
-				{ "block": "minecraft:bedrock", "height": 1 },
-				{ "block": "minecraft:smooth_stone", "height": 63 },
-				{ "block": "minecraft:yellow_wool", "height": 1 },
-				{ "block": "minecraft:yellow_carpet", "height": 1 }
-			],
-			"structure_overrides": []
-		}
+		"type": "brmc:dest_climate",
+		"biome_source": {
+			"type": "minecraft:fixed",
+			"biome": "brmc:false_first_stub"
+		},
+		"climate": "yellow_mono"
 	}
 }
