@@ -15,6 +15,7 @@ import org.jspecify.annotations.Nullable;
 
 /**
  * Fluorescent fixture. Block entity is the hum-buzz hook — no mobs, no sound yet.
+ * Second uses the same BE; pitch stays a later pass (lower / wetter).
  */
 public class TrofferBlock extends net.minecraft.world.level.block.Block implements EntityBlock {
 	public static final String VISIBLE_NAME = "block.brmc.light";

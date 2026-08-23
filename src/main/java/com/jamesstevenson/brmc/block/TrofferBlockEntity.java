@@ -6,7 +6,8 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 
 /**
- * Reserved for the First hum-buzz. No entities spawn. No audio in this pass.
+ * Reserved hum-buzz stub. First pitch later; Second is lower / wetter when
+ * audio lands. No entities spawn. No audio in this pass.
  */
 public class TrofferBlockEntity extends BlockEntity {
 	public TrofferBlockEntity(BlockPos pos, BlockState state) {

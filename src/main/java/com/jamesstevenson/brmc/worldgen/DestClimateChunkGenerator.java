@@ -147,7 +147,11 @@ public class DestClimateChunkGenerator extends ChunkGenerator {
 		}
 
 		if (y < YellowMonoLayout.FLOOR_Y) {
-			return climate == DestClimate.RED_MONO || climate == DestClimate.SPIRAL_WELL
+			if (climate == DestClimate.RED_MONO) {
+				return RedMonoPalette.debris();
+			}
+
+			return climate == DestClimate.SPIRAL_WELL
 				? Blocks.DEEPSLATE.defaultBlockState()
 				: Blocks.SMOOTH_STONE.defaultBlockState();
 		}
@@ -167,6 +171,13 @@ public class DestClimateChunkGenerator extends ChunkGenerator {
 			}
 		}
 
+		if (climate == DestClimate.RED_MONO
+			&& RedMonoPalette.isDestDoorPlane(worldX, worldZ)
+			&& y >= YellowMonoLayout.CARPET_Y
+			&& y < YellowMonoLayout.CEILING_Y) {
+			return RedMonoPalette.doorSkin(worldX, worldZ);
+		}
+
 		if (y == YellowMonoLayout.CARPET_Y) {
 			if (wall) {
 				return climate.wall(worldX, y, worldZ);
@@ -176,7 +187,7 @@ public class DestClimateChunkGenerator extends ChunkGenerator {
 				return climate.prop();
 			}
 
-			return climate.carpet();
+			return climate.carpet(worldX, worldZ);
 		}
 
 		if (y > YellowMonoLayout.CARPET_Y && y < YellowMonoLayout.CEILING_Y) {
@@ -188,7 +199,7 @@ public class DestClimateChunkGenerator extends ChunkGenerator {
 		}
 
 		if (y == YellowMonoLayout.CEILING_Y) {
-			return climate.ceiling(DestClimate.isLight(worldX, worldZ));
+			return climate.ceiling(DestClimate.isLight(worldX, worldZ), worldX, worldZ);
 		}
 
 		return Blocks.AIR.defaultBlockState();

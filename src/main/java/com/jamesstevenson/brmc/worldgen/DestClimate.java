@@ -34,7 +34,7 @@ public enum DestClimate implements StringRepresentable {
 	public BlockState floor() {
 		return switch (this) {
 			case YELLOW_MONO, SOFT_YELLOW -> Blocks.WOOL.pick(DyeColor.YELLOW).defaultBlockState();
-			case RED_MONO -> Blocks.WOOL.pick(DyeColor.RED).defaultBlockState();
+			case RED_MONO -> RedMonoPalette.floor();
 			case PLANT -> Blocks.IRON_BLOCK.defaultBlockState();
 			case SPIRAL_WELL -> Blocks.WOOL.pick(DyeColor.GRAY).defaultBlockState();
 			case CUSTODIAL -> Blocks.WOOL.pick(DyeColor.LIGHT_GRAY).defaultBlockState();
@@ -42,10 +42,14 @@ public enum DestClimate implements StringRepresentable {
 	}
 
 	public BlockState carpet() {
+		return carpet(0, 0);
+	}
+
+	public BlockState carpet(int worldX, int worldZ) {
 		return switch (this) {
 			case YELLOW_MONO -> Blocks.CARPET.pick(DyeColor.YELLOW).defaultBlockState();
 			case SOFT_YELLOW -> Blocks.CARPET.pick(DyeColor.LIME).defaultBlockState();
-			case RED_MONO -> Blocks.CARPET.pick(DyeColor.RED).defaultBlockState();
+			case RED_MONO -> RedMonoPalette.carpet(worldX, worldZ);
 			case PLANT -> Blocks.CARPET.pick(DyeColor.GRAY).defaultBlockState();
 			case SPIRAL_WELL -> Blocks.CARPET.pick(DyeColor.GRAY).defaultBlockState();
 			case CUSTODIAL -> Blocks.CARPET.pick(DyeColor.WHITE).defaultBlockState();
@@ -58,9 +62,7 @@ public enum DestClimate implements StringRepresentable {
 				? Blocks.DYED_TERRACOTTA.pick(DyeColor.YELLOW).defaultBlockState()
 				: Blocks.WOOL.pick(DyeColor.YELLOW).defaultBlockState();
 			case SOFT_YELLOW -> Blocks.WOOL.pick(DyeColor.YELLOW).defaultBlockState();
-			case RED_MONO -> YellowMonoLayout.chevronDark(worldX, y, worldZ)
-				? Blocks.DYED_TERRACOTTA.pick(DyeColor.RED).defaultBlockState()
-				: Blocks.WOOL.pick(DyeColor.RED).defaultBlockState();
+			case RED_MONO -> RedMonoPalette.wallpaper(worldX, y, worldZ);
 			case PLANT -> Math.floorMod(worldX + worldZ, 5) == 0
 				? Blocks.COPPER_BLOCK.weathering().pick(WeatheringCopper.WeatherState.OXIDIZED).defaultBlockState()
 				: Blocks.SMOOTH_STONE.defaultBlockState();
@@ -70,16 +72,21 @@ public enum DestClimate implements StringRepresentable {
 	}
 
 	public BlockState ceiling(boolean light) {
+		return ceiling(light, 0, 0);
+	}
+
+	public BlockState ceiling(boolean light, int worldX, int worldZ) {
 		if (light) {
 			return switch (this) {
 				case PLANT -> Blocks.COPPER_BLOCK.weathering().pick(WeatheringCopper.WeatherState.UNAFFECTED).defaultBlockState();
 				case SPIRAL_WELL -> Blocks.SMOOTH_STONE.defaultBlockState();
+				case RED_MONO -> RedMonoPalette.ceiling(true, worldX, worldZ);
 				default -> Blocks.OCHRE_FROGLIGHT.defaultBlockState();
 			};
 		}
 
 		return switch (this) {
-			case RED_MONO -> Blocks.WOOL.pick(DyeColor.RED).defaultBlockState();
+			case RED_MONO -> RedMonoPalette.ceiling(false, worldX, worldZ);
 			case PLANT, SPIRAL_WELL -> Blocks.SMOOTH_STONE.defaultBlockState();
 			case CUSTODIAL -> Blocks.WOOL.pick(DyeColor.LIGHT_GRAY).defaultBlockState();
 			default -> Blocks.CONCRETE.pick(DyeColor.LIGHT_GRAY).defaultBlockState();

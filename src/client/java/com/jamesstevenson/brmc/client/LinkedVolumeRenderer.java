@@ -1,5 +1,6 @@
 package com.jamesstevenson.brmc.client;
 
+import com.jamesstevenson.brmc.block.BrmcBlocks;
 import com.jamesstevenson.brmc.block.ThresholdBlockEntity;
 import com.jamesstevenson.brmc.gate.PortalLod;
 import com.jamesstevenson.brmc.gate.PresentationLock;
@@ -204,7 +205,20 @@ public class LinkedVolumeRenderer implements BlockEntityRenderer<ThresholdBlockE
 		}
 
 		var block = state.getBlock();
-		if (block == Blocks.WOOL.pick(DyeColor.RED) || block == Blocks.CARPET.pick(DyeColor.RED)
+		if (block == BrmcBlocks.SECOND_WALLPAPER
+			|| block == BrmcBlocks.SECOND_WALLPAPER_B
+			|| block == BrmcBlocks.SECOND_WALLPAPER_C
+			|| block == BrmcBlocks.SECOND_CARPET
+			|| block == BrmcBlocks.SECOND_CARPET_MOLD
+			|| block == BrmcBlocks.SECOND_CARPET_TORN
+			|| block == BrmcBlocks.SECOND_DEBRIS_CARPET
+			|| block == BrmcBlocks.SECOND_CEILING_TILE
+			|| block == BrmcBlocks.SECOND_TROFFER
+			|| block == BrmcBlocks.SECOND_TROFFER_DEAD
+			|| block == BrmcBlocks.SECOND_DOOR_COMMERCIAL
+			|| block == BrmcBlocks.SECOND_DOOR_FRAME
+			|| block == Blocks.WOOL.pick(DyeColor.RED)
+			|| block == Blocks.CARPET.pick(DyeColor.RED)
 			|| block == Blocks.DYED_TERRACOTTA.pick(DyeColor.RED)) {
 			return ARGB.color(230, 138, 32, 32);
 		}

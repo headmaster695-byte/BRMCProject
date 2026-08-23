@@ -33,6 +33,19 @@ public final class BrmcBlockItemIds {
 	public static final BlockItemId FIRST_DOOR_FRAME = create("first_door_frame");
 	public static final BlockItemId FIRST_DOOR_VESTIBULE = create("first_door_vestibule");
 
+	public static final BlockItemId SECOND_WALLPAPER = create("second_wallpaper");
+	public static final BlockItemId SECOND_WALLPAPER_B = create("second_wallpaper_b");
+	public static final BlockItemId SECOND_WALLPAPER_C = create("second_wallpaper_c");
+	public static final BlockItemId SECOND_CARPET = create("second_carpet");
+	public static final BlockItemId SECOND_CARPET_MOLD = create("second_carpet_mold");
+	public static final BlockItemId SECOND_CARPET_TORN = create("second_carpet_torn");
+	public static final BlockItemId SECOND_DEBRIS_CARPET = create("second_debris_carpet");
+	public static final BlockItemId SECOND_CEILING_TILE = create("second_ceiling_tile");
+	public static final BlockItemId SECOND_TROFFER = create("second_troffer");
+	public static final BlockItemId SECOND_TROFFER_DEAD = create("second_troffer_dead");
+	public static final BlockItemId SECOND_DOOR_COMMERCIAL = create("second_door_commercial");
+	public static final BlockItemId SECOND_DOOR_FRAME = create("second_door_frame");
+
 	private BrmcBlockItemIds() {
 	}
 

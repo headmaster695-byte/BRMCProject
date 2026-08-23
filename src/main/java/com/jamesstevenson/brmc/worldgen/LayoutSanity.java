@@ -231,6 +231,66 @@ public final class LayoutSanity {
 			errors++;
 		}
 
+		if (DestClimateChunkGenerator.columnState(DestClimate.YELLOW_MONO, 0, YellowMonoLayout.CARPET_Y + 1, 0)
+			.is(BrmcBlocks.SECOND_WALLPAPER)
+			|| DestClimateChunkGenerator.columnState(DestClimate.YELLOW_MONO, 4, YellowMonoLayout.CARPET_Y, 4)
+			.is(BrmcBlocks.SECOND_CARPET)) {
+			BrmcMod.LOGGER.error("False First dest must stay yellow-mono this pass — Second palette is vestibule dest only.");
+			errors++;
+		}
+
+		net.minecraft.world.level.block.state.BlockState secondWall = DestClimateChunkGenerator.columnState(
+			DestClimate.RED_MONO,
+			64,
+			YellowMonoLayout.CARPET_Y + 1,
+			16
+		);
+		net.minecraft.world.level.block.state.BlockState secondCarpet = DestClimateChunkGenerator.columnState(
+			DestClimate.RED_MONO,
+			68,
+			YellowMonoLayout.CARPET_Y,
+			20
+		);
+		net.minecraft.world.level.block.state.BlockState secondFill = DestClimateChunkGenerator.columnState(
+			DestClimate.RED_MONO,
+			68,
+			YellowMonoLayout.FLOOR_Y - 1,
+			20
+		);
+		net.minecraft.world.level.block.state.BlockState secondLight = DestClimateChunkGenerator.columnState(
+			DestClimate.RED_MONO,
+			67,
+			YellowMonoLayout.CEILING_Y,
+			20
+		);
+		if (secondWall.is(net.minecraft.world.level.block.Blocks.WOOL.pick(net.minecraft.world.item.DyeColor.RED))
+			|| secondWall.is(net.minecraft.world.level.block.Blocks.DYED_TERRACOTTA.pick(net.minecraft.world.item.DyeColor.RED))
+			|| secondCarpet.is(net.minecraft.world.level.block.Blocks.CARPET.pick(net.minecraft.world.item.DyeColor.RED))
+			|| secondFill.is(net.minecraft.world.level.block.Blocks.DEEPSLATE)
+			|| secondFill.is(net.minecraft.world.level.block.Blocks.SMOOTH_STONE)
+			|| !isSecondWallpaper(secondWall)
+			|| !secondCarpet.is(BrmcBlocks.SECOND_CARPET)
+			|| !secondFill.is(BrmcBlocks.SECOND_DEBRIS_CARPET)
+			|| !secondLight.is(BrmcBlocks.SECOND_TROFFER)
+			|| !DestClimateChunkGenerator.columnState(
+				DestClimate.RED_MONO,
+				70,
+				YellowMonoLayout.CARPET_Y + 1,
+				18
+			).is(BrmcBlocks.SECOND_DOOR_FRAME)
+			|| !DestClimateChunkGenerator.columnState(
+				DestClimate.RED_MONO,
+				70,
+				YellowMonoLayout.CARPET_Y + 1,
+				16
+			).is(BrmcBlocks.SECOND_DOOR_COMMERCIAL)
+			|| RedMonoPalette.isCarpetMold(70, 19)
+			|| RedMonoPalette.isCarpetTorn(70, 20)
+			|| RedMonoPalette.isDeadTroffer(67, 20)) {
+			BrmcMod.LOGGER.error("Second dest must be crimson P0 mono at vestibule arrival — no vanilla red, no gray fill, no landmark wear.");
+			errors++;
+		}
+
 		if (!DestClimateChunkGenerator.columnState(DestClimate.SPIRAL_WELL, -20, 64, 52).isAir()) {
 			BrmcMod.LOGGER.error("Spiral well shaft is sealed at the false-floor identity column.");
 			errors++;
@@ -256,7 +316,7 @@ public final class LayoutSanity {
 		}
 
 		if (errors == 0) {
-			BrmcMod.LOGGER.info("First layout sanity: Clark 32×32, cardinal spines, authored pockets placed.");
+			BrmcMod.LOGGER.info("First layout sanity: Clark 32×32, cardinal spines, authored pockets placed. Second dest is crimson P0.");
 		} else {
 			BrmcMod.LOGGER.error("First layout sanity failed with {} issue(s).", errors);
 		}
@@ -275,5 +335,11 @@ public final class LayoutSanity {
 		}
 
 		return 0;
+	}
+
+	private static boolean isSecondWallpaper(net.minecraft.world.level.block.state.BlockState state) {
+		return state.is(BrmcBlocks.SECOND_WALLPAPER)
+			|| state.is(BrmcBlocks.SECOND_WALLPAPER_B)
+			|| state.is(BrmcBlocks.SECOND_WALLPAPER_C);
 	}
 }

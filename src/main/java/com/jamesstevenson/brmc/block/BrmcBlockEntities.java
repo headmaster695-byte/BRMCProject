@@ -36,7 +36,9 @@ public final class BrmcBlockEntities {
 			Set.of(
 				BrmcBlocks.FIRST_TROFFER,
 				BrmcBlocks.FIRST_TROFFER_DEAD,
-				BrmcBlocks.FIRST_TROFFER_HALF
+				BrmcBlocks.FIRST_TROFFER_HALF,
+				BrmcBlocks.SECOND_TROFFER,
+				BrmcBlocks.SECOND_TROFFER_DEAD
 			)
 		)
 	);

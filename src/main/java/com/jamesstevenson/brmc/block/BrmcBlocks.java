@@ -77,6 +77,29 @@ public final class BrmcBlocks {
 	public static final Block FIRST_DOOR_FRAME = palette(BrmcBlockItemIds.FIRST_DOOR_FRAME, DOOR_FRAME_NAME, Block::new, yellowMono(SoundType.WOOD));
 	public static final Block FIRST_DOOR_VESTIBULE = palette(BrmcBlockItemIds.FIRST_DOOR_VESTIBULE, DOOR_NAME, Block::new, yellowMono(SoundType.WOOD));
 
+	public static final Block SECOND_WALLPAPER = palette(BrmcBlockItemIds.SECOND_WALLPAPER, WALLPAPER_NAME, Block::new, crimsonMono(SoundType.WOOL));
+	public static final Block SECOND_WALLPAPER_B = palette(BrmcBlockItemIds.SECOND_WALLPAPER_B, WALLPAPER_NAME, Block::new, crimsonMono(SoundType.WOOL));
+	public static final Block SECOND_WALLPAPER_C = palette(BrmcBlockItemIds.SECOND_WALLPAPER_C, WALLPAPER_NAME, Block::new, crimsonMono(SoundType.WOOL));
+	public static final Block SECOND_CARPET = palette(BrmcBlockItemIds.SECOND_CARPET, CARPET_NAME, CarpetBlock::new, crimsonMono(SoundType.WOOL));
+	public static final Block SECOND_CARPET_MOLD = palette(BrmcBlockItemIds.SECOND_CARPET_MOLD, CARPET_NAME, CarpetBlock::new, crimsonMono(SoundType.WOOL));
+	public static final Block SECOND_CARPET_TORN = palette(BrmcBlockItemIds.SECOND_CARPET_TORN, CARPET_NAME, CarpetBlock::new, crimsonMono(SoundType.WOOL));
+	public static final Block SECOND_DEBRIS_CARPET = palette(BrmcBlockItemIds.SECOND_DEBRIS_CARPET, CARPET_NAME, Block::new, crimsonMono(SoundType.WOOL));
+	public static final Block SECOND_CEILING_TILE = palette(BrmcBlockItemIds.SECOND_CEILING_TILE, CEILING_NAME, Block::new, crimsonMono(SoundType.STONE));
+	public static final Block SECOND_TROFFER = palette(
+		BrmcBlockItemIds.SECOND_TROFFER,
+		LIGHT_NAME,
+		TrofferBlock::new,
+		crimsonMono(SoundType.GLASS).lightLevel(state -> 15)
+	);
+	public static final Block SECOND_TROFFER_DEAD = palette(
+		BrmcBlockItemIds.SECOND_TROFFER_DEAD,
+		LIGHT_NAME,
+		TrofferBlock::new,
+		crimsonMono(SoundType.GLASS)
+	);
+	public static final Block SECOND_DOOR_COMMERCIAL = palette(BrmcBlockItemIds.SECOND_DOOR_COMMERCIAL, DOOR_NAME, Block::new, crimsonMono(SoundType.WOOD));
+	public static final Block SECOND_DOOR_FRAME = palette(BrmcBlockItemIds.SECOND_DOOR_FRAME, DOOR_FRAME_NAME, Block::new, crimsonMono(SoundType.WOOD));
+
 	public static final ResourceKey<CreativeModeTab> BUILDING_TAB = ResourceKey.create(
 		Registries.CREATIVE_MODE_TAB,
 		Identifier.fromNamespaceAndPath(BrmcMod.MOD_ID, "building")
@@ -100,6 +123,12 @@ public final class BrmcBlocks {
 					output.accept(FIRST_TROFFER);
 					output.accept(FIRST_DOOR_COMMERCIAL);
 					output.accept(FIRST_DOOR_FRAME);
+					output.accept(SECOND_WALLPAPER);
+					output.accept(SECOND_CARPET);
+					output.accept(SECOND_CEILING_TILE);
+					output.accept(SECOND_TROFFER);
+					output.accept(SECOND_DOOR_COMMERCIAL);
+					output.accept(SECOND_DOOR_FRAME);
 					output.accept(VESTIBULE_THRESHOLD);
 					output.accept(OOB_HOLE);
 				})
@@ -133,6 +162,10 @@ public final class BrmcBlocks {
 
 	private static BlockBehaviour.Properties yellowMono(SoundType sound) {
 		return BlockBehaviour.Properties.of().mapColor(DyeColor.YELLOW).strength(0.8F).sound(sound);
+	}
+
+	private static BlockBehaviour.Properties crimsonMono(SoundType sound) {
+		return BlockBehaviour.Properties.of().mapColor(DyeColor.RED).strength(0.8F).sound(sound);
 	}
 
 	private static Block threshold(BlockItemId id, GateKind kind, SoundType sound) {

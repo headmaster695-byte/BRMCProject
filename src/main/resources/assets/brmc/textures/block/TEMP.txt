@@ -5,3 +5,8 @@ Carpet family: beige nap; blotch *read* is texture-only (not a name).
 Troffer: housing + bar. Dead is unlit louvers.
 Door 1 / frame: commercial beige + metal. Door 2 stays glass airlock cousin.
 Regen First chunks after pull.
+
+Second P0 TEMP: exact Architect PNG bytes under second_*. Crimson blood-tone, not Halloween.
+second_wallpaper_c: Architect IDAT recovered (handoff Adler-32 was bad); pixels unchanged.
+No safelight. No yellow-bleed. Debris fill is second_debris_carpet, never gray.
+Regen dest / Second chunks after pull.

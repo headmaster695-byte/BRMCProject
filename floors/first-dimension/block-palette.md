@@ -35,4 +35,4 @@ Look-targets (texture only — not block names or tooltips):
 | `first_door_frame` | Door Frame | Vestibule jambs (metal, not yellow→red) |
 | `first_door_vestibule` | Door | Door 2 panels (glass airlock cousin) |
 
-Apartment / utilities still use vanilla material-break stand-ins. Dest stubs stay climate vanilla this pass.
+Apartment / utilities still use vanilla material-break stand-ins. Second dest climate is P0 `brmc:second_*` (`floors/second-dimension/block-palette.md`). False First dest stays yellow-mono vanilla this pass.
