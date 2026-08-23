@@ -10,6 +10,7 @@ import com.jamesstevenson.brmc.rule.MiningRegenRule;
 import com.jamesstevenson.brmc.rule.NavigationLiesRule;
 import com.jamesstevenson.brmc.rule.UnresolvedSoundRule;
 import com.jamesstevenson.brmc.spawn.ClarkColdOpen;
+import com.jamesstevenson.brmc.worldgen.LayoutSanity;
 import com.jamesstevenson.brmc.worldgen.YellowMonoChunkGenerator;
 
 import net.minecraft.resources.Identifier;
@@ -36,6 +37,7 @@ public class BrmcMod implements ModInitializer {
 		NavigationLiesRule.initialize();
 		UnresolvedSoundRule.initialize();
 		BrmcCommands.register();
+		LayoutSanity.bootstrap();
 		LOGGER.info("BRMC First Dimension architecture loaded. Gate backend: {}", SeamlessGateService.backendName());
 	}
 

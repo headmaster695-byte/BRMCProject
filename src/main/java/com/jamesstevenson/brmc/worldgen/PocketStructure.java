@@ -9,7 +9,7 @@ import net.minecraft.resources.Identifier;
  * jigsaws and aesthetic boards land later under {@code floors/<slug>/}.
  */
 public enum PocketStructure {
-	CLARK_CHAMBER("first-clark-chamber", "Authored 16×16 cold-open. Post-threshold yellow only."),
+	CLARK_CHAMBER("first-clark-chamber", "Authored 32×32 cold-open. Segmented empty volume opening into the labyrinth."),
 	APARTMENT_LOBE("first-apartment-pocket", "Habitation lobe. Drywall / bed / kitchen material break. Not Bounded."),
 	JANITOR_CLOSET("first-apartment-pocket", "Rare janitor hook inside the habitation lobe. Leads to Custodial, never Bounded."),
 	UTILITIES_MOUTH("first-utilities", "Infrastructure mouth. Ozone/contactor plant continues through the deep door into Buttons."),

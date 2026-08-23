@@ -29,4 +29,13 @@ public final class NavigationLiesRule {
 	public static boolean shouldLieMaps(Level level) {
 		return shouldLie(level);
 	}
+
+	/** Stable wrong offset so F3 looks populated but cannot navigate. */
+	public static int coordinateShift(Level level) {
+		if (!shouldLieCoordinates(level)) {
+			return 0;
+		}
+
+		return 4096 + Math.floorMod(level.dimension().identifier().hashCode(), 2048);
+	}
 }

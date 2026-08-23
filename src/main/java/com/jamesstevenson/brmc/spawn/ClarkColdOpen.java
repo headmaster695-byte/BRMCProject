@@ -48,8 +48,8 @@ public final class ClarkColdOpen {
 			first,
 			spawn,
 			Vec3.ZERO,
-			player.getYRot(),
-			player.getXRot(),
+			YellowMonoLayout.SPAWN_Y_ROT,
+			0.0F,
 			TeleportTransition.DO_NOTHING
 		));
 		player.setAttached(ARRIVED, true);

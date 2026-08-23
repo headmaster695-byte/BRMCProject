@@ -1,8 +1,12 @@
 package com.jamesstevenson.brmc.worldgen;
 
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.phys.Vec3;
+
 /**
  * Infinite procedural yellow-mono hub plus authored anchors (anti-noise-soup).
  * Clark chamber is the cold-open spawn: post-threshold yellow room only.
+ * Cardinal spines make pockets learnable from the first chamber.
  */
 public final class YellowMonoLayout {
 	public static final int MIN_Y = 0;
@@ -14,9 +18,12 @@ public final class YellowMonoLayout {
 	public static final int CELL = 8;
 
 	public static final int CLARK_MIN = 0;
-	public static final int CLARK_MAX = 15;
-	public static final int SPAWN_X = 8;
-	public static final int SPAWN_Z = 8;
+	public static final int CLARK_MAX = 31;
+	public static final int SPAWN_X = 16;
+	public static final int SPAWN_Z = 16;
+	public static final float SPAWN_Y_ROT = -90.0F;
+
+	public static final int SPINE_CELL = 2;
 
 	private YellowMonoLayout() {
 	}
@@ -30,8 +37,22 @@ public final class YellowMonoLayout {
 		return local < 0 ? local + CELL : local;
 	}
 
+	public static int cellOrigin(int cell) {
+		return cell * CELL;
+	}
+
+	public static Vec3 cellCenter(int cellX, int cellZ) {
+		return new Vec3(cellOrigin(cellX) + 4.5, CARPET_Y + 1, cellOrigin(cellZ) + 4.5);
+	}
+
 	public static boolean inClarkChamber(int worldX, int worldZ) {
 		return worldX >= CLARK_MIN && worldX <= CLARK_MAX && worldZ >= CLARK_MIN && worldZ <= CLARK_MAX;
+	}
+
+	public static boolean isClarkColumn(int worldX, int worldZ) {
+		return inClarkChamber(worldX, worldZ)
+			&& (worldX == 8 || worldX == 23)
+			&& (worldZ == 8 || worldZ == 23);
 	}
 
 	public static FirstPocket pocketAt(int worldX, int worldZ) {
@@ -42,29 +63,19 @@ public final class YellowMonoLayout {
 		int cellX = cellCoord(worldX);
 		int cellZ = cellCoord(worldZ);
 
-		if (cellX == 5 && cellZ == 0) {
-			return FirstPocket.VESTIBULE;
-		}
-
-		if (cellX == 6 && cellZ == 0) {
-			int localX = localInCell(worldX);
-			int localZ = localInCell(worldZ);
-			if (localX == 3 && localZ == 4) {
+		if (cellZ == SPINE_CELL && cellX >= 6 && cellX <= 8) {
+			if (cellX == 8 && localInCell(worldX) == 3 && localInCell(worldZ) == 4) {
 				return FirstPocket.VESTIBULE_OOB;
 			}
 
 			return FirstPocket.VESTIBULE;
 		}
 
-		if (cellX == 4 && cellZ == 0) {
-			return FirstPocket.VESTIBULE;
-		}
-
-		if (cellX == 0 && cellZ == 4) {
+		if (cellX == SPINE_CELL && cellZ == 6) {
 			return FirstPocket.COMMON_EXIT;
 		}
 
-		if (cellX == -6 && cellZ == 0) {
+		if (cellZ == SPINE_CELL && (cellX == -4 || cellX == -5)) {
 			if (isJanitorCloset(worldX, worldZ)) {
 				return FirstPocket.APARTMENT_JANITOR;
 			}
@@ -72,7 +83,7 @@ public final class YellowMonoLayout {
 			return FirstPocket.APARTMENT;
 		}
 
-		if (cellX == 0 && cellZ == -6) {
+		if (cellX == SPINE_CELL && (cellZ == -4 || cellZ == -5)) {
 			return FirstPocket.UTILITIES;
 		}
 
@@ -80,7 +91,7 @@ public final class YellowMonoLayout {
 			return FirstPocket.CURVING_HALL;
 		}
 
-		if (cellX == -4 && cellZ == 4) {
+		if (cellX == -3 && cellZ == 6) {
 			return FirstPocket.FALSE_FLOOR;
 		}
 
@@ -93,6 +104,10 @@ public final class YellowMonoLayout {
 
 	public static boolean isWall(int worldX, int worldZ) {
 		if (inClarkChamber(worldX, worldZ)) {
+			if (isClarkColumn(worldX, worldZ)) {
+				return true;
+			}
+
 			return worldX == CLARK_MIN || worldX == CLARK_MAX || worldZ == CLARK_MIN || worldZ == CLARK_MAX;
 		}
 
@@ -107,8 +122,11 @@ public final class YellowMonoLayout {
 
 	public static boolean isDoorway(int worldX, int worldZ) {
 		if (inClarkChamber(worldX, worldZ)) {
-			return (worldX == CLARK_MAX && worldZ >= 7 && worldZ <= 8)
-				|| (worldZ == CLARK_MAX && worldX >= 7 && worldX <= 8);
+			boolean east = worldX == CLARK_MAX && worldZ >= 18 && worldZ <= 21;
+			boolean south = worldZ == CLARK_MAX && worldX >= 18 && worldX <= 21;
+			boolean west = worldX == CLARK_MIN && worldZ >= 18 && worldZ <= 21;
+			boolean north = worldZ == CLARK_MIN && worldX >= 18 && worldX <= 21;
+			return east || south || west || north;
 		}
 
 		int localX = localInCell(worldX);
@@ -133,7 +151,7 @@ public final class YellowMonoLayout {
 		int localZ = localInCell(worldZ);
 
 		return switch (pocket) {
-			case VESTIBULE -> cellCoord(worldX) == 6 && localX == 6 && localZ == 4;
+			case VESTIBULE -> cellCoord(worldX) == 8 && localX == 6 && localZ == 4;
 			case VESTIBULE_OOB -> true;
 			case COMMON_EXIT -> localX == 7 && localZ == 4;
 			case UTILITIES -> isDeepDoor(worldX, worldZ);
@@ -145,7 +163,7 @@ public final class YellowMonoLayout {
 	}
 
 	public static boolean isAirlockInterior(int worldX, int worldZ) {
-		return cellCoord(worldX) == 5 && cellCoord(worldZ) == 0;
+		return cellCoord(worldX) == 7 && cellCoord(worldZ) == SPINE_CELL;
 	}
 
 	/**
@@ -153,22 +171,24 @@ public final class YellowMonoLayout {
 	 * yellow→red. Commons must never use this.
 	 */
 	public static boolean isDoor2RedFrame(int worldX, int worldZ) {
-		return cellCoord(worldX) == 6 && cellCoord(worldZ) == 0 && localInCell(worldX) >= 6;
+		return cellCoord(worldX) == 8 && cellCoord(worldZ) == SPINE_CELL && localInCell(worldX) >= 6;
 	}
 
 	public static boolean isJanitorCloset(int worldX, int worldZ) {
-		return cellCoord(worldX) == -6 && cellCoord(worldZ) == 0
-			&& localInCell(worldX) <= 2 && localInCell(worldZ) >= 5;
+		return cellCoord(worldX) == -5 && cellCoord(worldZ) == SPINE_CELL
+			&& localInCell(worldX) <= 3 && localInCell(worldZ) >= 4;
 	}
 
 	public static boolean isKitchen(int worldX, int worldZ) {
 		return pocketAt(worldX, worldZ) == FirstPocket.APARTMENT
+			&& cellCoord(worldX) == -4
 			&& localInCell(worldX) >= 5 && localInCell(worldX) <= 7
 			&& localInCell(worldZ) >= 1 && localInCell(worldZ) <= 3;
 	}
 
 	public static boolean isBed(int worldX, int worldZ) {
 		return pocketAt(worldX, worldZ) == FirstPocket.APARTMENT
+			&& cellCoord(worldX) == -4
 			&& localInCell(worldX) >= 1 && localInCell(worldX) <= 3
 			&& localInCell(worldZ) >= 1 && localInCell(worldZ) <= 2;
 	}
@@ -180,6 +200,7 @@ public final class YellowMonoLayout {
 
 	public static boolean isDeepDoor(int worldX, int worldZ) {
 		return pocketAt(worldX, worldZ) == FirstPocket.UTILITIES
+			&& cellCoord(worldZ) == -5
 			&& localInCell(worldZ) == 0
 			&& localInCell(worldX) >= 3 && localInCell(worldX) <= 4;
 	}
@@ -202,7 +223,11 @@ public final class YellowMonoLayout {
 	}
 
 	public static boolean isFluorescentDeadRun(int cellX, int cellZ) {
-		return cellZ == -4 && cellX <= -4 && cellX >= -6;
+		return cellZ == -3 && cellX <= -3 && cellX >= -5;
+	}
+
+	public static boolean isLayerShell(int y) {
+		return y <= FLOOR_Y || y >= CEILING_Y;
 	}
 
 	public static boolean isLight(int worldX, int worldZ) {
@@ -220,12 +245,22 @@ public final class YellowMonoLayout {
 		return localX == 4 && localZ == 4;
 	}
 
+	/** Two-wide diagonal chevron bands — wallpaper family, not a 1-block checker. */
 	public static boolean chevronDark(int worldX, int worldZ) {
-		return ((worldX + worldZ) & 1) == 0;
+		int stripe = Math.floorMod(worldX - (worldZ & ~1), 4);
+		return stripe <= 1;
 	}
 
 	public static boolean openWest(int cellX, int cellZ) {
 		if (pocketAt(cellX * CELL + 1, cellZ * CELL + 1) != null) {
+			return true;
+		}
+
+		if (spineOpenWest(cellX, cellZ)) {
+			return true;
+		}
+
+		if (mergedWithWest(cellX, cellZ)) {
 			return true;
 		}
 
@@ -237,7 +272,91 @@ public final class YellowMonoLayout {
 			return true;
 		}
 
+		if (spineOpenSouth(cellX, cellZ)) {
+			return true;
+		}
+
+		if (mergedWithSouth(cellX, cellZ)) {
+			return true;
+		}
+
 		return (hash(cellX, cellZ) & 1) == 1;
+	}
+
+	public static Vec3 warp(FirstPocket pocket) {
+		return switch (pocket) {
+			case CLARK_CHAMBER -> new Vec3(SPAWN_X + 0.5, CARPET_Y + 1, SPAWN_Z + 0.5);
+			case VESTIBULE, VESTIBULE_OOB -> cellCenter(6, SPINE_CELL);
+			case COMMON_EXIT -> cellCenter(SPINE_CELL, 6);
+			case APARTMENT, APARTMENT_JANITOR -> cellCenter(-4, SPINE_CELL);
+			case UTILITIES -> cellCenter(SPINE_CELL, -4);
+			case CURVING_HALL -> cellCenter(6, 6);
+			case FALSE_FLOOR -> cellCenter(-3, 6);
+			case FLUORESCENT_DEAD_ZONE -> cellCenter(-4, -3);
+		};
+	}
+
+	public static BlockPos warpBlock(FirstPocket pocket) {
+		Vec3 vec = warp(pocket);
+		return BlockPos.containing(vec.x, vec.y, vec.z);
+	}
+
+	private static boolean spineOpenWest(int cellX, int cellZ) {
+		if (cellZ == SPINE_CELL && cellX >= 4 && cellX <= 8) {
+			return true;
+		}
+
+		if (cellZ == SPINE_CELL && cellX <= -1 && cellX >= -5) {
+			return true;
+		}
+
+		if (cellZ == 6 && cellX == 7) {
+			return true;
+		}
+
+		if (cellZ == 6 && cellX <= 1 && cellX >= -3) {
+			return true;
+		}
+
+		return cellZ == -3 && cellX <= 1 && cellX >= -5;
+	}
+
+	private static boolean spineOpenSouth(int cellX, int cellZ) {
+		if (cellX == SPINE_CELL && cellZ >= 4 && cellZ <= 6) {
+			return true;
+		}
+
+		if (cellX == SPINE_CELL && cellZ <= -1 && cellZ >= -5) {
+			return true;
+		}
+
+		if (cellX == 6 && cellZ >= 3 && cellZ <= 6) {
+			return true;
+		}
+
+		return cellX == 7 && cellZ == 7;
+	}
+
+	private static boolean mergedWithWest(int cellX, int cellZ) {
+		return isMergedRoom(cellX, cellZ) && (cellX & 1) == 1 && isMergedRoom(cellX - 1, cellZ);
+	}
+
+	private static boolean mergedWithSouth(int cellX, int cellZ) {
+		return isMergedRoom(cellX, cellZ) && (cellZ & 1) == 1 && isMergedRoom(cellX, cellZ - 1);
+	}
+
+	private static boolean isMergedRoom(int cellX, int cellZ) {
+		if (Math.abs(cellX) <= 3 && Math.abs(cellZ) <= 3) {
+			return false;
+		}
+
+		if (pocketAt(cellX * CELL + 1, cellZ * CELL + 1) != null) {
+			return false;
+		}
+
+		int mx = Math.floorDiv(cellX, 2);
+		int mz = Math.floorDiv(cellZ, 2);
+		return (hash(mx * 31, mz * 17) & 7) == 0;
 	}
 
 	private static int hash(int cellX, int cellZ) {

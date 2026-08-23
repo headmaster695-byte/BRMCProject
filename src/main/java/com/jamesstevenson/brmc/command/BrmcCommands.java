@@ -2,6 +2,7 @@ package com.jamesstevenson.brmc.command;
 
 import com.jamesstevenson.brmc.dimension.BrmcDimensions;
 import com.jamesstevenson.brmc.spawn.ClarkColdOpen;
+import com.jamesstevenson.brmc.worldgen.FirstPocket;
 import com.jamesstevenson.brmc.worldgen.YellowMonoLayout;
 import com.mojang.brigadier.Command;
 import com.mojang.brigadier.CommandDispatcher;
@@ -41,7 +42,38 @@ public final class BrmcCommands {
 				.then(Commands.literal("first").executes(ctx -> enter(ctx, BrmcDimensions.FIRST)))
 				.then(Commands.literal("second").executes(ctx -> enter(ctx, BrmcDimensions.SECOND)))
 				.then(Commands.literal("false_first").executes(ctx -> enter(ctx, BrmcDimensions.FALSE_FIRST)))
+				.then(Commands.literal("pocket")
+					.then(Commands.literal("clark").executes(ctx -> pocket(ctx, FirstPocket.CLARK_CHAMBER)))
+					.then(Commands.literal("apartment").executes(ctx -> pocket(ctx, FirstPocket.APARTMENT)))
+					.then(Commands.literal("utilities").executes(ctx -> pocket(ctx, FirstPocket.UTILITIES)))
+					.then(Commands.literal("commons").executes(ctx -> pocket(ctx, FirstPocket.COMMON_EXIT)))
+					.then(Commands.literal("vestibule").executes(ctx -> pocket(ctx, FirstPocket.VESTIBULE)))
+					.then(Commands.literal("curving").executes(ctx -> pocket(ctx, FirstPocket.CURVING_HALL)))
+					.then(Commands.literal("false_floor").executes(ctx -> pocket(ctx, FirstPocket.FALSE_FLOOR)))
+					.then(Commands.literal("dead_zone").executes(ctx -> pocket(ctx, FirstPocket.FLUORESCENT_DEAD_ZONE)))
+				)
 		);
+	}
+
+	private static int pocket(CommandContext<CommandSourceStack> context, FirstPocket pocket) throws com.mojang.brigadier.exceptions.CommandSyntaxException {
+		ServerPlayer player = context.getSource().getPlayerOrException();
+		ServerLevel first = player.level().getServer().getLevel(BrmcDimensions.FIRST);
+		if (first == null) {
+			context.getSource().sendFailure(Component.literal(BrmcDimensions.FIRST.identifier().toString()));
+			return 0;
+		}
+
+		Vec3 pos = YellowMonoLayout.warp(pocket);
+		player.teleport(new TeleportTransition(
+			first,
+			pos,
+			Vec3.ZERO,
+			player.getYRot(),
+			player.getXRot(),
+			TeleportTransition.DO_NOTHING
+		));
+		player.setAttached(ClarkColdOpen.ARRIVED, true);
+		return Command.SINGLE_SUCCESS;
 	}
 
 	private static int enter(CommandContext<CommandSourceStack> context, ResourceKey<Level> dimension) throws com.mojang.brigadier.exceptions.CommandSyntaxException {
@@ -59,12 +91,13 @@ public final class BrmcCommands {
 				YellowMonoLayout.CARPET_Y + 1,
 				YellowMonoLayout.SPAWN_Z
 			));
+		float yRot = dimension == BrmcDimensions.FIRST ? YellowMonoLayout.SPAWN_Y_ROT : player.getYRot();
 		player.teleport(new TeleportTransition(
 			destination,
 			pos,
 			Vec3.ZERO,
-			player.getYRot(),
-			player.getXRot(),
+			yRot,
+			dimension == BrmcDimensions.FIRST ? 0.0F : player.getXRot(),
 			TeleportTransition.DO_NOTHING
 		));
 		if (dimension == BrmcDimensions.FIRST) {

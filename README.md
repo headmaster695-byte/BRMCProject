@@ -1,55 +1,52 @@
 # BRMC
 
-James Stevenson’s Backrooms / liminal-spaces Fabric mod. This pass scaffolds the **First Dimension** (yellow mono, procedural infinite + authored anchors) and the gate architecture First needs.
+James Stevenson’s Backrooms / liminal-spaces Fabric mod. This pass is a **playable First Dimension vertical slice**: authored Clark cold-open, infinite yellow-mono maze with learnable pocket spines, and First gameplay rules.
 
 Minecraft **26.2**, Fabric Loader **0.19.3**, Fabric API **0.158.0+26.2**, Java **25**.
 
 ## What is in this pass
 
 - First Dimension registered as `brmc:first` with a `brmc:yellow_mono` chunk generator.
-- Clark cold-open spawn is an authored chamber (post-threshold yellow room only). Fidelity target: Clark’s first Backrooms room from A24 *Backrooms* (2026). No store, basement, or inbound portal. Materials: mono-yellow chevron wallpaper, moist carpet, fluorescent troffer grid.
-- Authored pocket slugs on the hub (anti-noise-soup), not distant worlds:
-  - `first-apartment-pocket` — habitation lobe; drywall / bed / kitchen material break. **Not Bounded.** Rare janitor closet → Custodial.
-  - `first-utilities` — infrastructure mouth → Buttons (ozone / contactor). Plant continues through the deep door.
-  - `first-common-exit` — literacy teacher → False First. Single-threshold yellow→yellow. No airlock, red, or OOB hole. Not False Gate.
-  - `first-vestibule` — true exit. Door 1 → yellow airlock → door 2 already frames **red mono** → Second (only true exit; door 2 always works once found). Floor hole before door 2 → Out of Bounds (stateful, late). Puzzle chain later: Lost Island → reactor SCRAM → Metaverse soul — not built here.
-  - `first-curving-hall` — invisible seam → Second False First. Yellow continues around a soft plan.
-  - `first-false-floor` → Spiral
-  - `first-fluorescent-dead-zone` — anti-noise-soup pacing run, no lights
-- Lore threads are architecture hooks only (no player tutorial text): habitation stack, maintenance stack, exit literacy stack, curve/nest, fall/coil, spine leave.
-- Destinations other than First are **stubs**. Second is only via vestibule door 2. Branches off First are sub-dimensions. Digital is sealed — no First pocket opens it. Fourth does not exist.
-- No entities. Distant unresolved sounds are a foreshadowing hook only.
-- First rules: mining regenerates; building is tracked; maps / compass lie.
-- Aesthetic boards land later under `floors/<slug>/`. This pass only reserves the path on `PocketStructure`.
+- Clark cold-open is a **32×32** authored chamber (post-threshold yellow room only). Fidelity target: Clark’s first Backrooms room from A24 *Backrooms* (2026). Chevron wallpaper bands, moist carpet, fluorescent troffer grid, four structural columns, four cardinal openings into the labyrinth. No store, basement, inbound portal, or tutorial UI. Spawn faces east.
+- Cardinal spines make authored pockets learnable (not noise soup):
+  - East → `first-vestibule` (true exit)
+  - South → `first-common-exit` (literacy teacher)
+  - West → `first-apartment-pocket` (habitation lobe, not Bounded)
+  - North → `first-utilities` (infrastructure mouth)
+  - SE L → `first-curving-hall`
+  - SW → `first-false-floor`
+  - NW → `first-fluorescent-dead-zone`
+- Pocket details:
+  - Apartment — drywall / bed / kitchen. Rare janitor closet → Custodial.
+  - Utilities — ozone / contactor plant continues through the deep door → Buttons.
+  - Commons — single yellow→yellow threshold → False First. No airlock, red, or OOB hole.
+  - Vestibule — door 1 → yellow airlock → door 2 already frames **red mono** → Second. Floor hole before door 2 is OOB (present, **not live**; Lost Island / SCRAM / soul not built).
+  - Curving hall — invisible seam, yellow around a soft plan → Second False First.
+- Destinations other than First are **stubs**. Digital is sealed. Fourth does not exist.
+- No entities. Distant unresolved cave-mood sounds foreshadow only.
+- First rules: generated fabric regenerates (floor/ceiling faster so you cannot dig out of the layer); player-built / pillared blocks persist on the chunk; maps freeze; compass spins; F3 coordinates lie.
+- Aesthetic boards land later under `floors/<slug>/`.
 
 ## Immersive Portals
 
-Seamless continuous space is a hard requirement: no teleport sting, fade-to-load, nether swirl, or “Entering X” UI. Prefer honest linked volumes (Immersive Portals–class). Commons is yellow→yellow on one stride. Vestibule door 2 is yellow→red material break on one stride.
-
-Immersive Portals last published for Fabric **1.21.1** and the upstream repo is archived. A hard 26.2 dependency is not practical.
-
-Gates go through `SeamlessGateBackend`. Hop is **never** the player-facing gate language. IP-class seamless is the only target.
+Seamless continuous space is the only player-facing gate language: no teleport sting, fade-to-load, nether swirl, or “Entering X” UI. Commons is yellow→yellow. Vestibule door 2 is yellow→red.
 
 - Prefer `ImmersivePortalsBackend` if an IP-class API is on the classpath.
-- Otherwise gates **refuse** to hop and log an error. Playtests must not learn fade-load / teleport as the crossing.
-- `LoadingHopBackend` (identity teleport) is opt-in only: no IP-class backend **and** `brmc.devAllowHopGates=true` (`-Dbrmc.devAllowHopGates=true`, `BRMC_DEV_ALLOW_HOP_GATES=true`, or `config/brmc.properties`). A Fabric development workspace is not enough. Default is off.
-
-When an IP-compatible 26.2 artifact exists, implement `ensureOpening` as a see-through portal with an identity transform.
+- Otherwise gates **refuse** to hop (`RefusingGateBackend`) and log an error.
+- `LoadingHopBackend` only if no IP-class backend **and** `brmc.devAllowHopGates=true` (`-Dbrmc.devAllowHopGates=true`, `BRMC_DEV_ALLOW_HOP_GATES=true`, or `config/brmc.properties`). A Fabric development workspace is not enough.
 
 ## Entering First
 
-New players arrive in the Clark chamber. Moderators can use `/brmc first`.
+New players arrive in the Clark chamber facing east. Moderators: `/brmc first`. QA pocket warps: `/brmc pocket clark|apartment|utilities|commons|vestibule|curving|false_floor|dead_zone`.
 
 Build: Java 25, then `./gradlew build`.
 
-## Verify next
+## Verify next (playtester)
 
-- Wake in the authored yellow chamber, no tutorial UI.
-- Pockets read as anchors, not noise soup. Apartment / utilities break the yellow mono. Apartment is not Bounded.
-- Vestibule is a two-door airlock; door 2 already shows red mono framed; the floor hole is OOB-only and late.
-- Commons stays yellow→yellow into False First, never False Gate, with no airlock/red/OOB.
-- Curving hall stays yellow around the soft L.
-- Utilities plant continues through the deep door.
-- Mined generated blocks return; placed blocks stay. Maps and compass fail in First.
-- Deeper destination interiors stay stubbed until their own passes.
-- Without an IP-class backend, stepping a threshold does not hop (unless `brmc.devAllowHopGates=true`). Check the log for the refuse error.
+- Wake in a large empty yellow room: chevron wallpaper, moist carpet, troffer grid, columns, openings on four sides. No tutorial text, store, or portal remnant.
+- Walk a cardinal: east vestibule (yellow then red-framed door 2), south commons (stays yellow), west apartment (white/oak break), north utilities (iron/copper plant).
+- SE curve stays yellow. SW false-floor hole. NW stretch has no lights.
+- Mine a wall: it comes back. Mine the floor: it comes back faster. Place / pillar blocks: they stay after regen and after relog.
+- Maps do not chart First. Compass needle spins. F3 XYZ is wrong.
+- Occasional distant wrong sound; nothing arrives.
+- Stepping a threshold does **not** hop unless an IP-class backend is present or `brmc.devAllowHopGates` is on.

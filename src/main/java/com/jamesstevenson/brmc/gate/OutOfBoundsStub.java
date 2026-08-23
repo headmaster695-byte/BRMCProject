@@ -9,6 +9,15 @@ public final class OutOfBoundsStub {
 	private OutOfBoundsStub() {
 	}
 
+	public static boolean holePresent() {
+		return true;
+	}
+
+	/** Late / not live. The hole exists as architecture; the fall is not the current slice. */
+	public static boolean holeLive() {
+		return false;
+	}
+
 	public static boolean puzzleChainImplemented() {
 		return false;
 	}
