@@ -123,8 +123,8 @@ public final class YellowMonoLayout {
 		int localZ = localInCell(worldZ);
 		int cellX = cellCoord(worldX);
 		int cellZ = cellCoord(worldZ);
-		boolean westWall = localX == 0 && !openWest(cellX, cellZ);
-		boolean southWall = localZ == 0 && !openSouth(cellX, cellZ);
+		boolean westWall = localX == 0 && !isMergedOpeningWest(cellX, cellZ);
+		boolean southWall = localZ == 0 && !isMergedOpeningSouth(cellX, cellZ);
 		return westWall || southWall;
 	}
 
@@ -153,6 +153,52 @@ public final class YellowMonoLayout {
 		}
 
 		return localZ == 0 && localX >= 3 && localX <= 4 && openSouth(cellX, cellZ);
+	}
+
+	/**
+	 * Pocket interiors and rare merged rooms drop the wall entirely.
+	 * Spine / hash connections stay as 2-wide doors so hallways recede.
+	 */
+	private static boolean isMergedOpeningWest(int cellX, int cellZ) {
+		if (cellZ == SPINE_CELL && cellX == 7) {
+			return false;
+		}
+
+		return mergedWithWest(cellX, cellZ) || pocketInteriorWest(cellX, cellZ);
+	}
+
+	private static boolean isMergedOpeningSouth(int cellX, int cellZ) {
+		return mergedWithSouth(cellX, cellZ) || pocketInteriorSouth(cellX, cellZ);
+	}
+
+	private static boolean pocketInteriorWest(int cellX, int cellZ) {
+		return sameAuthoredInterior(
+			pocketAt(cellX * CELL + 1, cellZ * CELL + 1),
+			pocketAt((cellX - 1) * CELL + 1, cellZ * CELL + 1)
+		);
+	}
+
+	private static boolean pocketInteriorSouth(int cellX, int cellZ) {
+		return sameAuthoredInterior(
+			pocketAt(cellX * CELL + 1, cellZ * CELL + 1),
+			pocketAt(cellX * CELL + 1, (cellZ - 1) * CELL + 1)
+		);
+	}
+
+	private static boolean sameAuthoredInterior(FirstPocket a, FirstPocket b) {
+		if (a == null || b == null || a == FirstPocket.CLARK_CHAMBER || b == FirstPocket.CLARK_CHAMBER) {
+			return false;
+		}
+
+		return pocketFamily(a) == pocketFamily(b);
+	}
+
+	private static FirstPocket pocketFamily(FirstPocket pocket) {
+		return switch (pocket) {
+			case VESTIBULE_OOB -> FirstPocket.VESTIBULE;
+			case APARTMENT_JANITOR -> FirstPocket.APARTMENT;
+			default -> pocket;
+		};
 	}
 
 	public static boolean isThresholdAnchor(int worldX, int worldZ) {

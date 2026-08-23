@@ -103,8 +103,32 @@ public final class LayoutSanity {
 			errors++;
 		}
 
-		if (!YellowMonoChunkGenerator.columnState(16, YellowMonoLayout.CARPET_Y, 16).is(net.minecraft.world.level.block.Blocks.CARPET.pick(net.minecraft.world.item.DyeColor.YELLOW))) {
-			BrmcMod.LOGGER.error("Clark carpet must stay dry yellow display texture.");
+		if (!YellowMonoChunkGenerator.columnState(16, YellowMonoLayout.CARPET_Y, 16).is(net.minecraft.world.level.block.Blocks.CARPET.pick(net.minecraft.world.item.DyeColor.YELLOW))
+			|| YellowMonoChunkGenerator.columnState(16, YellowMonoLayout.CARPET_Y, 16).is(net.minecraft.world.level.block.Blocks.WET_SPONGE)
+			|| YellowMonoChunkGenerator.columnState(16, YellowMonoLayout.CARPET_Y, 16).is(net.minecraft.world.level.block.Blocks.MOSS_CARPET)) {
+			BrmcMod.LOGGER.error("Moist-carpet read must stay yellow carpet voxel — not a wet macro.");
+			errors++;
+		}
+
+		if (!YellowMonoChunkGenerator.columnState(16, YellowMonoLayout.CARPET_Y + 1, 16).isAir()
+			|| !YellowMonoChunkGenerator.columnState(12, YellowMonoLayout.CARPET_Y + 1, 12).isAir()
+			|| YellowMonoLayout.isKitchen(16, 16)
+			|| YellowMonoLayout.isBed(16, 16)
+			|| YellowMonoLayout.isContactor(16, 16)) {
+			BrmcMod.LOGGER.error("Clark must stay an empty segmented volume — no store, props, or furniture.");
+			errors++;
+		}
+
+		if (!YellowMonoLayout.isWall(-8, 18)
+			|| !YellowMonoLayout.isDoorway(-8, 19)
+			|| !YellowMonoLayout.isDoorway(-8, 20)
+			|| YellowMonoLayout.isDoorway(-8, 17)
+			|| !YellowMonoLayout.isWall(-8, 16)
+			|| !YellowMonoLayout.isDoorway(32, 19)
+			|| !YellowMonoLayout.isWall(32, 18)
+			|| YellowMonoLayout.isWall(64, 20)
+			|| YellowMonoLayout.isWall(24, 52)) {
+			BrmcMod.LOGGER.error("Maze spines must recede through 2-wide doors; pocket interiors stay open; east is not a runway mouth.");
 			errors++;
 		}
 

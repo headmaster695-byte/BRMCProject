@@ -6,11 +6,11 @@ import net.minecraft.world.level.block.WeatheringCopper;
 import net.minecraft.world.level.block.state.BlockState;
 
 /**
- * Yellow-mono placeholders: chevron wallpaper, dry yellow carpet, troffer ceiling.
- * Carpet is vanilla display texture — not a wet/damp macro. True damp carpet
- * is a documented miss. Apartment / utilities break the hub materials.
- * Vestibule stays yellow-mono; yellow→red First-side framing is a miss.
- * Dest Second is red via dest sample, not First-side paint.
+ * Yellow-mono placeholders: chevron wallpaper, moist-carpet *read*, troffer ceiling.
+ * Carpet voxel is vanilla yellow display texture — a compromise, not a wet macro.
+ * True damp carpet is a documented miss. Apartment / utilities break the hub.
+ * Vestibule stays yellow-mono. Dest Second is red via dest sample at door 2
+ * only; First-side yellow→red framing is a miss.
  */
 public final class YellowMonoPalette {
 	public enum Role {

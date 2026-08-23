@@ -7,7 +7,7 @@ Minecraft **26.2**, Fabric Loader **0.19.3**, Fabric API **0.158.0+26.2**, Java 
 ## What is in this pass
 
 - First Dimension registered as `brmc:first` with a `brmc:yellow_mono` chunk generator.
-- Clark cold-open is a **32×32** authored chamber (post-threshold yellow room only). Fidelity target: Clark’s first Backrooms room from A24 *Backrooms* (2026). Diagonal chevron wallpaper (Y-stepped two-yellow family), dry yellow carpet (vanilla display texture), ochre-froglight troffer *bars*, 2×2 columns, four **2-wide** cardinal openings at 19–20 (aligned with maze doors for a hallway vanishing point). East stays a yellow dogleg — not a vestibule runway. No store, basement, inbound portal, or tutorial UI. Spawn faces east. **Voxel honesty:** no custom wallpaper/fixture models — two vanilla yellows, dry yellow carpet, froglight bars, light-gray concrete tiles. True damp carpet is a documented miss.
+- Clark cold-open is a **32×32** authored chamber (post-threshold yellow room only). Fidelity target: Clark’s first Backrooms room from A24 *Backrooms* (2026). Diagonal chevron wallpaper (Y-stepped two-yellow family), moist-carpet *read* (vanilla yellow carpet voxel — not a wet macro), ochre-froglight troffer *bars*, 2×2 columns, empty segmented volume, four **2-wide** cardinal openings at 19–20. Maze spines keep those 2-wide doors in the wall so hallways recede; pocket interiors stay open rooms. East stays a yellow dogleg — not a vestibule runway. No store, basement, inbound portal, or tutorial UI. Spawn faces east. **Voxel honesty:** no custom wallpaper/fixture models — two vanilla yellows, yellow carpet, froglight bars, light-gray concrete tiles. True damp carpet is a documented miss.
 - Cardinal spines make authored pockets learnable (not noise soup):
   - East → `first-vestibule` (true exit)
   - South → `first-common-exit` (literacy teacher)
@@ -30,9 +30,9 @@ Minecraft **26.2**, Fabric Loader **0.19.3**, Fabric API **0.158.0+26.2**, Java 
 
 ### Voxel look-targets (Architect, not AI)
 
-- **Hallway vanishing point** — Clark and maze doors share a 2-wide local 3–4 / world 19–20 grammar so corridors recede. East dogleg is unchanged.
-- **Carpet texture close** — dry yellow carpet only. Do not read this as a wet/moist macro.
-- **Double-door vestibule grammar** — paired leaves at `(56,19–20)` and `(70,19–20)`. Honest paired doors; not yellow framing red.
+- **Hallway vanishing point** — Clark and maze doors share a 2-wide local 3–4 / world 19–20 grammar so corridors recede. Spine/hash links are doors in walls, not missing walls. East dogleg is unchanged.
+- **Carpet texture close** — moist-carpet *read* via yellow carpet voxel. Do not read this as a wet macro.
+- **Double-door vestibule grammar** — paired leaves at `(56,19–20)` and `(70,19–20)`. Honest paired doors. Dest sample at door 2 is red; First-side yellow→red framing is a miss.
 
 Documented misses that stay misses: **true damp carpet** and **yellow→red vestibule frame**.
 
@@ -70,8 +70,8 @@ Build: Java 25, then `./gradlew build`.
 
 ## Verify next (playtester)
 
-- Wake in a large empty yellow room: diagonal chevron wallpaper, dry yellow carpet, troffer bars, 2×2 columns, 2-wide openings on four sides (19–20). No tutorial text, store, or portal remnant. Vestibule airlock uses the same yellow-mono lights — not a brighter runway.
-- Walk a cardinal: east dogleg then paired vestibule doors (yellow jambs; dest through door 2 is red), south commons (stays yellow), west apartment (white/oak break), north utilities (iron/copper plant).
+- Wake in a large empty yellow room: diagonal chevron wallpaper, moist-carpet *read* (yellow carpet voxel), troffer bars, 2×2 columns, 2-wide openings on four sides (19–20). No tutorial text, store, or portal remnant. Vestibule airlock uses the same yellow-mono lights — not a brighter runway.
+- Walk a cardinal: west/south/north hallways recede through 2-wide doors in yellow-mono walls. East dogleg then paired vestibule doors (yellow jambs; dest through door 2 is red). South commons stays yellow. West apartment is a white/oak break. North utilities is iron/copper plant.
 - SE curve stays yellow. SW false-floor hole. NW stretch has no lights.
 - Mine a wall: it comes back. Mine the floor: it comes back faster. Place / pillar blocks: they stay after regen and after relog.
 - Maps do not chart First. Compass needle spins. F3 XYZ is wrong.

@@ -16,8 +16,10 @@ import net.fabricmc.fabric.api.networking.v1.ServerPlayConnectionEvents;
 import com.mojang.serialization.Codec;
 
 /**
- * Clark cold-open: the player wakes in the authored first Backrooms chamber
- * (post-threshold yellow room only). No store, basement, portal, or tutorial.
+ * Clark cold-open: authored first Backrooms chamber only — chevron wallpaper
+ * family, moist-carpet *read* (yellow carpet voxel, not a wet macro),
+ * fluorescent troffer grid, empty segmented volume opening into the labyrinth.
+ * No store, basement, inbound portal, or tutorial.
  */
 public final class ClarkColdOpen {
 	public static final AttachmentType<Boolean> ARRIVED = AttachmentRegistry.create(
