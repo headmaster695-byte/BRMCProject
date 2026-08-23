@@ -136,10 +136,6 @@ public class YellowMonoChunkGenerator extends ChunkGenerator {
 				return Blocks.AIR.defaultBlockState();
 			}
 
-			if (YellowMonoLayout.isDoor2RedFrame(worldX, worldZ)) {
-				return YellowMonoPalette.state(YellowMonoPalette.Role.SECOND_RED_FLOOR);
-			}
-
 			if (pocket == FirstPocket.APARTMENT || pocket == FirstPocket.APARTMENT_JANITOR) {
 				return YellowMonoPalette.state(YellowMonoPalette.Role.HABITATION_FLOOR);
 			}
@@ -198,11 +194,7 @@ public class YellowMonoChunkGenerator extends ChunkGenerator {
 				return Blocks.AIR.defaultBlockState();
 			}
 
-			if (YellowMonoLayout.isDoor2RedFrame(worldX, worldZ)) {
-				return YellowMonoPalette.state(YellowMonoPalette.Role.SECOND_RED_CARPET);
-			}
-
-			return YellowMonoPalette.state(YellowMonoPalette.Role.MOIST_CARPET);
+			return YellowMonoPalette.state(YellowMonoPalette.Role.YELLOW_CARPET);
 		}
 
 		if (y > YellowMonoLayout.CARPET_Y && y < YellowMonoLayout.CEILING_Y) {
@@ -221,10 +213,6 @@ public class YellowMonoChunkGenerator extends ChunkGenerator {
 		}
 
 		if (y == YellowMonoLayout.CEILING_Y) {
-			if (YellowMonoLayout.isDoor2RedFrame(worldX, worldZ)) {
-				return YellowMonoPalette.state(YellowMonoPalette.Role.SECOND_RED_WALL);
-			}
-
 			if (light) {
 				return YellowMonoPalette.state(YellowMonoPalette.Role.TROFFER);
 			}
@@ -236,10 +224,6 @@ public class YellowMonoChunkGenerator extends ChunkGenerator {
 	}
 
 	private static BlockState wallSkin(int worldX, int y, int worldZ, FirstPocket pocket) {
-		if (YellowMonoLayout.isDoor2RedFrame(worldX, worldZ)) {
-			return YellowMonoPalette.state(YellowMonoPalette.Role.SECOND_RED_WALL);
-		}
-
 		if (pocket == FirstPocket.APARTMENT_JANITOR) {
 			return YellowMonoPalette.state(YellowMonoPalette.Role.HABITATION_CLOSET);
 		}

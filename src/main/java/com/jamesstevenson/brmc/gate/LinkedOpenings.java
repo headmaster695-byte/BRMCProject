@@ -84,7 +84,10 @@ public final class LinkedOpenings {
 			BrmcDimensions.SECOND,
 			DestClimate.RED_MONO,
 			Direction.EAST,
-			List.of(new BlockPos(70, YellowMonoLayout.CARPET_Y, 20))
+			List.of(
+				new BlockPos(70, YellowMonoLayout.CARPET_Y, 19),
+				new BlockPos(70, YellowMonoLayout.CARPET_Y, 20)
+			)
 		),
 		new Opening(
 			GateKind.UTILITIES,

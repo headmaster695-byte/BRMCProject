@@ -7,7 +7,7 @@ Minecraft **26.2**, Fabric Loader **0.19.3**, Fabric API **0.158.0+26.2**, Java 
 ## What is in this pass
 
 - First Dimension registered as `brmc:first` with a `brmc:yellow_mono` chunk generator.
-- Clark cold-open is a **32×32** authored chamber (post-threshold yellow room only). Fidelity target: Clark’s first Backrooms room from A24 *Backrooms* (2026). Diagonal chevron wallpaper (Y-stepped two-yellow family), moist yellow carpet, ochre-froglight troffer *bars*, 2×2 columns, four cardinal openings. No store, basement, inbound portal, or tutorial UI. Spawn faces east. **Voxel honesty:** no custom wallpaper/fixture models — two vanilla yellows, yellow carpet, froglight bars, light-gray concrete tiles.
+- Clark cold-open is a **32×32** authored chamber (post-threshold yellow room only). Fidelity target: Clark’s first Backrooms room from A24 *Backrooms* (2026). Diagonal chevron wallpaper (Y-stepped two-yellow family), dry yellow carpet (vanilla display texture), ochre-froglight troffer *bars*, 2×2 columns, four **2-wide** cardinal openings at 19–20 (aligned with maze doors for a hallway vanishing point). East stays a yellow dogleg — not a vestibule runway. No store, basement, inbound portal, or tutorial UI. Spawn faces east. **Voxel honesty:** no custom wallpaper/fixture models — two vanilla yellows, dry yellow carpet, froglight bars, light-gray concrete tiles. True damp carpet is a documented miss.
 - Cardinal spines make authored pockets learnable (not noise soup):
   - East → `first-vestibule` (true exit)
   - South → `first-common-exit` (literacy teacher)
@@ -20,13 +20,21 @@ Minecraft **26.2**, Fabric Loader **0.19.3**, Fabric API **0.158.0+26.2**, Java 
   - Apartment — drywall / bed / kitchen. Rare janitor closet → Custodial.
   - Utilities — ozone / contactor plant continues through the deep door → Buttons.
   - Commons — single yellow→yellow threshold → False First. No airlock, red, or OOB hole.
-  - Vestibule — door 1 → yellow airlock → door 2 already frames **red mono** → Second. Floor hole before door 2 is OOB (present, **not live**; Lost Island / SCRAM / soul not built).
+  - Vestibule — paired office doors: door 1 → yellow airlock → door 2 → Second. First-side jambs stay yellow-mono. Dest sample is red; a painted yellow→red frame is a documented miss. Floor hole before door 2 is OOB (present, **not live**; Lost Island / SCRAM / soul not built).
   - Curving hall — invisible seam, yellow around a soft plan → Second False First.
   - False floor — architecture-only drop (no Spiral swap). Torn carpet, yellow wool ledge. Easy to miss as damage.
 - Destinations other than First are **thick stubs** (`brmc:dest_climate` cells): False First yellow-mono room, Second red-mono room, Buttons plant, Second False First soft yellow, Spiral well, Custodial closet. Still not full floors. Digital is sealed. Fourth does not exist.
 - No entities. Distant unresolved cave-mood sounds foreshadow only.
 - First rules: generated fabric regenerates (floor/ceiling faster so you cannot dig out of the layer); player-built / pillared blocks persist on the chunk; maps freeze; compass spins; F3 coordinates lie.
-- Aesthetic boards land later under `floors/<slug>/`.
+- Aesthetic boards land later under `floors/<slug>/`. Four wiki heroes stay unchanged this pass (oshkosh / troffer / common-exit / dead-zone) — no restyle, no invented `floors/<slug>/` boards.
+
+### Voxel look-targets (Architect, not AI)
+
+- **Hallway vanishing point** — Clark and maze doors share a 2-wide local 3–4 / world 19–20 grammar so corridors recede. East dogleg is unchanged.
+- **Carpet texture close** — dry yellow carpet only. Do not read this as a wet/moist macro.
+- **Double-door vestibule grammar** — paired leaves at `(56,19–20)` and `(70,19–20)`. Honest paired doors; not yellow framing red.
+
+Documented misses that stay misses: **true damp carpet** and **yellow→red vestibule frame**.
 
 ## Seamless gates (26.2, Immersive Portals class — not a door overlay)
 
@@ -42,7 +50,7 @@ The mod stays on 26.2. Immersive Portals is not downported. The player-facing pa
 - **Wired exits (with mercy return both ways):** commons → False First, vestibule door 2 → Second, utilities → Buttons, curving hall → Second False First, janitor closet → Custodial. Dest climate rooms stamp the same 3-high threshold at identity so the walk-back plane is as visible as the outbound. OOB hole and false-floor drop are architecture only — no live swap. `OutOfBoundsStub.holeLive()` is the OOB refuse switch.
 - **Visual tells (no tutorials):**
   - Commons: clean yellow→yellow dest room. `previewLies()` can invent First wallpaper dest does not have.
-  - Vestibule door 2: yellow→red dest room; far side may chromatic-shift / heat-haze.
+  - Vestibule door 2: paired yellow-mono leaves; look-through dest room is red. Far side may chromatic-shift / heat-haze. First does not paint a red frame.
   - Utilities: plant continues (iron / copper).
   - Curving: yellow around a soft (lime) plan.
   - Custodial: light-gray closet.
@@ -50,7 +58,7 @@ The mod stays on 26.2. Immersive Portals is not downported. The player-facing pa
 
 ### Honest gaps
 
-True Immersive Portals see-through is a **second camera** into a live dest `ClientLevel` with stencil / portal clip and entity transfer. 26.2 BER (`submitCustomGeometry`) does not land that here. `FULL` is dest-sampled voxels, not a dual-world stencil. First still paints a short dest-climate backing alcove on commons / vestibule so IMPOSTOR / missing samples do not show void. Dest interiors are tiled climate cells, not full floors. OOB / false-floor systems are not live. Janitor NPC encounter is not built. F3 does not print pocket or dimension slugs.
+True Immersive Portals see-through is a **second camera** into a live dest `ClientLevel` with stencil / portal clip and entity transfer. 26.2 BER (`submitCustomGeometry`) does not land that here. `FULL` is dest-sampled voxels, not a dual-world stencil. First still paints a short dest-climate backing alcove on commons / vestibule so IMPOSTOR / missing samples do not show void — vestibule backing stays yellow-mono (the yellow→red First-side frame is a miss). Carpet is dry vanilla display texture (true damp carpet is a miss). Dest interiors are tiled climate cells, not full floors. OOB / false-floor systems are not live. Janitor NPC encounter is not built. F3 does not print pocket or dimension slugs.
 
 Fallback order: IP if present → linked volume → hop only if `brmc.devAllowHopGates=true` → `RefusingGateBackend` (last resort, loud error).
 
@@ -62,8 +70,8 @@ Build: Java 25, then `./gradlew build`.
 
 ## Verify next (playtester)
 
-- Wake in a large empty yellow room: diagonal chevron wallpaper, moist carpet, troffer bars, 2×2 columns, openings on four sides. No tutorial text, store, or portal remnant. Vestibule airlock uses the same yellow-mono lights — not a brighter runway.
-- Walk a cardinal: east vestibule (yellow then red-framed door 2), south commons (stays yellow), west apartment (white/oak break), north utilities (iron/copper plant).
+- Wake in a large empty yellow room: diagonal chevron wallpaper, dry yellow carpet, troffer bars, 2×2 columns, 2-wide openings on four sides (19–20). No tutorial text, store, or portal remnant. Vestibule airlock uses the same yellow-mono lights — not a brighter runway.
+- Walk a cardinal: east dogleg then paired vestibule doors (yellow jambs; dest through door 2 is red), south commons (stays yellow), west apartment (white/oak break), north utilities (iron/copper plant).
 - SE curve stays yellow. SW false-floor hole. NW stretch has no lights.
 - Mine a wall: it comes back. Mine the floor: it comes back faster. Place / pillar blocks: they stay after regen and after relog.
 - Maps do not chart First. Compass needle spins. F3 XYZ is wrong.
@@ -82,7 +90,7 @@ Build: Java 25, then `./gradlew build`.
 `/brmc` is moderator-only. Desk cannot prove client feel — check that each dest room shows a return plane at the same identity as the outbound, then walk back:
 
 1. `/brmc pocket commons` — east into False First; dest threshold at `(23, 65, 52)`; walk west back to First.
-2. `/brmc pocket vestibule` — east through door 2 into Second; dest threshold at `(70, 65, 20)`; walk west back.
+2. `/brmc pocket vestibule` — east through door 2 into Second; dest thresholds at `(70, 65, 19)` and `(70, 65, 20)`; walk west back.
 3. `/brmc pocket utilities` — north into Buttons; dest thresholds at `(19, 65, -40)` and `(20, 65, -40)`; walk south back.
 4. `/brmc pocket curving` — north into Second False First; dest threshold at `(62, 65, 62)`; walk south back.
 5. `/brmc pocket janitor` — west into Custodial; dest threshold at `(-39, 65, 22)`; walk east back.

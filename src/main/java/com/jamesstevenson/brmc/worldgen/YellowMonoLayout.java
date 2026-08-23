@@ -107,6 +107,10 @@ public final class YellowMonoLayout {
 	}
 
 	public static boolean isWall(int worldX, int worldZ) {
+		if (isVestibuleDoorWall(worldX, worldZ)) {
+			return true;
+		}
+
 		if (inClarkChamber(worldX, worldZ)) {
 			if (isClarkColumn(worldX, worldZ)) {
 				return true;
@@ -125,11 +129,17 @@ public final class YellowMonoLayout {
 	}
 
 	public static boolean isDoorway(int worldX, int worldZ) {
+		if (isVestibulePairedLeaf(worldX, worldZ)) {
+			return true;
+		}
+
 		if (inClarkChamber(worldX, worldZ)) {
-			boolean east = worldX == CLARK_MAX && worldZ >= 18 && worldZ <= 21;
-			boolean south = worldZ == CLARK_MAX && worldX >= 18 && worldX <= 21;
-			boolean west = worldX == CLARK_MIN && worldZ >= 18 && worldZ <= 21;
-			boolean north = worldZ == CLARK_MIN && worldX >= 18 && worldX <= 21;
+			// 2-wide at 19–20 matches maze local 3–4 so hallways recede.
+			// East still doglegs — this is not a vestibule runway.
+			boolean east = worldX == CLARK_MAX && worldZ >= 19 && worldZ <= 20;
+			boolean south = worldZ == CLARK_MAX && worldX >= 19 && worldX <= 20;
+			boolean west = worldX == CLARK_MIN && worldZ >= 19 && worldZ <= 20;
+			boolean north = worldZ == CLARK_MIN && worldX >= 19 && worldX <= 20;
 			return east || south || west || north;
 		}
 
@@ -155,7 +165,7 @@ public final class YellowMonoLayout {
 		int localZ = localInCell(worldZ);
 
 		return switch (pocket) {
-			case VESTIBULE -> cellCoord(worldX) == 8 && localX == 6 && localZ == 4;
+			case VESTIBULE -> cellCoord(worldX) == 8 && localX == 6 && (localZ == 3 || localZ == 4);
 			case VESTIBULE_OOB -> true;
 			case COMMON_EXIT -> localX == 7 && localZ == 4;
 			case UTILITIES -> isDeepDoor(worldX, worldZ);
@@ -196,17 +206,31 @@ public final class YellowMonoLayout {
 	}
 
 	/**
-	 * Door 2 already frames red mono. One stride through this strip is
-	 * yellow→red. Commons must never use this.
+	 * Paired office-door leaves (2-wide, maze local 3–4). Yellow-mono jambs.
+	 * Do not paint a yellow→red frame here — that dest-side tell is a miss.
 	 */
-	public static boolean isDoor2RedFrame(int worldX, int worldZ) {
+	public static boolean isVestibulePairedLeaf(int worldX, int worldZ) {
 		int cellX = cellCoord(worldX);
 		int cellZ = cellCoord(worldZ);
-		if (cellZ != SPINE_CELL) {
+		int localX = localInCell(worldX);
+		int localZ = localInCell(worldZ);
+		if (cellZ != SPINE_CELL || localZ < 3 || localZ > 4) {
 			return false;
 		}
 
-		return cellX == 9 || cellX == 8 && localInCell(worldX) >= 6;
+		return cellX == 7 && localX == 0 || cellX == 8 && localX == 6;
+	}
+
+	/** Full vestibule door plane except the paired leaves. */
+	public static boolean isVestibuleDoorWall(int worldX, int worldZ) {
+		if (isVestibulePairedLeaf(worldX, worldZ)) {
+			return false;
+		}
+
+		int cellX = cellCoord(worldX);
+		int cellZ = cellCoord(worldZ);
+		int localX = localInCell(worldX);
+		return cellZ == SPINE_CELL && (cellX == 7 && localX == 0 || cellX == 8 && localX == 6);
 	}
 
 	/**
@@ -330,6 +354,10 @@ public final class YellowMonoLayout {
 	}
 
 	public static boolean openWest(int cellX, int cellZ) {
+		if (cellZ == SPINE_CELL && cellX == 7) {
+			return false;
+		}
+
 		if (pocketAt(cellX * CELL + 1, cellZ * CELL + 1) != null) {
 			return true;
 		}
@@ -384,7 +412,7 @@ public final class YellowMonoLayout {
 			return true;
 		}
 
-		if (cellZ == SPINE_CELL && cellX >= 7 && cellX <= 9) {
+		if (cellZ == SPINE_CELL && cellX >= 8 && cellX <= 9) {
 			return true;
 		}
 

@@ -23,8 +23,9 @@ package com.jamesstevenson.brmc.gate;
  *       OOB and false floor stay architecture-only.</li>
  *   <li>Commons: clean yellow→yellow dest sample; {@link GateKind#previewLies()}
  *       can draw First wallpaper that dest does not have.</li>
- *   <li>Vestibule door 2: yellow→red dest sample plus far-side
- *       chromatic / heat-haze.</li>
+ *   <li>Vestibule door 2: paired yellow-mono leaves; dest sample is red
+ *       Second plus far-side chromatic / heat-haze. First does not paint
+ *       a yellow→red frame.</li>
  *   <li>Dest stubs are tiled climate cells ({@code brmc:dest_climate}), not
  *       barren floor slabs.</li>
  * </ul>
@@ -36,8 +37,11 @@ package com.jamesstevenson.brmc.gate;
  * give that in this commit. {@link PortalLod#FULL} is dest-sampled voxels,
  * not a dual-world stencil. First still paints a short dest-climate
  * backing alcove on commons / vestibule so IMPOSTOR / missing samples do
- * not show void. OOB / false-floor systems are not live. Dest interiors
- * are still stubs (one climate cell language, not full floors).
+ * not show void. Vestibule backing stays yellow-mono (the yellow→red
+ * First-side frame is a documented miss). Carpet is dry vanilla display
+ * texture (true damp carpet is a miss). OOB / false-floor systems are not
+ * live. Dest interiors are still stubs (one climate cell language, not
+ * full floors).
  *
  * Hop ({@link LoadingHopBackend}) stays non-default.
  */

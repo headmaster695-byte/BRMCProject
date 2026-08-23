@@ -10,7 +10,7 @@ public final class PresentationLock {
 		NONE,
 		/** Commons: one stride, yellow stays yellow. */
 		YELLOW_TO_YELLOW,
-		/** Vestibule door 2: yellow airlock into red mono already framed. */
+		/** Vestibule door 2: yellow airlock into dest-sampled red Second. First-side yellow→red frame is a miss. */
 		YELLOW_TO_RED,
 		/** Utilities deep door: plant continues into Buttons. */
 		CONTINUOUS_PLANT,

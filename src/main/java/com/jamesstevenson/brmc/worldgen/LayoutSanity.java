@@ -68,13 +68,43 @@ public final class LayoutSanity {
 		errors += expectPocket(-20, 52, FirstPocket.FALSE_FLOOR, "SW false floor");
 		errors += expectPocket(-28, -20, FirstPocket.FLUORESCENT_DEAD_ZONE, "NW dead zone");
 
-		if (YellowMonoLayout.isDoor2RedFrame(20, 52)) {
-			BrmcMod.LOGGER.error("Commons must not carry vestibule red framing.");
+		if (!YellowMonoLayout.isDoorway(31, 19)
+			|| !YellowMonoLayout.isDoorway(31, 20)
+			|| YellowMonoLayout.isDoorway(31, 18)
+			|| YellowMonoLayout.isDoorway(31, 21)
+			|| !YellowMonoLayout.isDoorway(19, 0)
+			|| YellowMonoLayout.isDoorway(18, 0)) {
+			BrmcMod.LOGGER.error("Clark openings must be 2-wide at 19–20 to match maze doors (hallway VP).");
 			errors++;
 		}
 
-		if (!YellowMonoLayout.isDoor2RedFrame(70, 20) || !YellowMonoLayout.isDoor2RedFrame(76, 20)) {
-			BrmcMod.LOGGER.error("Vestibule door 2 / linked Second volume is not red-framed.");
+		if (YellowMonoLayout.openWest(7, 2)
+			|| !YellowMonoLayout.isVestibulePairedLeaf(56, 19)
+			|| !YellowMonoLayout.isVestibulePairedLeaf(56, 20)
+			|| !YellowMonoLayout.isVestibulePairedLeaf(70, 19)
+			|| !YellowMonoLayout.isVestibulePairedLeaf(70, 20)
+			|| !YellowMonoLayout.isVestibuleDoorWall(56, 18)
+			|| !YellowMonoLayout.isVestibuleDoorWall(56, 21)
+			|| !YellowMonoLayout.isVestibuleDoorWall(70, 18)
+			|| !YellowMonoLayout.isVestibuleDoorWall(70, 16)
+			|| YellowMonoLayout.isVestibuleDoorWall(70, 19)
+			|| !YellowMonoLayout.isDoorway(56, 19)
+			|| !YellowMonoLayout.isDoorway(70, 20)
+			|| !YellowMonoLayout.isThresholdAnchor(70, 19)
+			|| !YellowMonoLayout.isThresholdAnchor(70, 20)) {
+			BrmcMod.LOGGER.error("Vestibule must be paired office doors (2-wide leaves, yellow-mono walls), not an open mouth.");
+			errors++;
+		}
+
+		if (YellowMonoChunkGenerator.columnState(70, YellowMonoLayout.CARPET_Y + 1, 18).is(net.minecraft.world.level.block.Blocks.WOOL.pick(net.minecraft.world.item.DyeColor.RED))
+			|| YellowMonoChunkGenerator.columnState(76, YellowMonoLayout.CARPET_Y, 20).is(net.minecraft.world.level.block.Blocks.CARPET.pick(net.minecraft.world.item.DyeColor.RED))
+			|| YellowMonoChunkGenerator.columnState(20, YellowMonoLayout.CARPET_Y, 52).is(net.minecraft.world.level.block.Blocks.CARPET.pick(net.minecraft.world.item.DyeColor.RED))) {
+			BrmcMod.LOGGER.error("First must not paint a yellow→red vestibule frame; commons stays yellow.");
+			errors++;
+		}
+
+		if (!YellowMonoChunkGenerator.columnState(16, YellowMonoLayout.CARPET_Y, 16).is(net.minecraft.world.level.block.Blocks.CARPET.pick(net.minecraft.world.item.DyeColor.YELLOW))) {
+			BrmcMod.LOGGER.error("Clark carpet must stay dry yellow display texture.");
 			errors++;
 		}
 

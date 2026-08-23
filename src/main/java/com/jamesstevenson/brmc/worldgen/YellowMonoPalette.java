@@ -6,22 +6,22 @@ import net.minecraft.world.level.block.WeatheringCopper;
 import net.minecraft.world.level.block.state.BlockState;
 
 /**
- * Yellow-mono placeholders: chevron wallpaper, moist carpet, troffer ceiling.
- * Apartment / utilities use a material break from the hub.
- * Vestibule airlock stays yellow; door 2 already frames red mono.
+ * Yellow-mono placeholders: chevron wallpaper, dry yellow carpet, troffer ceiling.
+ * Carpet is vanilla display texture — not a wet/damp macro. True damp carpet
+ * is a documented miss. Apartment / utilities break the hub materials.
+ * Vestibule stays yellow-mono; yellow→red First-side framing is a miss.
+ * Dest Second is red via dest sample, not First-side paint.
  */
 public final class YellowMonoPalette {
 	public enum Role {
 		BEDROCK,
 		SUBFLOOR,
 		FLOOR,
-		MOIST_CARPET,
+		YELLOW_CARPET,
 		CHEVRON_LIGHT,
 		CHEVRON_DARK,
 		CEILING_TILE,
 		TROFFER,
-		VESTIBULE_FRAME,
-		COMMONS_FRAME,
 		HABITATION_WALL,
 		HABITATION_FLOOR,
 		HABITATION_BED,
@@ -30,10 +30,7 @@ public final class YellowMonoPalette {
 		UTILITY_WALL,
 		UTILITY_FLOOR,
 		UTILITY_OZONE,
-		UTILITY_CONTACTOR,
-		SECOND_RED_FLOOR,
-		SECOND_RED_WALL,
-		SECOND_RED_CARPET
+		UTILITY_CONTACTOR
 	}
 
 	private YellowMonoPalette() {
@@ -52,13 +49,11 @@ public final class YellowMonoPalette {
 			case BEDROCK -> Blocks.BEDROCK.defaultBlockState();
 			case SUBFLOOR -> Blocks.SMOOTH_STONE.defaultBlockState();
 			case FLOOR -> Blocks.WOOL.pick(DyeColor.YELLOW).defaultBlockState();
-			case MOIST_CARPET -> Blocks.CARPET.pick(DyeColor.YELLOW).defaultBlockState();
+			case YELLOW_CARPET -> Blocks.CARPET.pick(DyeColor.YELLOW).defaultBlockState();
 			case CHEVRON_LIGHT -> Blocks.WOOL.pick(DyeColor.YELLOW).defaultBlockState();
 			case CHEVRON_DARK -> Blocks.DYED_TERRACOTTA.pick(DyeColor.YELLOW).defaultBlockState();
 			case CEILING_TILE -> Blocks.CONCRETE.pick(DyeColor.LIGHT_GRAY).defaultBlockState();
 			case TROFFER -> Blocks.OCHRE_FROGLIGHT.defaultBlockState();
-			case VESTIBULE_FRAME -> Blocks.WOOL.pick(DyeColor.YELLOW).defaultBlockState();
-			case COMMONS_FRAME -> Blocks.WOOL.pick(DyeColor.YELLOW).defaultBlockState();
 			case HABITATION_WALL -> Blocks.WOOL.pick(DyeColor.WHITE).defaultBlockState();
 			case HABITATION_FLOOR -> Blocks.OAK_PLANKS.defaultBlockState();
 			case HABITATION_BED -> Blocks.WOOL.pick(DyeColor.LIGHT_GRAY).defaultBlockState();
@@ -68,9 +63,6 @@ public final class YellowMonoPalette {
 			case UTILITY_FLOOR -> Blocks.IRON_BLOCK.defaultBlockState();
 			case UTILITY_OZONE -> Blocks.COPPER_BLOCK.weathering().pick(WeatheringCopper.WeatherState.OXIDIZED).defaultBlockState();
 			case UTILITY_CONTACTOR -> Blocks.COPPER_BLOCK.weathering().pick(WeatheringCopper.WeatherState.UNAFFECTED).defaultBlockState();
-			case SECOND_RED_FLOOR -> Blocks.WOOL.pick(DyeColor.RED).defaultBlockState();
-			case SECOND_RED_WALL -> Blocks.DYED_TERRACOTTA.pick(DyeColor.RED).defaultBlockState();
-			case SECOND_RED_CARPET -> Blocks.CARPET.pick(DyeColor.RED).defaultBlockState();
 		};
 	}
 }
